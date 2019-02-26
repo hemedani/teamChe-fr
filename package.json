@@ -3,14 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "classname": "^0.0.0",
+    "lodash": "^4.17.11",
+    "normalize.css": "^8.0.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
+    "react-dropzone": "^9.0.0",
+    "react-ga": "^2.5.7",
+    "react-google-recaptcha": "^1.0.5",
+    "react-redux": "^6.0.1",
+    "react-redux-toastr": "^7.4.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "react-scrolllock": "^4.0.1",
+    "react-select": "^2.4.1",
+    "react-star-ratings": "^2.3.0",
+    "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build-css": "stylus src/styl/index.styl -o src/css/",
+    "watch-css": "npm run build-css && stylus -w src/styl/index.styl -o src/css/",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-css build-js",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -21,5 +41,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "stylus": "^0.54.5"
+  }
 }
