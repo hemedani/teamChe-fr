@@ -1,0 +1,56 @@
+.contact-us-wrapper
+  display: flex
+  flex-flow: row wrap
+  justify-content: center
+  width: 100%
+  color: lighten(tosi(1), 40%)
+  font-size: 0.9rem
+
+  h2
+    color: tosi(1)
+    font-weight: normal
+    font-size: 1.4rem
+    margin-bottom: 2rem
+    
+  i
+    width: 100%
+    font-size: 7rem
+    padding: 3rem 0
+    text-align: center
+    color: abi(0.8)
+  .map
+    width: 100%
+    height: calc(100% - 5rem)
+    min-height: 20rem
+    .mapboxgl-map
+      border-radius: 2rem
+      
+  .detail-wrapper
+    width: 100%
+    margin-top: 2rem
+    display: flex
+    flex-flow: row wrap
+    justify-content: space-between
+    padding: 0 1rem
+    
+    @media(min-width 50rem)
+      padding: 0 3rem
+    >div
+      flex: 1 1 25rem
+      background-color: sefid(0.6)
+      border-radius: 1rem
+      border: 1px solid abi(1)
+      padding: 1rem
+      margin: 0.5rem 0
+      
+      @media(min-width 50rem)
+        margin: 0.5rem
+      section
+        margin-top: 3rem
+        span
+          color: tosi(1)
+      .do-not-able-to-send
+        text-align: center
+        span
+          font-size: 1.5rem
+          line-height: 4rem

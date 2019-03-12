@@ -1,0 +1,53 @@
+delay($interval, $count, $index)
+  $index * $interval - $interval * $count
+
+$size = 100px
+$primary-color = white
+
+@keyframes ball-scale-ripple-multiple
+  0%
+    transform: scale(0.1)
+    opacity: 1
+  70%
+    transform: scale(1)
+    opacity: 0.7
+  100%
+    opacity: 0.0
+
+ball-scale-ripple-multiple($n = 3, $start = 0)
+  for $i in ($start)..($n)
+    > div:nth-child({$i})
+      animation-delay: delay(0.2s, $n, $i - 1)
+
+.ball-scale-ripple-multiple
+  ball-scale-ripple-multiple()
+  position: relative
+  transform: translateY(-($size / 2))
+  > div
+    animation-fill-mode: both
+    position: absolute
+    top: -2px
+    left: -26px
+    width: $size
+    height: $size
+    border-radius: 100%
+    border: 2px solid abi(1)
+    animation: ball-scale-ripple-multiple 1.25s 0s infinite cubic-bezier(0.21, 0.53, 0.56, 0.8)
+
+.vorod-bargozari
+  display flex
+  flex-flow: row wrap
+  align-items: center
+  justify-content: center
+  width: 100%
+  min-height: 3rem
+  overflow: hidden
+  margin-bottom: 0.5rem
+  background-color: rgba(255, 255, 255, 0.39)
+  border-radius: 0.6rem
+  border: 1px solid rgb(219, 216, 216)
+  margin-top: 1rem
+  shadow()
+
+.rate-add-loading
+  min-height: 3rem

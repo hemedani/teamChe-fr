@@ -1,0 +1,42 @@
+.bar
+  position: absolute
+  clip: rect(0em, 0.5em, 1em, 0em)
+  border-radius: 50%
+  transform: rotate(0deg)
+.c100
+  *, *:before, *:after
+    box-sizing: content-box
+  position: relative
+  width: 1em
+  height: 1em
+  border-radius: 50%
+  >span
+    position: absolute
+    width: 100%
+    z-index: 2
+    left: 0
+    top: 0
+    width: 5em
+    line-height: 5em
+    font-size: 0.2em
+    display: block
+    text-align: center
+    white-space: nowrap
+    transition-property: all
+    transition-duration: 0.2s
+    transition-timing-function: ease-in
+  .slice
+    position: absolute
+    width: 1em
+    height: 1em
+    clip: rect(0em, 1em, 1em, 0.5em)
+  &:hover
+    cursor: default
+    >span
+      width: 3.33em
+      line-height: 3.33em
+      font-size: 0.3em
+    >label
+      transform: scale(1.1)
+    >img
+      transform: scale(1.1)

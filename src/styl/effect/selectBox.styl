@@ -1,0 +1,118 @@
+.selec-box-wrapper
+  width: 100%
+  display flex
+  flex-flow: row wrap
+  margin-bottom: 1rem
+  justify-content: center
+  >a
+    text-decoration: none
+    div
+      margin-top: 0 !important
+  .lead-selec-box
+    width: 100%
+    text-align: right
+    margin-top: 1rem
+    span
+      background-color: abi(1)
+      padding: 0.2rem 0.6rem
+      font-size: 0.8rem
+      margin-right: 1rem
+      border-radius: 0.5rem
+ 
+  .select-box
+    cursor: pointer
+    color: rgb(66, 66, 66)
+    width: 8rem
+    height: 8rem
+    background-color: white
+    border-radius: 0.5rem
+    margin-left: 1rem
+    margin-top: 1rem
+    // padding: 1rem
+    text-align: center
+    font-size: 0.83rem
+    display: flex
+    flex-flow: row wrap
+    align-content: center
+    justify-content: center
+    shadow()
+    &:last-child
+      margin-left: 0
+    >div
+      margin-top: 1rem
+      position: relative
+      span
+        display: none
+        font-size: 1rem
+        position: absolute
+        top: 0.4rem
+        right: 0.3rem
+
+
+  .active-select-box
+    background-color: abi(1)
+    color: white
+
+  .back-free
+    background-color: transparent
+    box-shadow: none
+    transition: opacity 0.25s
+    width: auto
+    color: lighten(tosi(1), 20%)
+    margin-left: 2rem
+    margin-top: 1rem
+    text-align: center
+    font-size: 0.83rem
+    &:last-child
+      margin-left: 0
+    >div
+      opacity: 0
+      color: sefid(1)
+      background-color: abi(1)
+      padding: 0.5rem 1rem
+      border-radius: 0.8rem
+      font-size: 0.7rem
+      margin-top: 0.5rem
+    &:hover
+      color: secondary(1)
+      >div
+        opacity: 1
+        background-color: secondary(1) !important
+    &.active-select-box
+      >div
+        opacity: 1 !important
+        padding: 0.5rem 1.5rem 0.5rem 0.5rem !important
+        background-color: secondary(1) !important
+        span
+          display: block
+  
+  .pinteb-icon
+    font-size: 4rem
+    width: 100%
+  .pinteb-icon-home
+    font-size: 5.5rem
+
+.pinteb-icon-img
+  width: 4rem
+  height: 4rem
+
+.minimal-select
+  justify-content: flex-start
+  .minimal
+    display: flex
+    flex-flow: row wrap
+    font-size: 0.8rem
+    padding: 0 0.7rem !important
+    width: auto !important
+    height: 2rem !important
+    align-items: center
+    img
+    span
+      flex: 1
+      height: 70%
+      width: auto !important
+      margin-left: 0.7rem
+      font-size: 1.3rem
+      margin-bottom: 0
+    >div
+      margin: 0 !important

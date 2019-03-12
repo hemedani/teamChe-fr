@@ -1,0 +1,49 @@
+.about-us-footer-wrapper
+  display: flex
+  flex-flow: row wrap
+  justify-content: center
+.about-us-wrapper
+  display: flex
+  flex-flow: row wrap
+  color: sorme(1)
+  padding: 4rem 1rem
+  max-width: 1200px
+  min-height: 85vh
+  @media(min-width 50rem)
+    padding: 4rem 3rem
+  h3
+    width: 100%
+    text-align: center
+    font-size: 1.8rem
+    span
+      color: abi(1)
+  .text
+    font-size: 1rem
+    line-height: 1.5rem
+  .list
+    width: 100%
+    display: flex
+    flex-flow: row wrap
+    align-content: center
+    align-items: center
+    .list-text
+      flex: 1 1 100%
+      color: abi(1)
+      padding: 1rem
+      @media(min-width 50rem)
+        flex: 2
+    ul
+      flex: 1 1 100%
+      font-size: 0.9rem
+      list-style: none
+      padding: 0
+      margin: 0
+      @media(min-width 50rem)
+        flex: 3
+      li
+        padding-right: 1em
+        text-indent: -.7em
+        &:before
+          font-size: 1.5rem
+          content: "• "
+          color: zard(1)

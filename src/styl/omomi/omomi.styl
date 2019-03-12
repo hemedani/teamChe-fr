@@ -1,0 +1,75 @@
+html
+	direction: rtl
+	box-sizing border-box
+	max-width: 100%
+	button,
+	input,
+	optgroup,
+	select,
+	textarea
+		border: 0
+		padding: 0
+
+*
+	box-sizing: border-box
+	font-family: 'Shabnam', Tahoma, sans-serif
+	&:before
+		box-sizing inherit
+	&:after
+		box-sizing inherit
+	&:focus
+		outline: none
+
+body
+	font-size: 1rem
+	color: white
+	direction: rtl
+	margin: 0
+	padding: 0
+	max-width: 100%
+	background-color: rgb(241, 255, 255)
+	position: relative
+	overflow-x: hidden
+	overflow-y: auto
+
+.back-img
+	position: fixed
+	top: 0
+	bottom: 0
+	right: 0
+	left: 0
+	background-color: rgb(241, 255, 255)
+	background-image: url(../img/bg-blue.png)
+	z-index: -9
+
+.dogm-modir
+	position: fixed !important
+	top: 7rem !important
+	left: 0 !important
+	z-index: 2 !important
+	border-top-left-radius: 0 !important
+	border-bottom-left-radius: 0 !important
+	line-height: 2.5 !important
+
+.chapchin
+	align-self: flex-end
+	text-align: left
+
+.orange-c
+	color: secondary(1) !important
+
+.lafaf
+	display: flex
+	flex-flow: row wrap
+	justify-content: center
+	overflow: hidden
+	width: 100%
+	min-height: 44rem
+
+.lafaf-100
+	width: 100%
+
+
+form
+	display: flex
+	flex-flow: column wrap

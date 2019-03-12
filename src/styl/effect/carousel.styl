@@ -1,0 +1,160 @@
+// ----- Carousel ----- //
+.carousel-wraper
+  width: 100%
+  align-self: center
+  position relative
+  .wraper
+    width: 100%
+    overflow: hidden
+    background-color: sefid(0.8)
+    border-radius: 0.5rem
+    padding: 0.5rem
+    margin: 1rem 0
+    shadow()
+    .lead
+      width: 100%
+      font-size: 1.5rem
+      color: tosi(1)
+      padding: 1rem
+    .carousel
+      display: flex
+      right: -100%
+      list-style: none
+      margin: 0
+      padding: 0
+      position: relative
+      @media (min-width: 30em)
+        right: -50%
+        transform: translateX(-50%)
+      @media (min-width: 40em)
+        right: -16.67%
+        transform: translateX(-16.67%)
+    // ----- Seats ----- //
+    .carousel-seat
+      flex: 1 0 100%
+      cursor pointer
+      order: 2
+      height 16rem
+      max-width: 20rem
+      display: flex
+      flex-direction: column
+      align-items: center
+      padding: 0.5rem
+      text-align: center
+      @media (min-width: 30em)
+        flex-basis: 50%
+      @media (min-width: 40em)
+        flex-basis: 16.67%
+      &:hover
+        shadow()
+      .img-wrapper
+        flex: 1 0 60%
+        width: 100%
+        overflow: hidden
+        border-radius: 0.5rem
+        img
+          height 95%
+          max-width: 12rem
+          border-radius: 0.5rem
+      .name
+        flex: 1 0 35%
+        width: 100%
+        color: tosi(1)  
+        display: flex
+        align-items: center
+        justify-content: center
+
+    // States
+    .carousel.is-set
+      transform: none
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)
+      
+  .carousel.is-reversing
+    transform: translateX(100%)
+    @media (min-width: 30em)
+      transform: translateX(50%)
+    @media (min-width: 40em)
+      transform: translateX(16.67%)
+  // ----- Presentation ----- //
+  
+  .controls
+    text-align: center
+    span
+      position: absolute
+      top: calc(50% - 1.75rem) 
+      width: 3.5rem
+      height 3.5rem
+      border-radius: 50%
+      color: tosi(0.5)
+      background-color: sefid(0.7)
+      font-size: 2.5rem
+      line-height: 3.2rem
+      cursor pointer
+      box-shadow: 0px 0 2px 0px rgba(0,0,0,0.75)
+      &:hover
+        background-color: sefid(1)
+        box-shadow: 0px 0 4px 0px rgba(0,0,0,0.75)
+        color: tosi(1)
+      &.left
+        left: -1.75rem
+        padding-right: 0.2rem
+      &.right
+        right: -1.75rem
+        padding-left: 0.2rem
+
+.ExpressCarousel-wraper
+  width: 100%
+  position relative
+  color: tosi(1)
+  .wraper
+    display: flex
+    .list-of-items
+      flex: 2
+      background-color: sefid(0.5)
+      shadow()
+    .selected-item
+      flex: 8
+      background-color: sefid(0.8)
+      shadow()
+
+.TabbedCarousel-wraper
+  width: 100%
+  position relative
+  color: tosi(1)
+  .wraper
+    display: flex
+    flex-direction: column
+    border-radius: 0.5rem
+    background-color: sefid(0.8)
+    shadow()
+    .list-of-items
+      flex: 2
+      display: flex
+      border-bottom: 1px solid tosi(0.2)
+      background-color: abi(0.8)
+      border-top-left-radius: 0.5rem
+      border-top-right-radius: 0.5rem
+      color: sefid(0.9)
+      .each-item
+        padding: 1.2rem 2rem
+        cursor pointer
+        &.active-item
+          color: darken(tosi(1), 30%)
+          background-color: sefid(1)
+          border: 3px solid abi(0.8)
+          border-bottom-width: 2px
+          border-top-left-radius: 0.8rem
+          border-top-right-radius: 0.8rem
+    .selected-item
+      flex: 8
+      padding: 2rem 1rem
+      display: flex
+      .img-wrappeer
+        flex: 2.5
+        img
+          width: 65%
+      p
+        flex: 7
+        color: tosi(0.9)
+        line-height: 2rem
+

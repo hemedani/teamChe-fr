@@ -1,0 +1,290 @@
+.form-item
+	display: flex
+	flex-flow: row wrap
+	justify-content: space-between
+
+.with-btn
+	padding-top: 1.8rem
+	position: relative
+
+.triad
+	width: 100% !important
+	z-index: 2
+	@media(min-width 690px)
+		width: 48.5% !important
+	@media(min-width 1100px)
+		width: 32.5% !important
+
+.quadri
+	width: 100% !important
+	z-index: 2
+	@media(min-width 690px)
+		width: 48.5% !important
+	@media(min-width 1100px)
+		width: 24.5% !important
+
+.senary
+	width: 48.5% !important
+	z-index: 2
+	@media(min-width 690px)
+		width: 24.5% !important
+	@media(min-width 1100px)
+		width: 12% !important
+
+.quintuplet
+	width: 48.5% !important
+	z-index: 2
+	@media(min-width 690px)
+		width: 24.5% !important
+	@media(min-width 1100px)
+		width: 19% !important
+
+.form-tak
+.select-form-tak
+	height: 3.6rem !important
+	position: relative
+	margin: 0.5rem 0 1rem 0 !important
+	label
+		min-width: 6rem
+		position: absolute
+		top: 0
+		right: 1rem
+		color: #fff
+		background-color: abi(1)
+		font-size: 0.7rem
+		line-height: 1.6rem
+		border-radius: 0.5rem
+		text-align: center
+		shadow()
+
+.form-tak
+	width: 100%
+	@media(min-width 690px)
+		width: 48.5%
+	border-radius: 0.5rem
+	input
+	textarea
+	select
+		min-height: 2rem
+		margin-top: 1.4rem
+		width: 100%
+		font-size: 0.8rem
+		border: 1px solid abi(1)
+		padding: 0.5rem 1rem
+		border-radius: 0.5rem
+		background-color: lighten(bezh(0.5), 95%)
+		shadow()
+		&:focus
+			background-color: lighten(bezh(1), 75%)
+			outline: none
+		&:disabled
+			background-color: rgba(136, 136, 136, 0.7)
+	.validate
+		position: absolute
+		top: 0.5rem
+		left: 1rem
+		font-size: 0.7rem
+		color: ghermez(1)
+	
+	select
+		padding: 0
+		height: 2.2rem
+
+
+.select-form-tak
+	width: 100% !important
+	@media(min-width 690px)
+		width: 48.5% !important
+	.Select-control
+		border: 1px solid abi(1)
+		border-radius: 0.5rem
+		height: 0.5rem !important
+		font-size: 0.8rem
+	.Select-control
+		margin-top: 1rem
+	.Select
+		position: absolute
+		right: 0
+		bottom: 0
+		width: 100%
+	.Select-menu-outer
+		max-width: 100%
+		overflow hidden
+	.Select-menu
+		max-width: 100%
+
+.form-field-div
+	display: flex
+	flex-flow: row wrap
+	width: 77%
+	min-height: 2rem
+	.form-field-field
+		width: 100%
+
+.taki
+	width: 100% !important
+
+.yekchar
+	width: 23%
+
+.yekhasht
+	width: 12.5%
+
+.form-search
+	width: 100%
+	display: flex
+	flex-flow: row wrap
+	justify-content: space-between
+	align-items: center
+	background-color: lighten(sorme(0.3), 40%)
+	border: 1px solid darken(sorme(0.5), 40%)
+	border-radius: 0.3rem
+	padding: 0.7rem 0.4rem
+	margin: 0 0 0.8rem 0
+	.form-div-search
+		width: 29%
+		display: flex
+		flex-flow: column
+		background-color: lighten(sorme(0.3), 40%)
+		border: 1px solid darken(sorme(0.5), 40%)
+		padding: 0.7rem 0.4rem
+		border-radius: 0.3rem
+		>*
+			width: 100%
+		label
+			text-align: center
+			font-size: 1rem
+			color: rgba(255, 255, 255, 0.61)
+			margin-bottom: 0.3rem
+		input
+			min-height: 2.6rem
+			font-size: 1.2rem
+			border: 1px solid sorme(1)
+			padding: 0 1rem
+			border-radius: 0.5rem
+			background-color: lighten(bezh(0.5), 70%)
+			&:focus
+				background-color: lighten(bezh(1), 80%)
+				outline: none
+			&:disabled
+				background-color: rgba(136, 136, 136, 0.7)
+	.dogme
+		width: 9%
+		margin: 0
+
+
+.checkbox
+	border: 1px solid abi(1)
+	border-radius: 0.5rem
+	align-self: flex-end
+	display: flex
+	align-content: center
+	align-items: center
+	justify-content: space-between
+	padding: 0
+	shadow()
+	min-height: 2.3rem
+	height: 2.3rem
+	label
+		position: relative
+		font-size: 0.8rem
+		min-width: 3.5rem
+		color: abi(1)
+		background-color: sefid(1)
+		box-shadow: none
+		width: 16%
+		height: 100%
+		line-height: 2.3rem
+		border-left: 1px solid abi(1)
+		text-align: center
+		border-top-left-radius: 0
+		border-bottom-left-radius: 0
+		right: 0
+	input[type='checkbox']
+		top: 0
+
+
+input[type='checkbox']
+	font-size: 30px
+	appearance: none
+	width: 3.5rem
+	height: 1rem
+	min-height: 0.5rem
+	background: lighten(tosi(1), 40%)
+	border-radius: 3rem
+	position: relative
+	cursor: pointer
+	outline: none
+	transition: all .2s ease-in-out
+	border: none
+	&:checked
+		background: abi(1)
+		&:after
+			left: calc(100% - 1.7rem)
+			border-color: abi(1)
+	&:focus
+		background: lighten(tosi(1), 40%)
+		&:checked
+			background: abi(1)
+	&:after
+		position: absolute
+		content: ""
+		width: 1.9rem
+		height: 1.9rem
+		border-radius: 50%
+		background: sefid(1)
+		border: 2px solid lighten(tosi(1), 40%)
+		transform: scale(.8)
+		left: -0.2rem
+		top: -0.45rem
+		transition: all .2s ease-in-out
+
+.small-checkbox
+	border: 1px solid abi(1)
+	border-radius: 0.5rem
+	display: flex
+	align-content: center
+	align-items: center
+	padding: 0 0.4rem
+	height: 1.8rem
+	shadow()
+	&:last-child
+		margin-left: 0
+	label
+		font-size: 0.7rem
+		color: abi(1)
+	input
+		width: 2.5rem
+		height: 1rem
+		margin: 0 0.6rem 0 0
+		&:after
+			width: 1.5rem
+			height: 1.5rem
+			left: -0.2rem
+			top: -0.2rem
+		&:checked
+			&:after
+				left: calc(100% - 1.3rem)
+
+.ltr
+	direction: ltr !important
+
+
+.remove-array
+	position: absolute
+	left: 0.5rem
+	top: 0.5rem
+	background-color: tosi(1)
+	border-radius: 0.8rem
+	color: sefid(1)
+	width: 1rem
+	height: 1rem
+	cursor pointer
+	&:hover
+		background-color: ghermez(1)
+	&:before
+		font-size: 0.8rem
+		line-height: 0.2rem
+		position: absolute
+		top: 0.4rem
+		left: 0.2rem

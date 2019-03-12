@@ -1,0 +1,55 @@
+.ngdialog.ngdialog-theme-default
+  background-color sorme(0.5)
+  // padding-top 5%
+  // padding-bottom 5%
+  padding 2% 5%
+  font-family: 'Vazir', Tahoma, Verdana, Segoe, sans-serif !important
+  .ngdialog-close
+    position absolute
+    left 37px !important
+    top 1px
+    z-index 5
+    opacity 0.2
+    &:hover
+      opacity 1
+    &:before
+      position absolute
+      text-align center
+      background-color ghermez(1)
+      font-size 15px
+      border-radius 50%
+      color #bbb
+      content '\00D7'
+      font-size 26px
+      font-weight 400
+      height 30px
+      line-height 30px
+      left 5px
+      text-align center
+      top 5px
+      width 30px
+  .ngdialog-content
+    width 98%
+    font-family: 'Vazir', Tahoma, Verdana, Segoe, sans-serif !important
+    background-color lighten(abi(0.75), 85%)
+    border 3px solid darken(sorme(1), 40%)
+    z-index 3
+    position relative
+    // padding 0
+    // margin 0
+    .thumb
+      margin: auto
+      text-align: center
+      img
+        width: 25rem
+    .moarefi-khodam-dialog
+      ul
+        padding 0
+        margin 0
+        text-align center
+        h4
+          color darken(ghermez(1), 20%)
+        li
+          padding 0
+          margin 0
+          list-style none

@@ -1,0 +1,379 @@
+.nav-wrapper
+  width: 100%
+  top: 0
+  right: 0
+  z-index: 13 
+  &.fixed-some-page
+    position: fixed
+    top: 0
+    right: 0
+  .logo-nav
+    height: 4.5rem
+    width: 100%
+    display: flex
+    flex-flow: row wrap
+    justify-content: space-between
+    align-items: center
+    img
+      height: 3rem
+      z-index: 13
+      filter: drop-shadow(3px 3px 3px #222);
+
+.nav-left
+  display: flex
+  flex-flow: row wrap
+  background-color: sefid(1)
+  padding: 0.6rem 1.5rem
+  border-radius: 0.5rem
+  z-index: 13
+  a
+    text-decoration: none
+    color: abi(1)
+    font-size: 0.9rem
+    margin-left: 1rem
+    &:last-child
+      margin-left: 0
+    &.selected
+      background-color: transparent !important
+      color: abi(1) !important
+
+.fixed-nav
+  position: fixed
+  background-color: abi(1)
+  height: 4rem
+  width: 100%
+  top: 0
+  right: 0
+  z-index: 10
+  transition opacity 0.5s
+  opacity: 0
+  &.enable
+    opacity: 1
+  .nav-wrapper
+    width: 100%
+    height: 100%
+    display: flex
+    flex-flow: row wrap
+    justify-content: space-between
+    align-items: center
+    
+    .in-fixed-nav
+      height: 100%
+      display: flex
+      flex-flow: row wrap
+      justify-content: space-between
+      align-items: center
+      padding: 0 1rem
+      .img-wrapper
+        height: 1.8rem
+        padding: 0.2rem 1.5rem 0 1.5rem
+        background-color: sefid(1)
+        border: 1px solid secondary(1)
+        border-radius: 2rem
+        margin-left: 0.5rem
+        img
+          height: 90%
+      .nav-left
+        background-color: transparent
+        a
+          color: sefid(1)
+          &.selected
+            color: sefid(1) !important
+
+    .nav-btn
+      height: 1.8rem !important
+      padding: 0 2rem
+      border-color: sefid(1)
+      line-height: 1.65rem
+      margin-left: 0.5rem
+      &:last-child
+        margin-left: 0
+    
+    .cart-wrapper
+      color: sefid(1)
+
+.nav-container
+  width: 100%
+  .nav-btn
+    box-shadow: none
+    background-color: abi(1) !important
+    border-radius: 0.8rem
+    &::after
+      left: 0
+      top: 3.5rem
+      background-color: secondary(1) !important
+    &:hover
+      border-color: sefid(1) !important
+      color: sefid(1) !important
+      &::after
+        top: 0
+  .selected
+    background-color: sefid(1) !important
+    color: secondary(1) !important
+    border-color: secondary(1) !important
+
+      
+
+.dar-nav
+  width: 100%
+  height: 3.5rem
+  display: flex
+  justify-content: space-between
+  align-items: center
+  position: relative
+  z-index: 13
+  &:before
+    content: ''
+    position: absolute
+    width: calc(100% - 20rem)
+    height: 1px
+    background-color: abi(1)
+    top: 1.7rem
+    right: 3rem
+  .jostjo
+    display: flex
+    align-items: center
+    justify-content: flex-end
+    z-index: 14
+    
+    // .login-btn
+    //   line-height: 2.5
+    // .khoroj-btn
+    //   width: 8rem
+    //   display: flex
+    //   justify-content: space-between
+    //   text-align: center
+    //   .dogme
+    //     min-height: 1rem
+    //   .user-name
+    //     line-height: 2.5
+    
+.inpSearch
+  width: 15rem
+  position: relative
+  input
+    width: 100%
+    border: none
+    padding: 0.2rem 0.8rem
+    height: 2.3rem
+    color: abi(1)
+    border: 2px solid abi(1)
+    border-radius: 0.8rem
+    font-size: 0.9rem
+    &::placeholder
+      color: abi(1)
+  i
+    position: absolute
+    top: 0.4rem
+    left: 0.5rem
+    color: abi(1)
+    font-size: 1.3rem
+    cursor: pointer
+
+
+// Responsive Navigation
+.nav-wrapper
+  display: none
+  @media(min-width 1000px)
+    display: block
+
+.fixed-nav
+  display: none
+  @media(min-width 1000px)
+    display: block
+
+
+.mobile-nav
+  
+  display: flex
+  width: 100%
+  flex-flow: row wrap
+  @media(min-width 1000px)
+    display: none
+  
+  color: sorme(1)
+  position: fixed
+  z-index: 9
+  width: 100%
+
+  .strip
+    width: 100%
+    height: 3.2rem
+    background-color: abi(1)
+    color: sefid(1)
+    display: flex
+    justify-content: space-between
+    align-items: center
+    a
+      height 80%
+      background-color: transparent !important
+      img
+        height 80%
+    .icon-navicon
+      font-size: 1.5rem
+      line-height: 3rem
+      margin: 0 1rem
+
+    .icon-wrapper
+      display: flex
+      flex-flow: row wrap
+      i
+        // font-size: 1.5rem
+        // line-height: 3rem
+        // margin: 0 0.4rem
+        color: sefid(1)
+      .icon-search
+        font-size: 1.5rem
+        line-height: 3rem
+        // margin: 0 0.4rem
+
+  
+  .search-section
+    width: 0
+    height: 3rem
+    position: fixed
+    top: 0
+    left: 0
+    transition: 0.3s
+    display: flex
+    justify-content: flex-end
+    
+    .search-in-strip
+      width: 100%
+      height: 100%
+      display: flex
+      justify-content: flex-end
+      align-items: center
+      .inpSearch
+        width: 100%
+        i
+          display: none
+        .icon-close
+          left: 2.5rem
+    &.open
+      width: 85%
+      .search-in-strip
+        .inpSearch
+          i
+            display: block
+.sidenav
+  &.open
+    width: 100%
+    .side-nav-wrapper
+      width: 75%
+    .side-nav-back
+      display: block
+  &.close
+    width: 0
+    .side-nav-wrapper
+      width: 0
+    .side-nav-back
+      display: none
+
+.sidenav
+    position: fixed
+    top: 0
+    right: 0
+    overflow-x: hidden
+    transition: 0.3s
+    width: 0
+    height: 100vh
+    .side-nav-back
+      height: 100vh
+      width: 100%
+      background-color: sorme(0.3)
+      position: absolute
+      top: 0
+      right: 0
+      display: none
+    .side-nav-wrapper
+      height: 100%
+      width: 0
+      background-color: sorme(1)
+      position: absolute
+      top: 0
+      right: 0
+      display: flex
+      flex-flow: row wrap
+      justify-content: space-between
+      
+      .sidenav-logo
+        width: 100%
+        text-align: center
+        margin-top: 3rem
+        img
+          width: 35%
+
+      .search-in-sidenav
+        width: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        .inpSearch
+          width: 90%
+          input
+            border-color: lighten(sorme(1), 20%)
+            color: secondary(1)
+            &::placeholder
+              color: secondary(1)
+          i
+            color: secondary(1)
+      
+      .login-btns
+        width: 90%
+        margin-right: 5%
+        background-color: sefid(1)
+        color: secondary(1) !important
+        height: 2rem
+        line-height: 1.5rem
+        text-align: center
+        border-radius: 0.5rem
+        border: 2px solid lighten(sorme(1), 20%)
+        *
+          color: secondary(1) !important
+          line-height: 1.5rem
+
+      .btns
+        width: 100%
+        a
+          padding: 8px 8px 8px 32px
+          text-decoration: none
+          font-size: 1rem
+          color: #818181
+          display: block
+          transition: 0.3s
+          &:hover
+            color: #f1f1f1
+      
+      .sidenav-footer
+        background-color abi(1)
+        color: sefid(1)
+        width: 100%
+        height 2rem
+        text-align: center
+        align-self: flex-end
+        line-height: 2rem
+
+    .closebtn
+      position: absolute
+      top: 0
+      left: 0
+      font-size: 1rem
+      background-color sefid(1)
+      padding: 0.5rem
+      cursor pointer
+      &:hover
+        background-color: sefid(0.5)
+.nav-btn-top
+  cursor: pointer
+  color: abi(1)
+  font-size: 0.9rem
+  &:last-child
+    margin-left: 0
+  
+.margin-left-zero
+  margin-left: 0 !important
+
+
+.hide-nav
+  opacity: 0

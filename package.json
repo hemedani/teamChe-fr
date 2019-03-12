@@ -5,13 +5,16 @@
   "dependencies": {
     "axios": "^0.18.0",
     "classname": "^0.0.0",
+    "leaflet": "^1.4.0",
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.1",
+    "query-string": "^6.2.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-dropzone": "^9.0.0",
     "react-ga": "^2.5.7",
     "react-google-recaptcha": "^1.0.5",
+    "react-leaflet": "^2.2.1",
     "react-redux": "^6.0.1",
     "react-redux-toastr": "^7.4.7",
     "react-router-dom": "^4.3.1",
@@ -23,6 +26,7 @@
     "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0"
   },
+  "proxy": "http://localhost:1367/",
   "scripts": {
     "build-css": "stylus src/styl/index.styl -o src/css/",
     "watch-css": "npm run build-css && stylus -w src/styl/index.styl -o src/css/",

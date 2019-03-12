@@ -1,0 +1,139 @@
+.cart-icon-wrapper
+  width: 4rem
+  font-size: 2.5rem
+  position: relative
+  height: 100%
+  text-align: center
+  cursor: pointer
+  margin-top: 0.5rem
+  .cart-length
+    position: absolute
+    border-radius: 50%
+    width: 1.1rem
+    height: 1.1rem
+    background-color: secondary(1)
+    top: 0
+    right: 0.5rem
+    font-size: 1rem
+    line-height: 1.25rem
+    color: sefid(1)
+
+.cart-wrapper
+  position: relative
+  color: abi(1)
+
+.carts-ware-wrapper
+  position: absolute
+  top: 3.8rem
+  left: 0
+  background-color: sefid(1)
+  color: black
+  padding: 0.5rem
+  font-size: 0.9rem
+  border-radius: 0.5rem
+  box-shadow: 0 4px 10px sorme(0.5)
+  width: 20rem
+  max-width: 98vw
+  opacity: 0
+  visibility: hidden
+  border: 0.2rem solid abi(1)
+  &:after,&:before
+    bottom: 100%
+    left: 2rem
+    border: solid transparent
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    pointer-events: none
+  &:after
+    border-bottom-color: sefid(1)
+    border-width: 1rem
+    margin-left: -1rem
+  &:before
+    border-bottom-color: abi(1)
+    border-width: 1.3rem
+    margin-left: -1.3rem
+  .cart-ware
+    display: flex
+    flex-flow: row wrap
+    border-bottom: 1px solid abi(0.2)
+    padding: 0.5rem 0
+    height: 4rem
+    // position: relative
+    &:hover
+      background-color: abi(1)
+      color: sefid(1)
+      // .cart-ware-detail
+      //   .icon-remove
+      //     display: block
+    &:last-child
+      border-bottom: 0
+    .cart-ware-img
+      flex: 1
+      display: flex
+      justify-content: center
+      align-items: center
+      cursor: pointer
+      img
+        width: 3rem
+        height: 3rem
+        border-radius: 50%
+    .cart-ware-detail
+      flex: 3
+      display: flex
+      flex-flow: row wrap
+      align-items: center
+      justify-content: space-between
+      padding-left: 0.5rem
+      .cart-ware-detail-text
+        flex: 3
+        .cart-ware-title
+          cursor: pointer
+      .l-text
+        font-size: 0.8rem
+        color: tosi(0.6)
+      .cart-ware-detail-btn-price
+        flex: 1.8
+        display: flex
+        flex-flow: column
+        align-items: center
+        .dogme
+          height: 1.2rem
+          line-height: 1.4rem
+  .finalize-cart
+    width: 100%
+    display: inline-block
+    text-align: center
+    padding: 0.5rem
+    text-decoration: none
+    color: tosi(1)
+    margin-top: 0.3rem
+    background-color: abi(0.4)
+    &:hover
+      background-color: abi(1)
+      color: sefid(1)
+  
+  .our-buys
+    background-color: sefid(1)
+    &:hover
+      background-color: tosi(1)
+
+  .nothing-in-cart
+    text-align: center
+    font-size: 0.8rem
+    color: tosi(0.7)
+    padding: 0.4rem 0
+
+[class~='cart-ware']:last-of-type
+  border-bottom: 0
+
+.displayed
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+
+.not-displayed
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;

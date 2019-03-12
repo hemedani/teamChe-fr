@@ -1,0 +1,233 @@
+.dogme
+	font-family: 'Shabnam', Tahoma
+	overflow hidden
+	cursor pointer
+	white-space nowrap
+	position relative
+	display inline-block
+	min-height 1.8rem
+	min-width 3rem
+	outline none
+	color #fff
+	line-height: 2.2
+	text-decoration none
+	z-index 1
+	text-shadow 0 0 1px rgba(255,255,255,0.3)
+	text-align: center
+	font-size 0.9rem
+	box-shadow: 0 0 10px 1px #eee
+	margin-left: 1rem
+	margin-top: 0.5rem
+	&:last-child
+		margin-left: 0
+	&::after
+		content ""
+		position absolute
+		z-index -1
+		display block
+		transition all 0.25s
+	&:hover
+		&::after
+			left 0
+			right 0
+			top 0
+			bottom 0
+			transition all 0.25s
+
+.temamsafe
+	width 100%
+	margin-bottom: 0.5rem
+	margin-left: 0
+
+.i-sabz
+	background-color abi(1)
+	border 1px solid abi(1)
+	color: white
+	overflow: hidden
+	&:hover
+		color: abi(1)
+	&::after
+		background-color: white
+
+.i-zard
+	background-color zard(1)
+	border 1px solid zard(1)
+	color: white
+	overflow: hidden
+	&:hover
+		color: sefid(1)
+	&::after
+		background-color: lighten(zard(1), 30%)
+
+.i-sabz-narengi
+	background-color abi(1)
+	border 1px solid abi(1)
+	color: white
+	overflow: hidden
+	&:hover
+		color: sefid(1)
+		border 1px solid sefid(1)
+	&::after
+		background-color: secondary(1)
+
+.i-ghermez
+	background-color: sefid(1)
+	border 1px solid ghermez(1)
+	overflow hidden
+	color: ghermez(1)
+	&:hover
+		color: sefid(1)
+	&::after
+		background-color: ghermez(1)
+
+.i-green-red
+	background-color: sefid(1)
+	border: 1px solid abi(1)
+	overflow hidden
+	color: abi(1)
+	&:hover
+		color: sefid(1)
+		border-color: sefid(1)
+	&::after
+		background-color: ghermez(1)
+
+.i-firoz
+	background-color firozeh(1)
+	border 1px solid firozeh(1)
+	&:hover
+		color: firozeh(1)
+	&::after
+		background-color white
+
+.i-tosi
+	background-color tosi(1)
+	border 1px solid tosi(1)
+	&:hover
+		color: tosi(1)
+	&::after
+		background-color white
+
+.i-sefid
+	background-color sefid(1)
+	color: abi(1)
+	border 1px solid abi(1)
+	&:hover
+		color: sefid(1)
+	&::after
+		background-color abi(1)
+
+.i-abi
+	background-color abi(1)
+	border 1px solid abi(1)
+	&:hover
+		color abi(1)
+	&::after
+		background-color white
+
+.i-dor-sabz
+	background-color: white
+	color: abi(1)
+	border: 1px solid abi(1)
+	&:hover
+		color: white
+	&::after
+		background-color: abi(1)
+
+.i-sorme
+	background-color lighten(sorme(1), 30%)
+	border 1px solid lighten(sorme(1), 70%)
+	overflow hidden
+	&:hover
+		color abi(1)
+	&::after
+		background-color lighten(sorme(0.8), 40%)
+
+.i-alt
+	background-image url('../img/DSVG/iconalt.svg')
+	background-position center center
+	background-size 100% 100%
+
+.i-gerd
+	border-radius: 50%
+	width: 50px
+	height: 50px
+	&:before
+		padding: 0.5rem 0.2rem 0 0.2rem
+		line-height: 1.8
+	&::after
+		border-radius: 50%
+		left: -50%
+		right: -50%
+		top: -50%
+		bottom -50%
+		transform: scale(0, 0)
+	&:hover
+		&::after
+			transform: scale(1, 1)
+			transition: all 0.3s ease-out
+
+.i-round
+	border-radius 6px
+	padding 0.1rem 0.8rem
+	&::after
+		top 0
+		bottom 0
+		left 100%
+		right -100%
+
+.round-small
+	padding: 0 0.7rem
+	min-height: 1.5rem
+	font-size: 0.75rem
+	margin-left: 0.3rem
+	margin-top: 0.2rem
+
+.width-same
+	margin-top: 1.5rem
+	// .dogme
+	// 	flex: 1 1 
+
+.width-same-big
+	margin-top: 1.5rem
+	// .dogme
+	// 	flex: 1 1 9rem
+
+.width-same
+.width-same-big
+	display: flex
+
+.dogme[disabled]
+	background-color lighten(tosi(1), 50%) !important
+	border 1px solid tosi(1) !important
+	cursor: not-allowed !important
+	&:hover
+		color: tosi(1) !important
+	&::after
+		background-color: lighten(tosi(1), 70%) !important
+
+.with-icon-right
+	padding-right: 2.5rem
+	i
+		position: relative
+		line-height: 0.5
+		&:before
+			position: absolute
+			top: 1rem
+			right: -1.8rem
+
+.with-icon
+	padding-right: 2.5rem
+	i
+		position: relative
+		line-height: 0.5
+		font-size: 1.3rem
+		&:before
+			position: absolute
+			top: 0.7rem
+			right: -1.8rem
+
+
+.top-obs-btn
+	position: absolute
+	top: 0
+	right: 1rem

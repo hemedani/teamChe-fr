@@ -1,0 +1,66 @@
+.select
+  font-size 1rem
+  display inline-block
+  width 18rem
+  cursor pointer
+  margin: 0.2rem 0.1rem
+  // z-index: 2
+  .Select
+    width: 100%
+    height: 3rem
+    font-size 1rem
+    .Select-control
+      height: 100%
+      .Select-multi-value-wrapper
+        .Select-placeholder
+          line-height: 3rem
+        .Select-value
+          line-height: 3rem
+          padding-right: 1rem !important
+
+.Select-option
+  &.is-selected
+    color: white !important
+    background-color: abi(1)!important
+  &.is-focused
+    color: white !important
+    background-color: abi(0.6)!important
+.Select-arrow
+  border-color: abi(1) transparent transparent !important
+  border-width: 8px 8px 4px !important
+  margin-top: 0.8rem
+
+.Select
+  &.is-open
+    >.Select-control
+      .Select-arrow
+        border-color: transparent transparent abi(1) !important
+        margin-top: 0 !important
+        border-width: 4px 8px 8px !important
+
+
+.z-index-0
+  z-index: 0
+
+.last-select
+  margin-left: 0
+
+.Select-control
+  border: 2px solid abi(1)
+  >span
+    height: 100%
+    .Select-input
+      height: 100%
+
+.Select-input
+  >input
+    line-height: 1rem
+
+.Select--multi
+  .Select-value
+    background-color: abi(0.2) !important
+    color: darken(abi(1), 20%) !important
+    border: 1px solid abi(0.5) !important
+    .Select-value-icon
+      &:hover
+        background-color: abi(0.4) !important

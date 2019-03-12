@@ -1,0 +1,72 @@
+.ware-pick
+  .box-center-detail
+    .box-center-detail-head
+      h2
+        font-size: 2.3rem
+        font-weight: bold
+    .ware-detail-wrap
+      width: 100%
+      font-size: 1.1rem
+      .green
+        color: abi(1)
+      .desc-wraper
+        margin-top: 2rem
+      .desc
+        margin-top: 0.2rem
+        color: abi(1)
+      &.half
+        width: 50%
+    .box-center-detail-desc
+      width: 100%
+      &:before
+        width: 100%
+        background-color: tosi(0.4)
+
+    .ware-sales
+      display: flex
+      flex-direction: column
+      justify-content: flex-end
+      min-height: 16rem
+      .pre-discount
+        font-size: 1.8rem
+        color: zard(1)
+        margin-bottom: 1.8rem
+      .price
+        font-size: 2rem
+        margin-bottom: 1.8rem
+        .strong
+          font-size: 2.3rem
+      span.dogme
+        margin: 0
+        height: 3rem
+        font-size: 1.1rem
+        line-height: 2.5rem
+        &::after
+          background-color: darken(abi(1), 20%)
+        &:hover
+          color: sefid(1)
+        i
+          font-size: 1.7rem
+          margin-left: 0.5rem
+          position: absolute
+          right: 0
+          top: 0
+          background-color darken(abi(1), 20%)
+          width: 3rem
+          height: 100%
+          border-top-left-radius: 0.9rem
+          border-bottom-left-radius: 0.9rem
+          color: sefid(1)
+          &:before
+            right: 0.8rem
+            top: 1rem
+        &.already-in-cart
+          cursor: not-allowed
+          i
+            background-color: darken(zard(1), 15%)
+            color: sefid(1)
+          &::after
+            background-color: darken(zard(1), 15%)
+
+.ware-details
+  display: flex

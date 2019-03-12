@@ -1,0 +1,232 @@
+.cart-list
+  display: flex
+  flex-flow: row wrap
+  width: 92%
+  .cart-wrapper
+    display: flex
+    flex-flow: row wrap
+    width: 100%
+    color: sorme(1)
+    .cart-headers
+      width: 100%
+      display: flex
+      flex-flow: row wrap
+      justify-content: center
+    
+      .levels
+        width: 90%
+        height: 8rem
+        display: flex
+        flex-flow: row wrap
+        justify-content: space-between
+        align-items: center
+        position relative
+        &:before
+          content: ''
+          position: absolute
+          right: 2.5rem
+          top: 50%
+          width: calc(100% - 5rem)
+          height: 1px
+          background-color: sorme(0.3)
+          z-index: 0
+        .each-level
+          flex: 1
+          display: flex
+          flex-flow: row wrap
+          justify-content: center
+          text-align: center
+          padding-top: 1.5rem
+          z-index: 1
+          color: zard(1)
+          figure,
+          span
+            width: 100%
+          figure
+            width: 3.5rem
+            height: 3.5rem
+            border-radius: 3.5rem
+            background-color: zard(1)
+            color: sefid(1)
+            font-size: 1.3rem
+            line-height: 3.5rem
+          &.active
+            color: tosi(1)
+            figure
+              background-color: abi(1)
+
+  
+    .level-content
+      width: 100%
+      display: flex
+      flex-flow: row wrap
+
+
+    .cart-list-add-address
+      width: 10rem
+      height: 10rem
+      border: 2px dashed abi(1)
+      border-radius: 1rem
+      cursor pointer
+      display: flex
+      flex-flow: row wrap
+      justify-content: center
+      text-align: center
+      font-size: 1rem
+      padding: 1rem
+      align-self: flex-end
+      i
+        width: 100%
+        height: 6rem
+        font-size: 4rem
+      span
+        width: 100%
+        align-self: flex-end
+
+.cart-list-select-add
+  width: 100%
+  display: flex
+  flex-flow: row wrap
+  justify-content: space-between
+  .grid-manage
+    display: flex
+    flex-flow: column wrap
+    max-width: 18rem
+    padding: 0.5rem
+    &.selected
+      border: 2px solid abi(1)
+    .grid-manage-pic
+      height: 11rem
+      width: 100%
+      .mapboxgl-map
+        border: 1px solid abi(1)
+        border-radius: 0.5rem
+    
+    .grid-manage-detail
+      width: 100%
+    
+    .grid-manage-text
+      padding: 0.5rem
+      color: sorme(1)
+      font-size: 0.8rem
+      width: 100%
+      display: flex
+      flex-flow: row wrap
+      justify-content: space-between
+      align-items: center
+      >div
+        width: 100%
+        display: flex
+        flex-flow: row wrap
+        justify-content: space-between
+        align-items: center
+      span
+        border: 1px solid abi(0.7)
+        border-radius: 0.4rem
+        min-height: 1rem
+        margin-bottom: 0.2rem
+        padding: 0.2rem
+      .lead
+        font-size: 0.7rem
+        color: tosi(0.5)
+        width: 30%
+        text-align: center
+      .content
+        width: 68%
+        line-height: 1rem
+
+
+.broad-cromp
+  background-color: transparent
+  border: none
+  box-shadow: none
+  margin-bottom: 0
+.grid-section
+  width: 100%
+  &.broad-cromp
+    margin-bottom: 0
+    padding: 1rem
+  .each-broad-cromp
+    width: 100%
+    padding: 1rem 1.5rem 2rem 1.5rem
+    margin-bottom: -1rem
+    border-radius: 1rem
+    background-color: sefid(1)
+    border: 1px solid tosi(0.2)
+    min-height: 3rem
+    line-height: 3rem
+    position: relative
+    display: flex
+    align-items: center
+    box-shadow: 0 -2px 5px 0 rgba(0,0,0,.26)
+    i.icon-check
+      font-size: 2rem
+      padding: 0.2rem
+      border-radius: 50%
+      color: sefid(1)
+      background-color abi(1)
+      margin-left: 1rem
+    .dogme
+      position: absolute
+      left: 1rem
+      top: calc(50% - 1rem)
+  
+.cart-list-mother
+  margin-top: -1rem
+  background-color: sefid(1)
+
+.ware-list
+  width: 100%
+  .each-ware
+    width: 100%
+    display: flex
+    flex-flow: row wrap
+    margin-bottom: 0.7rem
+    height: 5.5rem
+    justify-content: space-between
+    align-items: center
+    border: 1px solid tosi(0.2)
+    border-radius: 0.5rem
+    padding: 0.5rem
+    img
+      width: 4.5rem
+      height: 4.5rem
+      border-radius: 4.5rem
+    .form-tak
+      width: auto
+    .two-child
+      display: flex
+      flex-flow: column wrap
+      align-items: center
+      justify-content: center
+      align-content: center
+      span
+        flex: 1
+        &.lead
+          font-size: 0.8rem
+        &.content
+          color: sorme(1)
+
+.sum-total-price
+  width: 100%
+  display: flex
+  flex-flow: row wrap
+  justify-content: flex-end
+  span
+    border: 1px solid abi(1)
+    border-radius: 0.5rem
+    margin-left: 0.5rem
+    padding: 1rem
+    &.content
+      color: sorme(1)
+
+.btn-next-level
+  width: 100%
+  display: flex
+  flex-flow: row wrap
+  justify-content: flex-end
+  margin-top: 1rem
+
+.btns
+  margin-top: 1rem
+  width: 100%

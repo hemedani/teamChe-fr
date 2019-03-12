@@ -1,0 +1,19 @@
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import _ from "lodash";
+
+// const AddBtn = (props) => (((props.auth.user.level === 'tarah') || (props.auth.user.level === 'editor')) ? (
+//   <Link to={props.url} className='dogme i-round i-sabz'>{props.txt}</Link>
+// ) : null)
+
+const AddBtn = ({ btColor = "sabz", levels, auth, url, txt }) =>
+  _.includes(levels, auth.user.level) ? (
+    <Link to={url} className={`dogme i-round i-${btColor}`}>
+      {txt}
+    </Link>
+  ) : null;
+
+const msp = ({ auth }) => ({ auth });
+
+export default connect(msp)(AddBtn);

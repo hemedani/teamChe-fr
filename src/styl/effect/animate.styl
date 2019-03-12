@@ -1,0 +1,47 @@
+.my-animated
+  animation-duration: 400ms
+  animation-fill-mode: both
+
+@keyframes my-fadeIn
+  from
+    opacity: 0
+
+  to
+    opacity: 1
+
+@keyframes my-fadeOut
+  from
+    opacity: 1
+
+  to
+    opacity: 0
+
+@keyframes flickerAnimation
+  0%
+    opacity: 1
+  50%
+    opacity: 0
+  100%
+    opacity:1
+
+@keyframes my-slideInDown
+  from
+    transform: translate3d(0, -100%, 0);
+    visibility: visible
+  to
+    transform: translate3d(0, 0, 0)
+
+.my-slideInDown
+  animation-name: my-slideInDown
+
+.my-fadeIn
+  animation-name: my-fadeIn
+
+.my-fadeOut
+  animation-name: my-fadeOut
+
+.animate-flicker
+    animation: flickerAnimation 1s infinite
+
+.animate-delay
+  animation-delay: 0.3s
