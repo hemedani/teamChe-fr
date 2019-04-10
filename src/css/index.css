@@ -103,6 +103,14 @@ form {
   display: flex;
   flex-flow: column wrap;
 }
+.center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center-flex >* {
+  flex: 1;
+}
 .strong {
   font-weight: bold;
   font-size: 1.5rem;
@@ -746,6 +754,20 @@ form {
   flex-flow: row wrap;
   justify-content: space-between;
 }
+.form-item label {
+  min-width: 6rem;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: #fff;
+  z-index: 9;
+  background-color: #4a32e0;
+  font-size: 0.7rem;
+  line-height: 1.6rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+}
 .with-btn {
   padding-top: 1.8rem;
   position: relative;
@@ -812,19 +834,9 @@ form {
   position: relative;
   margin: 0.5rem 0 1rem 0 !important;
 }
-.form-tak label,
-.select-form-tak label {
-  min-width: 6rem;
-  position: absolute;
-  top: 0;
-  right: 1rem;
-  color: #fff;
-  background-color: #4a32e0;
-  font-size: 0.7rem;
-  line-height: 1.6rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+.form-tak >div,
+.select-form-tak >div {
+  margin-top: 1.4rem;
 }
 .form-tak {
   width: 100%;
@@ -835,9 +847,9 @@ form {
     width: 48.5%;
   }
 }
-.form-tak input,
-.form-tak textarea,
-.form-tak select {
+.form-tak >input,
+.form-tak >textarea,
+.form-tak >select {
   min-height: 2rem;
   margin-top: 1.4rem;
   width: 100%;
@@ -848,15 +860,15 @@ form {
   background-color: rgba(255,255,251,0.5);
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
 }
-.form-tak input:focus,
-.form-tak textarea:focus,
-.form-tak select:focus {
+.form-tak >input:focus,
+.form-tak >textarea:focus,
+.form-tak >select:focus {
   background-color: #ffffe9;
   outline: none;
 }
-.form-tak input:disabled,
-.form-tak textarea:disabled,
-.form-tak select:disabled {
+.form-tak >input:disabled,
+.form-tak >textarea:disabled,
+.form-tak >select:disabled {
   background-color: rgba(136,136,136,0.7);
 }
 .form-tak .validate {
@@ -1470,7 +1482,7 @@ input[type='checkbox']:after {
   width: 60%;
   top: 1rem;
   right: 20%;
-  z-index: 2;
+  z-index: 9999;
 }
 .maxbox-wrapper .my-map-search-box .map-serach-box-input {
   width: 100%;

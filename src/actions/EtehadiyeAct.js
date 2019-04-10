@@ -6,7 +6,6 @@ import {
   ADD_ETEHADIYE,
   REMOVE_ETEHADIYE,
   ETEHADIYE_LOAD,
-  YOUR_ETEHADIYE,
   ADD_ETEHADIYE_ERR,
   ETEHADIYE_PIC_LOAD,
   ETEHADIYE_ADD_PIC,
@@ -21,21 +20,8 @@ export const getEtehadiyes = () => {
     dispatch({ type: ETEHADIYE_LOAD });
     return axios
       .get(`${RU}/Etehadiyes`, { headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => dispatch({ type: GET_ETEHADIYES, payload: resp.data.Etehadiyes }))
+      .then(resp => dispatch({ type: GET_ETEHADIYES, payload: resp.data.etehadiyes }))
       .catch(e => dispatch({ type: GET_ETEHADIYES_ERR }));
-  };
-};
-
-export const yourEtehadiye = typeid => {
-  return dispatch => {
-    dispatch({ type: ETEHADIYE_LOAD });
-    return axios
-      .get(`${RU}/yourEtehadiye`, { params: { typeid }, headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => {
-        dispatch({ type: YOUR_ETEHADIYE, payload: resp.data.Etehadiye });
-        return resp.data.type;
-      })
-      .catch(e => {});
   };
 };
 
@@ -43,9 +29,14 @@ export const addEtehadiye = Etehadiye => {
   return dispatch => {
     dispatch({ type: ETEHADIYE_LOAD });
     return axios
-      .post(`${RU}/Etehadiye/add`, Etehadiye, { headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => dispatch({ type: ADD_ETEHADIYE, payload: resp.data.Etehadiye }))
-      .catch(error => dispatch({ type: ADD_ETEHADIYE_ERR }));
+      .post(`${RU}/etehadiye/add`, Etehadiye, { headers: { sabti: localStorage.getItem("token") } })
+      .then(resp => dispatch({ type: ADD_ETEHADIYE, payload: resp.data.etehadiye }))
+      .catch(e => {
+        console.log("==================");
+        console.log("error", JSON.stringify(e, null, 2));
+        console.log("==================");
+        return dispatch({ type: ADD_ETEHADIYE_ERR });
+      });
   };
 };
 
@@ -53,10 +44,8 @@ export const updateEtehadiye = Etehadiye => {
   return dispatch => {
     dispatch({ type: ETEHADIYE_UPDATE_LOAD });
     return axios
-      .post(`${RU}/Etehadiye/update`, Etehadiye, { headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => {
-        return dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.Etehadiye });
-      })
+      .post(`${RU}/etehadiye/update`, Etehadiye, { headers: { sabti: localStorage.getItem("token") } })
+      .then(resp => dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.etehadiye }))
       .catch(error => dispatch({ type: UPDATE_ETEHADIYE_ERR }));
   };
 };
@@ -64,10 +53,20 @@ export const updateEtehadiye = Etehadiye => {
 export const removeEtehadiye = _id => {
   return dispatch => {
     dispatch({ type: ETEHADIYE_LOAD });
-    axios
-      .post(`${RU}/Etehadiye/remove`, { _id }, { headers: { sabti: localStorage.getItem("token") } })
+    return axios
+      .post(`${RU}/etehadiye/remove`, { _id }, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => dispatch({ type: REMOVE_ETEHADIYE, payload: _id }))
       .catch(error => {});
+  };
+};
+
+export const addOfficerToEtehadiyeAct = query => {
+  return dispatch => {
+    dispatch({ type: ETEHADIYE_LOAD });
+    return axios
+      .post(`${RU}/etehadiye/add/officer`, query, { headers: { sabti: localStorage.getItem("token") } })
+      .then(resp => dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.etehadiye }))
+      .catch(error => dispatch({ type: UPDATE_ETEHADIYE_ERR }));
   };
 };
 

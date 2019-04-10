@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { reducer as form } from "redux-form";
 import { reducer as toastrReducer } from "react-redux-toastr";
 import cities from "./city_rc";
+import parishes from "./parish_rc";
 import centers from "./centers_rc";
 import center from "./center_rc";
 import wareTypes from "./wareType_rc";
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   toastr: toastrReducer,
   cities,
+  parishes,
   centers,
   center,
   deliveries,

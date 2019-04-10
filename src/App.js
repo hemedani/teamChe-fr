@@ -7,16 +7,11 @@ import ReduxToastr from "react-redux-toastr";
 import MyRoute from "./components/MyRoute";
 import ScrollToTop from "./components/Utils/ScrollToTop";
 
-import GA from "../src/components/Utils/GoogleAnalytics";
-
 import "./css/Shabnam/font-face.css";
+import "./css/leaflet.draw.css";
 import "normalize.css";
-import "./css/index.css";
 import "./css/redux-toastr.css";
-
-// import { setRTLTextPlugin } from 'mapbox-gl';
-
-// setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
+import "./css/index.css";
 
 const App = ({ store }) => (
   <Provider store={store}>
@@ -24,7 +19,6 @@ const App = ({ store }) => (
       <div className="back-img" />
       <Router>
         <ScrollToTop>
-          {GA.init() && <GA.RouteTracker />}
           <MyRoute />
         </ScrollToTop>
       </Router>

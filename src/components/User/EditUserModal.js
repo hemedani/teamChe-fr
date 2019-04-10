@@ -8,9 +8,46 @@ import cx from "classnames";
 import DotLoader from "../Utils/DotLoader";
 import { RenderField, required, email, number } from "../Utils/FormField";
 
+const levels = [
+  "normal",
+  "expert",
+  "owner",
+  "editor",
+  "auther",
+  "tarah",
+  "admin",
+  "storekeeper",
+  "delivery",
+  "organic.boss",
+  "organic.veep",
+  "organic.officer",
+  "organic.administrationManager",
+  "organic.publicRelations",
+  "organic.support",
+  "organic.directorAdministration",
+  "organic.unitManagerPlumbing",
+  "organic.unionAffairs",
+  "organic.inspector",
+  "organic.commissionAffairs",
+  "organic.secretariat",
+  "organic.accountant"
+];
+
 class EditUserModal extends Component {
-  onSubmitForm({ _id, name, familyName, expertise, address, doctor, level }) {
-    this.props.updateUser({ _id, name, familyName, expertise, address, doctor, level }).then(resp => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      levels: []
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ levels: this.props.initialValues.level });
+  }
+
+  onSubmitForm(v) {
+    const level = this.state.levels;
+    this.props.updateUser({ ...v, level }).then(resp => {
       if (resp.type === UPDATE_USER) this.props.history.goBack();
     });
   }
@@ -27,7 +64,7 @@ class EditUserModal extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { handleSubmit, submitting } = this.props;
 
     return (
       <div className="modal-darbar">
@@ -39,24 +76,29 @@ class EditUserModal extends Component {
               <Field name="email" component={RenderField} label=" ایمیل" validate={[required, email]} />
               <Field name="name" component={RenderField} label=" نام" validate={required} />
               <Field name="familyName" component={RenderField} label=" نام خانوادگی" validate={required} />
-              <Field name="phone" component={RenderField} label=" تلفن" validate={[required, number]} />
-              <Field name="password" component={RenderField} label=" رمز عبور" type="password" validate={required} />
-              <Field name="doctor" component={RenderField} label=" دکتر " type="checkbox" />
-              <Field name="phoneValidate" component={RenderField} label=" شماره معتبر " type="checkbox" />
+              <Field name="phone" component={RenderField} label=" تلفن" validate={[required, number]} disabled />
 
-              <div className="form-tak taki">
-                <label>سطح دسترسی </label>
-                <div className="form-field-div">
-                  <Field name="level" component="select" className="form-field-field">
-                    <option />
-                    <option value="normal">معمولی</option>
-                    <option value="expert">کارشناس</option>
-                    <option value="owner">مالک</option>
-                    <option value="editor">ویرایشگر</option>
-                    <option value="auther">نویسنده</option>
-                    <option value="admin">مدیر</option>
-                  </Field>
+              <div className="selec-box-wrapper minimal-select">
+                <div className="lead-selec-box">
+                  <span>سطح دسترسی</span>
                 </div>
+                {levels.map((level, i) => (
+                  <div
+                    className={cx("select-box minimal", { "active-select-box": _.includes(this.state.levels, level) })}
+                    key={i}
+                    onClick={() => {
+                      let { levels } = this.state;
+                      levels = _.xor(levels, [level]);
+                      console.log("==================");
+                      console.log("levels and level", levels, level);
+                      console.log("==================");
+
+                      this.setState({ levels });
+                    }}
+                  >
+                    <div>{level}</div>
+                  </div>
+                ))}
               </div>
             </div>
 

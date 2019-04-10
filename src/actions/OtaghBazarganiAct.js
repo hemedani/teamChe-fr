@@ -16,26 +16,13 @@ import {
   RU
 } from "./types";
 
-export const getOtaghBazarganis = () => {
+export const getOtaghBazarganis = params => {
   return dispatch => {
     dispatch({ type: OTAGH_BAZARGANI_LOAD });
     return axios
-      .get(`${RU}/OtaghBazarganis`, { headers: { sabti: localStorage.getItem("token") } })
+      .get(`${RU}/otaghBazarganis`, { headers: { sabti: localStorage.getItem("token") }, params })
       .then(resp => dispatch({ type: GET_OTAGH_BAZARGANIS, payload: resp.data.OtaghBazarganis }))
       .catch(e => dispatch({ type: GET_OTAGH_BAZARGANIS_ERR }));
-  };
-};
-
-export const yourOtaghBazargani = typeid => {
-  return dispatch => {
-    dispatch({ type: OTAGH_BAZARGANI_LOAD });
-    return axios
-      .get(`${RU}/yourOtaghBazargani`, { params: { typeid }, headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => {
-        dispatch({ type: YOUR_OTAGH_BAZARGANI, payload: resp.data.OtaghBazargani });
-        return resp.data.type;
-      })
-      .catch(e => {});
   };
 };
 
@@ -43,7 +30,7 @@ export const addOtaghBazargani = OtaghBazargani => {
   return dispatch => {
     dispatch({ type: OTAGH_BAZARGANI_LOAD });
     return axios
-      .post(`${RU}/OtaghBazargani/add`, OtaghBazargani, { headers: { sabti: localStorage.getItem("token") } })
+      .post(`${RU}/otaghBazargani/add`, OtaghBazargani, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => dispatch({ type: ADD_OTAGH_BAZARGANI, payload: resp.data.OtaghBazargani }))
       .catch(error => dispatch({ type: ADD_OTAGH_BAZARGANI_ERR }));
   };
@@ -53,7 +40,7 @@ export const updateOtaghBazargani = OtaghBazargani => {
   return dispatch => {
     dispatch({ type: OTAGH_BAZARGANI_UPDATE_LOAD });
     return axios
-      .post(`${RU}/OtaghBazargani/update`, OtaghBazargani, { headers: { sabti: localStorage.getItem("token") } })
+      .post(`${RU}/otaghBazargani/update`, OtaghBazargani, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
         return dispatch({ type: UPDATE_OTAGH_BAZARGANI, payload: resp.data.OtaghBazargani });
       })
@@ -65,7 +52,7 @@ export const removeOtaghBazargani = _id => {
   return dispatch => {
     dispatch({ type: OTAGH_BAZARGANI_LOAD });
     axios
-      .post(`${RU}/OtaghBazargani/remove`, { _id }, { headers: { sabti: localStorage.getItem("token") } })
+      .post(`${RU}/otaghBazargani/remove`, { _id }, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => dispatch({ type: REMOVE_OTAGH_BAZARGANI, payload: _id }))
       .catch(error => {});
   };

@@ -25,3 +25,4 @@ export * from "./RasteAct";
 export * from "./EtehadiyeAct";
 export * from "./OtaghAsnafAct";
 export * from "./OtaghBazarganiAct";
+export * from "./ParishAct";

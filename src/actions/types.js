@@ -69,6 +69,16 @@ export const CLEAN_CITY = "CLEAN_CITY";
 export const ADD_CITY_ERR = "ADD_CITY_ERR";
 export const SET_CITY_COORDS = "SET_CITY_COORDS";
 
+/************  --PARISHES--  *************/
+export const GET_PARISHES = "GET_PARISHES";
+export const ADD_PARISH = "ADD_PARISH";
+export const REMOVE_PARISH = "REMOVE_PARISH";
+export const PARISH_LOAD = "PARISH_LOAD";
+export const YOUR_PARISH = "YOUR_PARISH";
+export const CLEAN_PARISH = "CLEAN_PARISH";
+export const ADD_PARISH_ERR = "ADD_PARISH_ERR";
+export const SET_PARISH_COORDS = "SET_PARISH_COORDS";
+
 /************  --CENTER--  *************/
 export const GET_CENTER = "GET_CENTER";
 export const GET_CENTER_ERR = "GET_CENTER_ERR";

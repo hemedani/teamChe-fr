@@ -7,7 +7,7 @@ const ManageRoute = ({ component: Component, auth, levels, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      _.includes(levels, auth.user.level) ? (
+      _.includes(levels, auth.user.level[0]) ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />

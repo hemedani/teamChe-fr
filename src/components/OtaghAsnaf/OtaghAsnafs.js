@@ -11,7 +11,7 @@ import EditOtaghAsnafModal from "./EditOtaghAsnafModal";
 import OtaghAsnaf from "./OtaghAsnaf";
 
 class OtaghAsnafs extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getOtaghAsnafs();
   }
   render() {

@@ -70,7 +70,7 @@ class ManageCenters extends Component {
     }
   }
   render() {
-    let {
+    const {
       centers: { centerLoading, centers },
       handleSubmit,
       pristine,
@@ -80,7 +80,7 @@ class ManageCenters extends Component {
     return (
       <div className="fasbaghal">
         <div className="grid">
-          <h1>مراکز</h1>
+          <h1>اصناف</h1>
           <div className="poshtzamine">
             <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
               <div className="form-item">
@@ -138,11 +138,10 @@ class ManageCenters extends Component {
               ) : (
                 <div className="chapchin width-same">
                   <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
-                    جستجو ...{" "}
+                    جستجو ...
                   </button>
                   <Link to="/manage/center/add" className="dogme i-round i-abi">
-                    {" "}
-                    افزودن مرکز{" "}
+                    افزودن مرکز
                   </Link>
                 </div>
               )}
@@ -167,8 +166,7 @@ class ManageCenters extends Component {
             {!this.props.centers.reachEnd && (
               <div className="chapchin width-same-big">
                 <span className="dogme i-round i-abi" onClick={this.cantinueGetCenters.bind(this)}>
-                  {" "}
-                  ادامه مراکز{" "}
+                  ادامه مراکز
                 </span>
               </div>
             )}

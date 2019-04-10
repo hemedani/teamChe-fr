@@ -5,6 +5,7 @@ import ManageRoute from "./ManageRoute";
 import AddBtn from "./Utils/AddBtn";
 
 import Cities from "./City/Cities";
+import Parishes from "./Parish/Parishes";
 import ManageCenters from "./Center/ManageCenters";
 import Rastes from "./Raste/Rastes";
 import OtaghAsnafs from "./OtaghAsnaf/OtaghAsnafs";
@@ -22,27 +23,29 @@ class Manage extends Component {
         <div className="center-workshit width-same-big">
           <AddBtn txt="استان ها" url={`${this.props.match.url}/states`} levels={["tarah"]} />
           <AddBtn txt="شهرها" url={`${this.props.match.url}/city`} levels={["tarah"]} />
-          <AddBtn txt="اتاق اصناف" url={`${this.props.match.url}/otaghAsnaf`} levels={["tarah"]} />
+          <AddBtn txt="محله" url={`${this.props.match.url}/parish`} levels={["tarah"]} />
           <AddBtn txt="اتاق بازرگانی" url={`${this.props.match.url}/otaghBazargani`} levels={["tarah"]} />
-          <AddBtn txt="رسته" url={`${this.props.match.url}/raste`} levels={["tarah"]} />
+          <AddBtn txt="اتاق اصناف" url={`${this.props.match.url}/otaghAsnaf`} levels={["tarah"]} />
           <AddBtn txt="اتحادیه" url={`${this.props.match.url}/etehadiye`} levels={["tarah"]} />
-          <AddBtn txt="امکانات فروشگاه" url={`${this.props.match.url}/option`} levels={["tarah"]} />
-          <AddBtn txt="فروشگاه" url={`${this.props.match.url}/center`} levels={["tarah"]} />
+          <AddBtn txt="رسته" url={`${this.props.match.url}/raste`} levels={["tarah"]} />
+          <AddBtn txt="امکانات صنف" url={`${this.props.match.url}/option`} levels={["tarah"]} />
+          <AddBtn txt="صنف" url={`${this.props.match.url}/center`} levels={["tarah"]} />
           <AddBtn txt="نظرها" url={`${this.props.match.url}/rates`} levels={["tarah"]} />
           <AddBtn txt="پیام ها" url={`${this.props.match.url}/massages`} levels={["tarah"]} />
           <AddBtn txt="کاربران" url={`${this.props.match.url}/users`} levels={["tarah"]} />
         </div>
         <Switch>
+          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/states" component={States} />
           <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/city" component={Cities} />
+          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/parish" component={Parishes} />
+          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/otaghBazargani" component={OtaghBazarganis} />
+          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/otaghAsnaf" component={OtaghAsnafs} />
+          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/etehadiye" component={Etehadiyes} />
           <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/center" component={ManageCenters} />
           <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/raste" component={Rastes} />
-          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/states" component={States} />
-          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/users" component={Users} />
           <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/rates" component={Rates} />
-          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/otaghAsnaf" component={OtaghAsnafs} />
-          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/otaghBazargani" component={OtaghBazarganis} />
-          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/etehadiye" component={Etehadiyes} />
           <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/massages" exact component={Massages} />
+          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage/users" component={Users} />
         </Switch>
       </div>
     );

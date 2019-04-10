@@ -9,17 +9,31 @@ import ScrollLock from "react-scrolllock";
 import Map from "../Utils/MapBox";
 import {
   addCenter,
+  getStates,
   getCities,
-  getWareTypes,
+  getParishes,
+  getOtaghBazarganis,
+  getOtaghAsnafs,
+  getEtehadiyes,
   getRastes,
   getOptions,
   centerUploadPic,
-  getDoctorUser,
   cleanPicUpPercent,
-  API_KEY2,
   ADD_CENTER,
   RU
 } from "../../actions";
+
+import {
+  ParishSelectErr,
+  OstanSelectErr,
+  CitySelectErr,
+  OtaghBazarganiSelectErr,
+  OtaghAsnafSelectErr,
+  EtehadiyeSelectErr
+} from "../../actions/Errors";
+import { immutableSplice } from "../Utils/Imutable";
+
+import SelectForm from "../Utils/SelectForm";
 
 import { RenderField, required } from "../Utils/FormField";
 import cx from "classnames";
@@ -28,7 +42,7 @@ import ProgressBar from "../Utils/ProgressBar";
 const renderPhones = ({ fields, meta: { error } }) => (
   <div className="form-item with-btn">
     <span onClick={() => fields.push()} className="dogme i-round i-sabz round-small top-obs-btn">
-      افزودن شماره{" "}
+      افزودن شماره
     </span>
     {fields.map((ph, index) => (
       <Field
@@ -52,26 +66,42 @@ class addCenterModal extends Component {
     this.state = {
       center: { lat: 32.159084, lng: 54.399883 },
       zoom: 5,
-      city: {},
 
       options: [],
       wareTypes: [],
       rastes: [],
 
+      location: null,
+      city: null,
+      state: null,
+      parish: null,
+      otaghBazargani: null,
+      otaghAsnaf: null,
+      etehadiye: null,
+
       files: [],
 
       user: "",
 
-      err: true,
+      err: [],
       peygham: []
     };
+    this.onDrop = this.onDrop.bind(this);
+
+    this.onSubmitForm = this.onSubmitForm.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.handeStateSelect = this.handeStateSelect.bind(this);
   }
+
   componentDidMount() {
+    this.props.getStates();
     this.props.getCities();
-    this.props.getWareTypes();
+    this.props.getParishes();
+    this.props.getOtaghBazarganis();
+    this.props.getOtaghAsnafs();
+    this.props.getEtehadiyes();
     this.props.getRastes();
     this.props.getOptions();
-    this.props.getDoctorUser();
     this.props.cleanPicUpPercent();
   }
 
@@ -81,37 +111,99 @@ class addCenterModal extends Component {
   }
 
   onSubmitForm(v) {
-    const { options, wareTypes, rastes, city, user } = this.state;
-    const { picsUploaded } = this.props.centers;
+    // const { options, wareTypes, rastes, city, user } = this.state;
+    // const { picsUploaded } = this.props.centers;
 
-    this.props.addCenter({ ...v, options, wareTypes, rastes, city, user, picsUploaded }).then(resp => {
-      if (resp.type === ADD_CENTER) {
-        this.props.history.push("/manage/center");
-      }
-    });
+    // this.props.addCenter({ ...v, options, wareTypes, rastes, city, user, picsUploaded }).then(resp => {
+    //   if (resp.type === ADD_CENTER) {
+    //     this.props.history.push("/manage/center");
+    //   }
+    // });
+
+    let { parish, err, state, city, address, otaghBazargani, otaghAsnaf, etehadiye } = this.state;
+    if (!state) {
+      return this.setState({ err: [...err, OstanSelectErr] });
+    }
+    if (!parish) {
+      return this.setState({ err: [...err, ParishSelectErr] });
+    }
+    if (!city) {
+      return this.setState({ err: [...err, CitySelectErr] });
+    }
+    if (!otaghBazargani) {
+      return this.setState({ err: [...err, OtaghBazarganiSelectErr] });
+    }
+    if (!otaghAsnaf) {
+      return this.setState({ err: [...err, OtaghBazarganiSelectErr] });
+    }
+    if (!etehadiye) {
+      return this.setState({ err: [...err, EtehadiyeSelectErr] });
+    }
+    this.setState({ err: [] });
+    const { picsUploaded } = this.props.centers;
+    this.props
+      .addCenter({ ...v, state, city, parish, address, otaghBazargani, otaghAsnaf, etehadiye, picsUploaded })
+      .then(resp => {
+        if (resp.type === ADD_CENTER) {
+          this.props.history.push("/manage/center");
+        }
+      });
   }
 
   renderError() {
-    if (this.props.errorMassage) {
-      return (
-        <div className="alert alert-danger">
-          <strong>Akey!!</strong>
-          {this.props.errorMassage}
+    const { err } = this.state;
+    if (err) {
+      return err.map((e, i) => (
+        <div key={i} className="alert alert-danger">
+          {e}
         </div>
-      );
+      ));
     }
   }
 
   onDragEnd(e) {
-    this.props.dispatch(change("addCenterModal", "lat", e.lngLat.lat));
-    this.props.dispatch(change("addCenterModal", "lng", e.lngLat.lng));
+    this.props.dispatch(change("addCenterModal", "lat", e.getLatLng().lat));
+    this.props.dispatch(change("addCenterModal", "lng", e.getLatLng().lng));
+  }
+
+  handeStateSelect({ _id, location, name }, stateKey, errStr) {
+    let { err } = this.state;
+    const index = err.indexOf(errStr);
+    const newErr = immutableSplice(err, index, 1);
+    if (stateKey === "state") {
+      this.props.getCities(_id);
+      this.props.getParishes({ stateId: _id });
+    }
+    if (stateKey === "city") {
+      this.props.getParishes({ cityId: _id });
+      this.props.getOtaghBazarganis({ cityId: _id });
+    }
+    if (stateKey === "otaghBazargani") {
+      this.props.getOtaghAsnafs({ bargozariId: _id });
+    }
+    this.setState({ [stateKey]: _id, location, err: newErr, address: { ...this.state.address, [stateKey]: name } });
+  }
+  returnLabel({ name }) {
+    return name;
+  }
+  returnValue({ _id }) {
+    return _id;
   }
 
   componentWillUnmount() {
     this.props.cleanPicUpPercent();
   }
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const {
+      handleSubmit,
+      submitting,
+      cities: { cities },
+      states: { states },
+      parishes: { parishes },
+      otaghBazarganis: { otaghBazarganis },
+      otaghAsnafs: { otaghAsnafs },
+      etehadiyes: { etehadiyes }
+    } = this.props;
 
     return (
       <div className="modal-darbar">
@@ -137,8 +229,16 @@ class addCenterModal extends Component {
           <section>
             {!this.props.centers.picLoading && (
               <div className="dropzone">
-                <Dropzone onDrop={this.onDrop.bind(this)} className="dropzone-styl">
-                  <p>عکس هاتون رو به اینجا بکشید، یا کلیک کنید و اونها رو انتخاب کنید</p>
+                <Dropzone onDrop={this.onDrop} className="dropzone-styl">
+                  {/* <p>عکس هاتون رو به اینجا بکشید، یا کلیک کنید و اونها رو انتخاب کنید</p> */}
+                  {({ getRootProps, getInputProps }) => (
+                    <section>
+                      <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p>عکس هاتون رو به اینجا بکشید، یا کلیک کنید و اونها رو انتخاب کنید</p>
+                      </div>
+                    </section>
+                  )}
                 </Dropzone>
               </div>
             )}
@@ -197,10 +297,8 @@ class addCenterModal extends Component {
                 wrapper="quintuplet checkbox"
               />
 
-              <div className="form-tak">
-                <label>آدرس</label>
-                <Field name="address" component="textarea" placeholder="آدرس" />
-              </div>
+              <Field name="text" component={RenderField} label="آدرس " validate={required} />
+
               <div className="form-tak">
                 <label>توضیحات</label>
                 <Field name="desctiption" component="textarea" placeholder="توضیحات" />
@@ -218,6 +316,66 @@ class addCenterModal extends Component {
               <Field name="instagram" component={RenderField} label="اینستگرام" wrapper="quadri" ltr />
               <Field name="email" component={RenderField} label="ایمیل" wrapper="quadri" ltr />
               <Field name="website" component={RenderField} label="وب سایت" wrapper="quadri" ltr />
+              <SelectForm
+                itrator={states}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.state}
+                handeStateSelect={this.handeStateSelect}
+                label="استان"
+                stateKey="state"
+                err={OstanSelectErr}
+              />
+              <SelectForm
+                itrator={cities}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.city}
+                handeStateSelect={this.handeStateSelect}
+                label="شهر"
+                stateKey="city"
+                err={CitySelectErr}
+              />
+              <SelectForm
+                itrator={parishes}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.parish}
+                handeStateSelect={this.handeStateSelect}
+                label="محله"
+                stateKey="parish"
+                err={ParishSelectErr}
+              />
+              <SelectForm
+                itrator={otaghBazarganis}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.otaghBazargani}
+                handeStateSelect={this.handeStateSelect}
+                label="اتاق بازرگانی"
+                stateKey="otaghBazargani"
+                err={OtaghBazarganiSelectErr}
+              />
+              <SelectForm
+                itrator={otaghAsnafs}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.otaghAsnaf}
+                handeStateSelect={this.handeStateSelect}
+                label="اتاق اصناف"
+                stateKey="otaghAsnaf"
+                err={OtaghAsnafSelectErr}
+              />
+              <SelectForm
+                itrator={etehadiyes}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.etehadiye}
+                handeStateSelect={this.handeStateSelect}
+                label="اتحادیه"
+                stateKey="etehadiye"
+                err={EtehadiyeSelectErr}
+              />
             </div>
 
             <hr />
@@ -250,33 +408,7 @@ class addCenterModal extends Component {
 
             <div className="selec-box-wrapper minimal-select">
               <div className="lead-selec-box">
-                <span>انواع محصول</span>
-              </div>
-              {this.props.wareTypes.wareTypes.map(wareType => (
-                <div
-                  className={cx("select-box minimal", { "active-select-box": _.some(this.state.wareTypes, wareType) })}
-                  key={wareType._id}
-                  onClick={() => {
-                    let { wareTypes } = this.state;
-                    wareTypes = _.xorBy(wareTypes, [wareType], "_id");
-                    this.setState({ wareTypes });
-                  }}
-                >
-                  {wareType.pic ? (
-                    <img src={`${RU}/pic/orginal/${wareType.pic}`} className="pinteb-icon-img" />
-                  ) : (
-                    <span className="pinteb-icon icon-atari" />
-                  )}
-                  <div>{wareType.name}</div>
-                </div>
-              ))}
-            </div>
-
-            <hr />
-
-            <div className="selec-box-wrapper minimal-select">
-              <div className="lead-selec-box">
-                <span>انواع فروشگاه</span>
+                <span>رسته صنف</span>
               </div>
               {this.props.rastes.rastes.map(raste => (
                 <div
@@ -299,37 +431,6 @@ class addCenterModal extends Component {
             </div>
 
             <hr />
-
-            <div className="selec-box-wrapper minimal-select">
-              <div className="lead-selec-box">
-                <span>اختصاص طبیب</span>
-              </div>
-              {this.props.users.users.map(user => (
-                <div
-                  className={cx("select-box minimal", { "active-select-box": this.state.user === user._id })}
-                  key={user._id}
-                  onClick={() => {
-                    if (this.state.user === user._id) {
-                      this.setState({ user: "" });
-                    } else {
-                      this.setState({ user: user._id });
-                    }
-                  }}
-                >
-                  {user.pic ? (
-                    <img src={`${RU}/pic/orginal/${user.pic}`} className="pinteb-icon-img" />
-                  ) : (
-                    <img src={`../../../img/m-user.png`} className="pinteb-icon-img" />
-                  )}
-                  <div>
-                    {" "}
-                    {user.name} {user.familyName}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <hr />
             <div className="form-item">
               <Field
                 name="lat"
@@ -347,30 +448,6 @@ class addCenterModal extends Component {
                 validate={required}
                 wrapper="quadri"
               />
-
-              <div className="form-tak">
-                <label>شهر </label>
-                <Field
-                  name="city"
-                  component="select"
-                  className="form-field-field"
-                  onChange={e => {
-                    const city = _.find(this.props.cities.cities, { _id: e.target.value });
-                    this.setState({
-                      center: { lat: city.location.coordinates[1], lng: city.location.coordinates[0] },
-                      zoom: 13,
-                      city
-                    });
-                  }}
-                >
-                  <option />
-                  {this.props.cities.cities.map((city, i) => (
-                    <option key={i} value={city._id}>
-                      {city.name}
-                    </option>
-                  ))}
-                </Field>
-              </div>
             </div>
 
             {this.renderError()}
@@ -380,8 +457,7 @@ class addCenterModal extends Component {
               </button>
 
               <Link to={`/manage/center`} className="dogme i-round i-ghermez">
-                {" "}
-                بازگشت{" "}
+                بازگشت
               </Link>
             </div>
           </form>
@@ -411,7 +487,8 @@ class addCenterModal extends Component {
                 dragMarker={this.dragMarker.bind(this)}
               />
             </div> */}
-          <Map center={[54.399883, 32.159084]} zoom={[4]} onDragEnd={this.onDragEnd.bind(this)} GeocoderProp={true} />
+          <br />
+          <Map onDragEnd={this.onDragEnd} mySearchBox={true} location={this.state.location} />
         </div>
 
         <ScrollLock />
@@ -422,9 +499,13 @@ class addCenterModal extends Component {
 
 addCenterModal = reduxForm({ form: "addCenterModal" })(addCenterModal);
 
-const mps = ({ cities, wareTypes, rastes, options, users, centers }) => ({
+const mps = ({ states, cities, parishes, otaghBazarganis, otaghAsnafs, etehadiyes, rastes, options, users, centers }) => ({
+  states,
   cities,
-  wareTypes,
+  parishes,
+  otaghBazarganis,
+  otaghAsnafs,
+  etehadiyes,
   rastes,
   options,
   users,
@@ -433,5 +514,17 @@ const mps = ({ cities, wareTypes, rastes, options, users, centers }) => ({
 
 export default connect(
   mps,
-  { addCenter, getCities, getWareTypes, getRastes, getOptions, centerUploadPic, getDoctorUser, cleanPicUpPercent }
+  {
+    addCenter,
+    getStates,
+    getCities,
+    getParishes,
+    getOtaghBazarganis,
+    getOtaghAsnafs,
+    getEtehadiyes,
+    getRastes,
+    getOptions,
+    centerUploadPic,
+    cleanPicUpPercent
+  }
 )(addCenterModal);

@@ -8,7 +8,7 @@ import _ from "lodash";
 // ) : null)
 
 const AddBtn = ({ btColor = "sabz", levels, auth, url, txt }) =>
-  _.includes(levels, auth.user.level) ? (
+  _.includes(levels, auth.user.level[0]) ? (
     <Link to={url} className={`dogme i-round i-${btColor}`}>
       {txt}
     </Link>

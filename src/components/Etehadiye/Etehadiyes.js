@@ -9,14 +9,13 @@ import ChangeEtehadiyePic from "./ChangeEtehadiyePicModal";
 import EditEtehadiyeModal from "./EditEtehadiyeModal";
 
 import Etehadiye from "./Etehadiye";
-
+import AddOfficerToEtehadiye from "./AddOfficerToEtehadiye";
 class Etehadiyes extends Component {
   componentWillMount() {
     this.props.getEtehadiyes();
   }
   render() {
     let { etehadiyes } = this.props;
-    console.log("etehadiyes az render etehadiyes Component", etehadiyes);
     return (
       <div className="fasbaghal">
         <div className="grid">
@@ -40,6 +39,7 @@ class Etehadiyes extends Component {
         </div>
         <br />
         <Route exact path="/manage/etehadiye/add" component={AddEtehadiyeModal} />
+        <Route exact path="/manage/etehadiye/add/officer/:id" component={AddOfficerToEtehadiye} />
         <Route exact path="/manage/etehadiye/changepic/:id" component={ChangeEtehadiyePic} />
         <Route exact path="/manage/etehadiye/edit/:id" component={EditEtehadiyeModal} />
       </div>

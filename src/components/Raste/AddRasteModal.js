@@ -1,22 +1,43 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
-import { addRaste, rasteUploadPic, ADD_RASTE } from "../../actions";
+import { addRaste, rasteUploadPic, getEtehadiyes, ADD_RASTE } from "../../actions";
 import _ from "lodash";
 import Loader from "../Utils/Loader";
 import { RenderField, required } from "../Utils/FormField";
-
+import { EtehadiyeSelectErr } from "../../actions/Errors";
+import { immutableSplice } from "../Utils/Imutable";
+import SelectForm from "../Utils/SelectForm";
 class AddRasteModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       file: "",
       imagePreviewUrl: "",
-      err: true,
-      peygham: []
+      peygham: [],
+      err: [],
+      etehadiye: null,
+      picErr: true
     };
+    this.onSubmitForm = this.onSubmitForm.bind(this);
     this.handleSubmitPic = this.handleSubmitPic.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
+    this.handeStateSelect = this.handeStateSelect.bind(this);
+  }
+  componentDidMount() {
+    this.props.getEtehadiyes();
+  }
+
+  onSubmitForm(v) {
+    const { err, etehadiye } = this.state;
+    if (!etehadiye) {
+      return this.setState({ err: [...err, EtehadiyeSelectErr] });
+    }
+    this.props.addRaste({ ...v, etehadiye }).then(resp => {
+      if (resp.type === ADD_RASTE) {
+        this.props.history.push("/manage/raste");
+      }
+    });
   }
 
   handleSubmitPic(e) {
@@ -43,13 +64,13 @@ class AddRasteModal extends Component {
 
     if (file.type !== "image/png") {
       if (_.includes(that.state.peygham, "لطفا یک عکس با فرمت png انتخاب کنید")) {
-        that.setState({ err: true });
+        that.setState({ picErr: true });
       } else {
-        that.setState({ err: true, peygham: [...that.state.peygham, "لطفا یک عکس با فرمت png انتخاب کنید"] });
+        that.setState({ picErr: true, peygham: [...that.state.peygham, "لطفا یک عکس با فرمت png انتخاب کنید"] });
       }
     } else {
       let peygham = _.pull(that.state.peygham, "لطفا یک عکس با فرمت png انتخاب کنید");
-      that.setState({ err: false, peygham: peygham });
+      that.setState({ picErr: false, peygham: peygham });
     }
     reader.onloadend = () => {
       this.setState({ file: file, imagePreviewUrl: reader.result });
@@ -58,24 +79,31 @@ class AddRasteModal extends Component {
     reader.readAsDataURL(file);
   }
 
-  onSubmitForm({ name, enName, pic, picRef }) {
-    this.props.addRaste({ name, enName, pic, picRef }).then(resp => {
-      if (resp.type === ADD_RASTE) {
-        this.props.history.push("/manage/raste");
-      }
-    });
-  }
-
   renderError() {
-    if (this.props.errorMassage) {
-      return (
-        <div className="alert alert-danger">
-          <strong>Akey!!</strong>
-          {this.props.errorMassage}
+    const { err } = this.state;
+    if (err) {
+      return err.map((e, i) => (
+        <div key={i} className="alert alert-danger">
+          {e}
         </div>
-      );
+      ));
     }
   }
+
+  handeStateSelect({ _id }, stateKey, errStr) {
+    let { err } = this.state;
+    const index = err.indexOf(errStr);
+    const newErr = immutableSplice(err, index, 1);
+
+    this.setState({ [stateKey]: _id, err: newErr });
+  }
+  returnLabel({ name }) {
+    return name;
+  }
+  returnValue({ _id }) {
+    return _id;
+  }
+
   render() {
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -83,17 +111,23 @@ class AddRasteModal extends Component {
       $imagePreview = <img src={imagePreviewUrl} />;
     }
 
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const {
+      handleSubmit,
+      rastes,
+      submitting,
+      history,
+      etehadiyes: { etehadiyes }
+    } = this.props;
 
     return (
       <div className="modal-darbar">
-        <div className="modal-back" onClick={this.props.history.goBack} />
+        <div className="modal-back" onClick={history.goBack} />
         <div className="modal">
           <form onSubmit={this.handleSubmitPic}>
             <input type="file" onChange={this.handleImageChange} />
 
             <div className="chapchin width-same">
-              {this.props.wareTypes.picLoading ? (
+              {rastes.picLoading ? (
                 <div className="vorod-bargozari">
                   <Loader />
                 </div>
@@ -101,7 +135,7 @@ class AddRasteModal extends Component {
                 <button
                   type="submit"
                   className="dogme i-round i-abi"
-                  disabled={this.state.err}
+                  disabled={this.state.picErr}
                   onClick={this.handleSubmitPic}
                 >
                   بارگزاری عکس
@@ -126,14 +160,24 @@ class AddRasteModal extends Component {
               <Field name="picRef" component={RenderField} label="تصویر" validate={required} disabled />
               <Field name="name" component={RenderField} label="نام" validate={required} />
               <Field name="enName" component={RenderField} label="نام انگلیسی " validate={required} />
+
+              <SelectForm
+                itrator={etehadiyes}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.etehadiye}
+                handeStateSelect={this.handeStateSelect}
+                label="اتحادیه"
+                stateKey="etehadiye"
+                err={EtehadiyeSelectErr}
+              />
             </div>
 
-            {this.renderError()}
             <div className="chapchin width-same">
               <button type="submit" disabled={submitting} className="dogme i-round i-abi">
                 ذخیره
               </button>
-              <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
+              <span onClick={history.goBack} className="dogme i-round i-tosi">
                 بازگشت
               </span>
             </div>
@@ -146,15 +190,14 @@ class AddRasteModal extends Component {
 
 const validate = values => {
   const errors = {};
-
   return errors;
 };
 
 AddRasteModal = reduxForm({ form: "AddRasteModal", validate })(AddRasteModal);
 
-const mps = ({ wareTypes }) => ({ wareTypes });
+const mps = ({ rastes, etehadiyes }) => ({ rastes, etehadiyes });
 
 export default connect(
   mps,
-  { addRaste, rasteUploadPic }
+  { addRaste, rasteUploadPic, getEtehadiyes }
 )(AddRasteModal);
