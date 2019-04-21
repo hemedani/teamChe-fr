@@ -32,6 +32,7 @@ import {
   EtehadiyeSelectErr
 } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
+import DotLoader from "../Utils/DotLoader";
 
 import SelectForm from "../Utils/SelectForm";
 
@@ -280,8 +281,6 @@ class addCenterModal extends Component {
 
           <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
             <div className="form-item">
-              {/* <Field name="pic" component={RenderField} label='تصویر' disabled/>
-              <Field name="picRef" component={RenderField} label='تصویر' disabled/> */}
               <Field name="name" component={RenderField} label="نام مرکز" validate={required} />
               <Field name="enName" component={RenderField} label="نام انگلیسی" />
               <Field name="startWork" component={RenderField} type="number" label="شروع کار" wrapper="quintuplet" />
@@ -439,6 +438,8 @@ class addCenterModal extends Component {
                 label="latitude"
                 validate={required}
                 wrapper="quadri"
+                step={0.0000000000000001}
+                disabled
               />
               <Field
                 name="lng"
@@ -447,18 +448,26 @@ class addCenterModal extends Component {
                 label="longitude"
                 validate={required}
                 wrapper="quadri"
+                step={0.0000000000000001}
+                disabled
               />
             </div>
 
             {this.renderError()}
             <div className="chapchin width-same">
-              <button type="submit" disabled={submitting} className="dogme i-round i-abi">
-                ذخیره
-              </button>
+              {this.props.centers.centerLoading ? (
+                <DotLoader height="3rem" width="8rem" />
+              ) : (
+                <div className="center-flex">
+                  <button type="submit" disabled={submitting} className="dogme i-round i-abi">
+                    ذخیره
+                  </button>
 
-              <Link to={`/manage/center`} className="dogme i-round i-ghermez">
-                بازگشت
-              </Link>
+                  <Link to={`/manage/center`} className="dogme i-round i-ghermez">
+                    بازگشت
+                  </Link>
+                </div>
+              )}
             </div>
           </form>
           <br />

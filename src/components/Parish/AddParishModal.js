@@ -7,6 +7,7 @@ import Map from "../Utils/MapBox";
 import { PolygonSelectErr, OstanSelectErr, CitySelectErr } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 import SelectForm from "../Utils/SelectForm";
+import DotLoader from "../Utils/DotLoader";
 
 class AddParishModal extends Component {
   constructor(props) {
@@ -149,16 +150,20 @@ class AddParishModal extends Component {
                 err={CitySelectErr}
               />
             </div>
-
             {this.renderError()}
-
             <div className="chapchin width-same">
-              <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
-                ذخیره
-              </button>
-              <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
-                بازگشت
-              </span>
+              {this.props.parishes.parishLoading ? (
+                <DotLoader height="3rem" width="8rem" />
+              ) : (
+                <div className="center-flex">
+                  <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
+                    ذخیره
+                  </button>
+                  <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
+                    بازگشت
+                  </span>
+                </div>
+              )}
             </div>
           </form>
           <br />
@@ -186,7 +191,7 @@ AddParishModal = reduxForm({
   validate
 })(AddParishModal);
 
-const msp = ({ states, cities }) => ({ states, cities });
+const msp = ({ states, cities, parishes }) => ({ states, cities, parishes });
 
 export default connect(
   msp,

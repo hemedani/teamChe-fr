@@ -12,7 +12,8 @@ export const RenderField = ({
   ltr,
   removeArray = false,
   fields,
-  index
+  index,
+  step
 }) => {
   let classFrom = tak ? "form-tak taki" : "form-tak";
   wrapper ? (classFrom = classFrom + ` ${wrapper}`) : (classFrom = classFrom);
@@ -21,7 +22,7 @@ export const RenderField = ({
     <div className={classFrom}>
       {type !== "hidden" && <label>{label}</label>}
       {removeArray && <i className="remove-array pinteb-icon icon-close" onClick={() => fields.remove(index)} />}
-      <input {...input} placeholder={label} type={type} disabled={disabled} />
+      <input {...input} placeholder={label} type={type} disabled={disabled} step={step} />
       {touched &&
         ((error && <span className="validate">{error}</span>) || (warning && <span className="warn">{warning}</span>))}
     </div>

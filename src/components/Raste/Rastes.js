@@ -5,7 +5,6 @@ import DotLoader from "../Utils/DotLoader";
 import { getRastes } from "../../actions";
 
 import AddRasteModal from "./AddRasteModal";
-import ChangeRastePic from "./ChangeRastePicModal";
 import EditRasteModal from "./EditRasteModal";
 
 import Raste from "./Raste";
@@ -16,7 +15,6 @@ class Rastes extends Component {
   }
   render() {
     let { rastes } = this.props;
-    console.log("rastes az render rastes Component", rastes);
     return (
       <div className="fasbaghal">
         <div className="grid">
@@ -40,7 +38,6 @@ class Rastes extends Component {
         </div>
         <br />
         <Route exact path="/manage/raste/add" component={AddRasteModal} />
-        <Route exact path="/manage/raste/changepic/:id" component={ChangeRastePic} />
         <Route exact path="/manage/raste/edit/:id" component={EditRasteModal} />
       </div>
     );

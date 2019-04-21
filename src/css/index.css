@@ -760,7 +760,7 @@ form {
   top: 0;
   right: 1rem;
   color: #fff;
-  z-index: 9;
+  z-index: 1;
   background-color: #4a32e0;
   font-size: 0.7rem;
   line-height: 1.6rem;
@@ -774,7 +774,6 @@ form {
 }
 .triad {
   width: 100% !important;
-  z-index: 2;
 }
 @media (min-width: 690px) {
   .triad {
@@ -788,7 +787,6 @@ form {
 }
 .quadri {
   width: 100% !important;
-  z-index: 2;
 }
 @media (min-width: 690px) {
   .quadri {
@@ -802,7 +800,6 @@ form {
 }
 .senary {
   width: 48.5% !important;
-  z-index: 2;
 }
 @media (min-width: 690px) {
   .senary {
@@ -816,7 +813,6 @@ form {
 }
 .quintuplet {
   width: 48.5% !important;
-  z-index: 2;
 }
 @media (min-width: 690px) {
   .quintuplet {

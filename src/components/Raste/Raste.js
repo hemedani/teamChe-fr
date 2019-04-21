@@ -4,14 +4,6 @@ import { connect } from "react-redux";
 import { removeRaste, RU } from "../../actions";
 
 class Raste extends Component {
-  directPic() {
-    if (this.props.pic) {
-      const masir = `${RU}/pic/orginal/${this.props.pic}`;
-      return <img src={masir} alt={this.props.name} />;
-    } else {
-      return <img src={`../img/back/01.jpg`} alt={this.props.name} />;
-    }
-  }
   remove(id) {
     console.log("id az removee shahr", id);
     this.props.removeRaste(id);
@@ -19,26 +11,17 @@ class Raste extends Component {
   render() {
     return (
       <div className="grid-manage">
-        <div className="grid-manage-pic">{this.directPic()}</div>
         <div className="grid-manage-detail">
           <div className="grid-manage-text">
             <div className="grid-m-t-n">{this.props.name}</div>
             <div className="grid-m-t-a">{this.props.enName}</div>
           </div>
           <div className="grid-manage-btn">
-            <Link
-              className="dogme i-round i-sabz round-small"
-              to={{ pathname: `/manage/raste/edit/${this.props._id}` }}
-            >
-              {" "}
-              ویرایش{" "}
-            </Link>
-            <Link className="dogme i-round i-abi round-small" to={`/manage/raste/changepic/${this.props._id}`}>
-              {" "}
-              تعویض تصویر{" "}
+            <Link className="dogme i-round i-sabz round-small" to={{ pathname: `/manage/raste/edit/${this.props._id}` }}>
+              ویرایش
             </Link>
             <span onClick={this.remove.bind(this, this.props._id)} className="dogme i-round i-ghermez round-small">
-              حذف{" "}
+              حذف
             </span>
           </div>
         </div>

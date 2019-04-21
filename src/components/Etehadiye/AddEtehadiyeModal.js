@@ -24,6 +24,7 @@ import {
 } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 import SelectForm from "../Utils/SelectForm";
+import DotLoader from "../Utils/DotLoader";
 
 class AddEtehadiyeModal extends Component {
   constructor(props) {
@@ -292,12 +293,18 @@ class AddEtehadiyeModal extends Component {
 
             {this.renderError()}
             <div className="chapchin width-same">
-              <button type="submit" disabled={submitting} className="dogme i-round i-abi">
-                ذخیره
-              </button>
-              <span onClick={history.goBack} className="dogme i-round i-tosi">
-                بازگشت
-              </span>
+              {this.props.etehadiyes.etehadiyeLoading ? (
+                <DotLoader height="3rem" width="8rem" />
+              ) : (
+                <div className="center-flex">
+                  <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
+                    ذخیره
+                  </button>
+                  <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
+                    بازگشت
+                  </span>
+                </div>
+              )}
             </div>
           </form>
           <br />

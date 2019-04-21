@@ -1,11 +1,9 @@
 /* Address localhost */
-export const RU = "/api";
-// export const RU = 'http://localhost:1357'
-// export const RU = 'http://192.168.1.11:1357'
+// export const RU = "/api";
+// export const RU = "http://198.143.182.169:1367/api";
 
 // Address VPS Khodam (AzarOnline)
-// export const RU = 'http://23.227.199.26:1357'
-// export const RU = 'http://back.pinteb.ir'
+export const RU = "http://37.120.146.71:1367/api";
 
 export const API_KEY = "AIzaSyDHrAOj672WWAVKh9bHho2Cbh5obIaNgOE";
 export const API_KEY2 = "AIzaSyC4A2YR8nqDSc3anI4kuPutQBf49Jak1fw";

@@ -9,6 +9,8 @@ import Map from "../Utils/MapBox";
 import { PolygonSelectErr, OstanSelectErr } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 
+import DotLoader from "../Utils/DotLoader";
+
 const customStyles = {
   option: (provided, state) => ({
     ...provided,
@@ -146,12 +148,18 @@ class AddCityModal extends Component {
             {this.renderError()}
 
             <div className="chapchin width-same">
-              <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
-                ذخیره
-              </button>
-              <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
-                بازگشت
-              </span>
+              {this.props.cities.cityLoading ? (
+                <DotLoader height="3rem" width="8rem" />
+              ) : (
+                <div className="center-flex">
+                  <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
+                    ذخیره
+                  </button>
+                  <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
+                    بازگشت
+                  </span>
+                </div>
+              )}
             </div>
           </form>
           <br />
@@ -179,7 +187,7 @@ AddCityModal = reduxForm({
   validate
 })(AddCityModal);
 
-const msp = ({ states }) => ({ states });
+const msp = ({ states, cities }) => ({ states, cities });
 
 export default connect(
   msp,

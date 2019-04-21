@@ -16,6 +16,7 @@ import Map from "../Utils/MapBox";
 import { ParishSelectErr, OstanSelectErr, CitySelectErr } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 import SelectForm from "../Utils/SelectForm";
+import DotLoader from "../Utils/DotLoader";
 
 class AddOtaghBazarganiModal extends Component {
   constructor(props) {
@@ -251,12 +252,18 @@ class AddOtaghBazarganiModal extends Component {
 
             {this.renderError()}
             <div className="chapchin width-same">
-              <button type="submit" disabled={submitting} className="dogme i-round i-abi">
-                ذخیره
-              </button>
-              <span onClick={history.goBack} className="dogme i-round i-tosi">
-                بازگشت
-              </span>
+              {this.props.otaghBazarganis.otaghBazarganiLoading ? (
+                <DotLoader height="3rem" width="8rem" />
+              ) : (
+                <div className="center-flex">
+                  <button type="submit" disabled={submitting} className="dogme i-round i-sabz">
+                    ذخیره
+                  </button>
+                  <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
+                    بازگشت
+                  </span>
+                </div>
+              )}
             </div>
           </form>
           <br />

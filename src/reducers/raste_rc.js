@@ -1,14 +1,4 @@
-import {
-  GET_RASTES,
-  ADD_RASTE,
-  REMOVE_RASTE,
-  RASTE_LOAD,
-  YOUR_RASTE,
-  CLEAN_RASTE,
-  RASTE_PIC_LOAD,
-  RASTE_ADD_PIC,
-  UPDATE_RASTE
-} from "../actions";
+import { GET_RASTES, ADD_RASTE, REMOVE_RASTE, RASTE_LOAD, YOUR_RASTE, CLEAN_RASTE, UPDATE_RASTE } from "../actions";
 import _ from "lodash";
 import { immutableSplice } from "../components/Utils/Imutable";
 
@@ -17,18 +7,13 @@ let def = {
   picLoading: false,
   error: "",
   rastes: [],
-  yourType: {},
-  formPic: { _id: null, name: null }
+  yourType: {}
 };
 
 export default (state = def, action) => {
   switch (action.type) {
     case RASTE_LOAD:
       return { ...state, rasteLoading: true };
-    case RASTE_PIC_LOAD:
-      return { ...state, picLoading: true, formPic: { _id: null, name: null } };
-    case RASTE_ADD_PIC:
-      return { ...state, picLoading: false, formPic: action.payload };
     case GET_RASTES:
       return { ...state, rasteLoading: false, rastes: action.payload };
     case CLEAN_RASTE:
