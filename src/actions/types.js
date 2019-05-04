@@ -1,5 +1,6 @@
 /* Address localhost */
-export const RU = "/api";
+// export const RU = "/api";
+export const RU = process.env.NODE_ENV === "development" ? "/api" : "http://37.120.146.71:1367/api";
 // export const RU = "http://198.143.182.169:1367/api";
 
 // Address VPS Khodam (AzarOnline)

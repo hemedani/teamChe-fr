@@ -6,10 +6,11 @@ import { Field, reduxForm, change } from "redux-form";
 import { updateRaste, UPDATE_RASTE } from "../../actions";
 import cx from "classnames";
 import DotLoader from "../Utils/DotLoader";
+import { RenderField, required } from "../Utils/FormField";
 
 class EditRasteModal extends Component {
-  onSubmitForm({ _id, name, enName }) {
-    this.props.updateRaste({ _id, name, enName }).then(resp => {
+  onSubmitForm(raste) {
+    this.props.updateRaste(raste).then(resp => {
       if (resp.type === UPDATE_RASTE) this.props.history.goBack();
     });
   }
@@ -34,18 +35,10 @@ class EditRasteModal extends Component {
         <div className="modal">
           <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
             <div className="form-item">
-              <div className="form-tak">
-                <label> آی دی </label>
-                <Field name="_id" component="input" label=" آی دی " disabled />
-              </div>
-              <div className="form-tak">
-                <label> نام </label>
-                <Field name="name" component="input" label=" نام" />
-              </div>
-              <div className="form-tak">
-                <label> نام انگلیسی </label>
-                <Field name="enName" component="input" label=" نام انگلیسی " />
-              </div>
+              <Field name="_id" component={RenderField} label=" آی دی " validate={required} />
+              <Field name="name" component={RenderField} label=" نام" validate={required} />
+              <Field name="enName" component={RenderField} label=" نام انگلیسی " validate={required} />
+              <Field name="isic" component={RenderField} label="کد آیسیک" type="Number" validate={required} />
             </div>
 
             {this.renderError()}
@@ -55,8 +48,7 @@ class EditRasteModal extends Component {
               </button>
 
               <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
-                {" "}
-                بازگشت{" "}
+                بازگشت
               </span>
             </div>
           </form>

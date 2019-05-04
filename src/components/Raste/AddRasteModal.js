@@ -80,6 +80,7 @@ class AddRasteModal extends Component {
             <div className="form-item">
               <Field name="name" component={RenderField} label="نام" validate={required} />
               <Field name="enName" component={RenderField} label="نام انگلیسی " validate={required} />
+              <Field name="isic" component={RenderField} label="کد آیسیک" type="Number" validate={required} />
 
               <SelectForm
                 itrator={etehadiyes}

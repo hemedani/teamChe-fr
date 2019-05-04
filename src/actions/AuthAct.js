@@ -172,11 +172,3 @@ export const changePic = ({ _id, file }) => {
       .catch(error => {});
   };
 };
-
-// -------- Ina baraye in bood ke befaham chejori mishe err chach ro gereft -----
-// console.log('error', error)
-// console.log('errorType', typeof error)
-// console.log('error', Object.assign({}, error))
-// console.log('getOwnPropertyNames', Object.getOwnPropertyNames(error))
-// console.log('Akey', error.response.data.error)
-// -----------------------------------------------------------------------

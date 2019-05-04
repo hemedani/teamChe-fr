@@ -82,6 +82,8 @@ class addCenterModal extends Component {
 
       files: [],
 
+      etPic: "",
+
       user: "",
 
       err: [],
@@ -121,7 +123,7 @@ class addCenterModal extends Component {
     //   }
     // });
 
-    let { parish, err, state, city, address, otaghBazargani, otaghAsnaf, etehadiye } = this.state;
+    let { parish, err, state, city, address, otaghBazargani, otaghAsnaf, etehadiye, etPic } = this.state;
     if (!state) {
       return this.setState({ err: [...err, OstanSelectErr] });
     }
@@ -143,7 +145,7 @@ class addCenterModal extends Component {
     this.setState({ err: [] });
     const { picsUploaded } = this.props.centers;
     this.props
-      .addCenter({ ...v, state, city, parish, address, otaghBazargani, otaghAsnaf, etehadiye, picsUploaded })
+      .addCenter({ ...v, state, city, parish, address, otaghBazargani, otaghAsnaf, etehadiye, picsUploaded, etPic })
       .then(resp => {
         if (resp.type === ADD_CENTER) {
           this.props.history.push("/manage/center");
@@ -167,7 +169,7 @@ class addCenterModal extends Component {
     this.props.dispatch(change("addCenterModal", "lng", e.getLatLng().lng));
   }
 
-  handeStateSelect({ _id, location, name }, stateKey, errStr) {
+  handeStateSelect({ _id, location, name, ...rest }, stateKey, errStr) {
     let { err } = this.state;
     const index = err.indexOf(errStr);
     const newErr = immutableSplice(err, index, 1);
@@ -182,11 +184,24 @@ class addCenterModal extends Component {
     if (stateKey === "otaghBazargani") {
       this.props.getOtaghAsnafs({ bargozariId: _id });
     }
-    this.setState({ [stateKey]: _id, location, err: newErr, address: { ...this.state.address, [stateKey]: name } });
+
+    if (stateKey === "etehadiye") {
+      this.setState({
+        [stateKey]: _id,
+        etPic: rest.pic,
+        location,
+        err: newErr,
+        address: { ...this.state.address, [stateKey]: name }
+      });
+    } else {
+      this.setState({ [stateKey]: _id, location, err: newErr, address: { ...this.state.address, [stateKey]: name } });
+    }
   }
+
   returnLabel({ name }) {
     return name;
   }
+
   returnValue({ _id }) {
     return _id;
   }
