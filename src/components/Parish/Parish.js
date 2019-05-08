@@ -22,7 +22,7 @@ class Parish extends Component {
             <div className="grid-m-t-a">{this.props.enName}</div>
           </div>
           <div className="grid-manage-btn">
-            <Link className="dogme i-round i-sabz round-small" to={{ pathname: `/shahrha/virashahr//${this.props._id}` }}>
+            <Link className="dogme i-round i-sabz round-small" to={{ pathname: `/manage/parish/edit/${this.props._id}` }}>
               ویرایش
             </Link>
             <span onClick={this.remove.bind(this, this.props._id)} className="dogme i-round i-ghermez round-small">

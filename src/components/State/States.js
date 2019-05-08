@@ -21,18 +21,16 @@ class States extends Component {
           <div className="poshtzamine">
             <div className="chapchin width-same-big">
               <Link to="/manage/states/add" className="dogme i-round i-abi">
-                {" "}
-                استان جدید{" "}
+                استان جدید
               </Link>
             </div>
             {states.stateLoading ? (
               <DotLoader />
             ) : (
               <div className="grid-section">
-                {" "}
                 {states.states.map(state => (
                   <State key={state._id} {...state} />
-                ))}{" "}
+                ))}
               </div>
             )}
           </div>

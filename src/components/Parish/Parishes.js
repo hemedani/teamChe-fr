@@ -6,6 +6,7 @@ import { getParishes } from "../../actions";
 
 import Parish from "./Parish";
 import AddParishModal from "./AddParishModal";
+import EditParishModal from "./EditParishModal";
 
 class Parishes extends Component {
   componentWillMount() {
@@ -34,8 +35,8 @@ class Parishes extends Component {
             )}
           </div>
         </div>
-        <br />
         <Route path="/manage/parish/add" exact component={AddParishModal} />
+        <Route path="/manage/parish/edit/:id" exact component={EditParishModal} />
       </div>
     );
   }

@@ -7,8 +7,12 @@ import {
   YOUR_PARISH,
   ADD_PARISH_ERR,
   SET_PARISH_COORDS,
-  RU
+  RU,
+  PARISH_UPDATE_LOAD,
+  UPDATE_PARISH,
+  UPDATE_PARISH_ERR
 } from "./types";
+import { toastr } from "react-redux-toastr";
 
 export const getParishes = params => {
   return dispatch => {
@@ -25,18 +29,16 @@ export const getParishes = params => {
   };
 };
 
-export const yourParish = parishid => {
+export const updateParish = parish => {
   return dispatch => {
-    dispatch({ type: PARISH_LOAD });
+    dispatch({ type: PARISH_UPDATE_LOAD });
     return axios
-      .get(`${RU}/yourparish`, {
-        params: { parishid },
-        headers: { sabti: localStorage.getItem("token") }
+      .post(`${RU}/parish/update`, parish, { headers: { sabti: localStorage.getItem("token") } })
+      .then(resp => {
+        toastr.info("با تشکر", `محله بروزرسانی شد`);
+        return dispatch({ type: UPDATE_PARISH, payload: resp.data.parish });
       })
-      .then(resp => dispatch({ type: YOUR_PARISH, payload: resp.data.parish }))
-      .catch(e => {
-        // dispatch( { type: TAXIBS_ERR } )
-      });
+      .catch(err => dispatch({ type: UPDATE_PARISH_ERR, payload: err }));
   };
 };
 

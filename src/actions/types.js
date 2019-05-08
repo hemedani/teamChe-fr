@@ -77,6 +77,9 @@ export const YOUR_PARISH = "YOUR_PARISH";
 export const CLEAN_PARISH = "CLEAN_PARISH";
 export const ADD_PARISH_ERR = "ADD_PARISH_ERR";
 export const SET_PARISH_COORDS = "SET_PARISH_COORDS";
+export const UPDATE_PARISH = "UPDATE_PARISH";
+export const PARISH_UPDATE_LOAD = "PARISH_UPDATE_LOAD";
+export const UPDATE_PARISH_ERR = "UPDATE_PARISH_ERR";
 
 /************  --CENTER--  *************/
 export const GET_CENTER = "GET_CENTER";

@@ -8,7 +8,7 @@ export default ({ setPolygon, polygon }) => {
   // console.log("==================");
   const polygonPosition = () => {
     let position = [];
-    if (polygon) {
+    if (polygon && polygon.coordinates.length > 0) {
       polygon.coordinates[0].map(cor => position.push([cor[1], cor[0]]));
     }
 
