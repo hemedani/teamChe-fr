@@ -10,13 +10,7 @@ import { PolygonSelectErr, OstanSelectErr } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 
 import DotLoader from "../Utils/DotLoader";
-
-const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    color: state.isSelected ? "white" : "gray"
-  })
-};
+import SelectForm from "../Utils/SelectForm";
 
 class AddCityModal extends Component {
   constructor(props) {
@@ -129,8 +123,7 @@ class AddCityModal extends Component {
                 wrapper="quadri"
                 disabled
               />
-              <div className="triad center-flex">
-                <label>استان</label>
+              {/* <label>استان</label>
                 <Select
                   styles={customStyles}
                   name="state"
@@ -141,8 +134,18 @@ class AddCityModal extends Component {
                   value={states.filter(({ _id }) => _id === this.state.state)}
                   getOptionLabel={this.returnLabel}
                   getOptionValue={this.returnValue}
-                />
-              </div>
+                /> */}
+
+              <SelectForm
+                itrator={states}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.state}
+                handeStateSelect={this.handeStateSelect}
+                label="استان"
+                stateKey="state"
+                err={OstanSelectErr}
+              />
             </div>
 
             {this.renderError()}
@@ -193,3 +196,5 @@ export default connect(
   msp,
   { addCity, getStates }
 )(AddCityModal);
+
+// mongodump  --username SydAdmin --password "1195Blue20Shah509@#5543MahSOS" --out /home/teamche/dbBackup/mongodump-$(date +'%m-%d-%y')

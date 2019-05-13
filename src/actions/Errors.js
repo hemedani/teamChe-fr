@@ -5,3 +5,7 @@ export const ParishSelectErr = "لطفا محله مورد نظر را انتخ�
 export const OtaghBazarganiSelectErr = "لطفا اتاق بازرگانی مورد نظر را انتخاب کنید";
 export const OtaghAsnafSelectErr = "لطفا اتاق اصناف مورد نظر را انتخاب کنید";
 export const EtehadiyeSelectErr = "لطفا اتحادیه مورد نظر را انتخاب کنید";
+export const RasteSelectErr = "لطفا رسته مورد نظر را انتخاب کنید";
+
+export const IssueDateErr = "لطفا تاریخ صدور پروانه کسب را وارد کنید";
+export const ExpirationDateErr = "لطفا تاریخ انقضاء پروانه کسب را وارد کنید";

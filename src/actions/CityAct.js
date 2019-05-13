@@ -47,19 +47,13 @@ export const addCity = city => {
   };
 };
 
-export function removeCity(id) {
+export function removeCity(_id) {
   return function(dispatch) {
     dispatch({ type: CITY_LOAD });
     return axios
-      .post(
-        `${RU}/city/remove`,
-        { id },
-        {
-          headers: { sabti: localStorage.getItem("token") }
-        }
-      )
+      .post(`${RU}/city/remove`, { _id }, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
-        return dispatch({ type: REMOVE_CITY, payload: id });
+        return dispatch({ type: REMOVE_CITY, payload: _id });
       })
       .catch(error => {
         // dispatch( { type: SHAHR_ERR } );

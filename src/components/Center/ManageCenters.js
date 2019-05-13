@@ -14,6 +14,7 @@ import EditPicCenterModal from "./EditPicCenterModal";
 import ChangeCenterPicModal from "./ChangeCenterPicModal";
 import AddDoctorModal from "./AddDoctorModal";
 import AddAddressModal from "./AddAddressModal";
+import AddBusinessLicenseModal from "./AddBusinessLicenseModal";
 
 class ManageCenters extends Component {
   constructor(props) {
@@ -179,6 +180,7 @@ class ManageCenters extends Component {
         <Route path="/manage/center/edit/pic/:id" exact component={EditPicCenterModal} />
         <Route path="/manage/center/changepic/:id" exact component={ChangeCenterPicModal} />
         <Route path="/manage/center/doctor/:id" exact component={AddDoctorModal} />
+        <Route path="/manage/center/add/license/:id" exact component={AddBusinessLicenseModal} />
         <Route path="/manage/center/address/:id" exact component={AddAddressModal} />
       </div>
     );

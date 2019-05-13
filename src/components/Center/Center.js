@@ -12,7 +12,7 @@ class Center extends Component {
   }
   directPic() {
     if (this.props.pics && this.props.pics.length > 0) {
-      const masir = `${RU}/pic/orginal/${this.props.pics[0]}`;
+      const masir = `${RU}/pic/100/${this.props.pics[0]}`;
       return <img src={masir} alt={this.props.name} />;
     } else {
       return <img src={`../img/back/01.jpg`} alt={this.props.name} />;
@@ -47,8 +47,8 @@ class Center extends Component {
             <Link className="dogme i-round i-abi round-small" to={`/manage/center/changepic/${this.props._id}`}>
               افزودن تصویر
             </Link>
-            <Link className="dogme i-round i-abi round-small" to={`/manage/center/doctor/${this.props._id}`}>
-              افزودن بازرس
+            <Link className="dogme i-round i-abi round-small" to={`/manage/center/add/license/${this.props._id}`}>
+              افزودن پروانه کسب
             </Link>
             <Link className="dogme i-round i-abi round-small" to={`/manage/center/address/${this.props._id}`}>
               افزودن آدرس

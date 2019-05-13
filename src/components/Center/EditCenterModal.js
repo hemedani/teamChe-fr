@@ -4,8 +4,12 @@ import { connect } from "react-redux";
 import { Field, reduxForm, change, initialize, FieldArray } from "redux-form";
 import {
   updateCenter,
+  getStates,
   getCities,
-  getWareTypes,
+  getParishes,
+  getOtaghBazarganis,
+  getOtaghAsnafs,
+  getEtehadiyes,
   getRastes,
   getOptions,
   centerUploadPic,
@@ -13,7 +17,8 @@ import {
   CENTER_UPDATE,
   GET_CITIES,
   GET_EDITED_CENTER,
-  RU
+  RU,
+  LOAD_EDITED_CENTER
 } from "../../actions";
 import cx from "classnames";
 import ScrollLock from "react-scrolllock";
@@ -21,6 +26,17 @@ import DotLoader from "../Utils/DotLoader";
 import { RenderField, required } from "../Utils/FormField";
 
 import Map from "../Utils/MapBox";
+import {
+  OstanSelectErr,
+  ParishSelectErr,
+  CitySelectErr,
+  OtaghBazarganiSelectErr,
+  EtehadiyeSelectErr,
+  OtaghAsnafSelectErr,
+  RasteSelectErr
+} from "../../actions/Errors";
+import SelectForm from "../Utils/SelectForm";
+import { immutableSplice } from "../Utils/Imutable";
 
 const renderPhones = ({ fields, meta: { error } }) => (
   <div className="form-item with-btn">
@@ -48,119 +64,182 @@ class EditCenterModal extends Component {
     super(props);
     this.state = {
       center: { lat: 32.159084, lng: 54.399883 },
-      location: { lat: 32.159084, lng: 54.399883 },
       zoom: 5,
-      city: {},
+
+      address: {},
 
       options: [],
-      wareTypes: [],
-      rastes: []
+
+      location: null,
+      city: null,
+      state: null,
+      parish: null,
+      otaghBazargani: null,
+      otaghAsnaf: null,
+      etehadiye: null,
+      raste: null,
+      etPic: "",
+
+      user: "",
+
+      err: [],
+      peygham: []
     };
+
+    this.onSubmitForm = this.onSubmitForm.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.handeStateSelect = this.handeStateSelect.bind(this);
   }
-  componentWillMount() {
+  async componentWillMount() {
+    this.props.dispatch({ type: LOAD_EDITED_CENTER });
+    await this.props.getStates();
+    await this.props.getCities();
+    await this.props.getParishes();
+    await this.props.getOtaghAsnafs();
+    await this.props.getOtaghBazarganis();
+    await this.props.getEtehadiyes();
+    await this.props.getRastes();
+    await this.props.getOptions();
     this.props.getEditedCenter(this.props.match.params.id).then(resp => {
       if (resp.type === GET_EDITED_CENTER) {
         this.props.dispatch(initialize("EditCenterModal", this.props.center.editedCenter));
-        if (this.props.center.editedCenter.options) {
-          this.setState({ options: this.props.center.editedCenter.options });
-        }
-        if (this.props.center.editedCenter.wareTypes) {
-          this.setState({ wareTypes: this.props.center.editedCenter.wareTypes });
-        }
-        if (this.props.center.editedCenter.rastes) {
-          this.setState({ rastes: this.props.center.editedCenter.rastes });
-        }
-        if (this.props.center.editedCenter.workShift) {
-          this.props.dispatch(change("EditCenterModal", "startWork", this.props.center.editedCenter.workShift[0]));
-          this.props.dispatch(change("EditCenterModal", "endWork", this.props.center.editedCenter.workShift[1]));
-        }
-        if (this.props.center.editedCenter.location) {
-          this.props.dispatch(change("EditCenterModal", "lat", this.props.center.editedCenter.location.coordinates[1]));
-          this.props.dispatch(change("EditCenterModal", "lng", this.props.center.editedCenter.location.coordinates[0]));
-        }
-        this.props.getCities().then(resp => {
-          if (resp.type === GET_CITIES && this.props.center.editedCenter.city) {
-            const city = _.find(this.props.cities.cities, city => city._id === this.props.center.editedCenter.cityRef);
-            if (city) {
-              this.setState({
-                city,
-                center: { lat: city.location.coordinates[1], lng: city.location.coordinates[0] },
-                zoom: 13,
-                location: {
-                  lat: this.props.center.editedCenter.location.coordinates[1],
-                  lng: this.props.center.editedCenter.location.coordinates[0]
-                }
-              });
-              this.props.dispatch(change("EditCenterModal", "city", city._id));
-            }
-          }
+        this.props.dispatch(change("EditCenterModal", "text", this.props.center.editedCenter.address.text));
+        this.props.dispatch(change("EditCenterModal", "startWork", this.props.center.editedCenter.workShift[0]));
+        this.props.dispatch(change("EditCenterModal", "endWork", this.props.center.editedCenter.workShift[1]));
+        this.props.dispatch(change("EditCenterModal", "lat", this.props.center.editedCenter.location.coordinates[1]));
+        this.props.dispatch(change("EditCenterModal", "lng", this.props.center.editedCenter.location.coordinates[0]));
+        const {
+          location = null,
+          city = null,
+          state = null,
+          parish = null,
+          otaghBazargani = null,
+          otaghAsnaf = null,
+          etehadiye = null,
+          raste = null,
+          options = [],
+
+          address = {},
+
+          etPic = ""
+        } = this.props.center.editedCenter;
+
+        this.setState({
+          location,
+          city,
+          state,
+          parish,
+          otaghBazargani,
+          otaghAsnaf,
+          etehadiye,
+          options,
+          raste,
+          address,
+          etPic
         });
       }
     });
-    this.props.getWareTypes();
-    this.props.getRastes();
-    this.props.getOptions();
   }
 
-  onSubmitForm({
-    _id,
-    name,
-    enName,
-    lat,
-    lng,
-    startWork,
-    endWork,
-    phone,
-    discount,
-    address,
-    premium,
-    onlineShop,
-    desctiption
-  }) {
-    const { options, wareTypes, rastes, city } = this.state;
+  onSubmitForm(inp) {
+    let { parish, err, state, city, address, otaghBazargani, otaghAsnaf, etehadiye, raste, etPic } = this.state;
+    if (!state) {
+      return this.setState({ err: [...err, OstanSelectErr] });
+    }
+    if (!parish) {
+      return this.setState({ err: [...err, ParishSelectErr] });
+    }
+    if (!city) {
+      return this.setState({ err: [...err, CitySelectErr] });
+    }
+    if (!otaghBazargani) {
+      return this.setState({ err: [...err, OtaghBazarganiSelectErr] });
+    }
+    if (!otaghAsnaf) {
+      return this.setState({ err: [...err, OtaghBazarganiSelectErr] });
+    }
+    if (!etehadiye) {
+      return this.setState({ err: [...err, EtehadiyeSelectErr] });
+    }
+    if (!raste) {
+      return this.setState({ err: [...err, RasteSelectErr] });
+    }
+    this.setState({ err: [] });
     this.props
-      .updateCenter({
-        _id,
-        name,
-        enName,
-        lat,
-        lng,
-        startWork,
-        endWork,
-        phone,
-        discount,
-        address,
-        premium,
-        onlineShop,
-        desctiption,
-        city,
-        options,
-        wareTypes,
-        rastes
-      })
+      .updateCenter({ ...inp, state, city, parish, address, otaghBazargani, otaghAsnaf, etehadiye, raste, etPic })
       .then(resp => {
         if (resp.type === CENTER_UPDATE) this.props.history.goBack();
       });
   }
 
   renderError() {
-    if (this.props.errorMassage) {
-      return (
-        <div className="alert alert-danger">
-          <strong>Akey!!</strong>
-          {this.props.errorMassage}
+    const { err } = this.state;
+    if (err) {
+      return err.map((e, i) => (
+        <div key={i} className="alert alert-danger">
+          {e}
         </div>
-      );
+      ));
     }
   }
 
   onDragEnd(e) {
-    this.props.dispatch(change("EditCenterModal", "lat", e.lngLat.lat));
-    this.props.dispatch(change("EditCenterModal", "lng", e.lngLat.lng));
+    this.props.dispatch(change("EditCenterModal", "lat", e.getLatLng().lat));
+    this.props.dispatch(change("EditCenterModal", "lng", e.getLatLng().lng));
+  }
+
+  handeStateSelect({ _id, location, name, ...rest }, stateKey, errStr) {
+    let { err } = this.state;
+    const index = err.indexOf(errStr);
+    const newErr = immutableSplice(err, index, 1);
+    if (stateKey === "state") {
+      this.props.getCities(_id);
+      this.props.getParishes({ stateId: _id });
+    }
+    if (stateKey === "city") {
+      this.props.getParishes({ cityId: _id });
+      this.props.getOtaghBazarganis({ cityId: _id });
+    }
+    if (stateKey === "otaghBazargani") {
+      this.props.getOtaghAsnafs({ bargozariId: _id });
+    }
+
+    if (stateKey === "etehadiye") {
+      this.setState({
+        [stateKey]: _id,
+        etPic: rest.pic,
+        location,
+        err: newErr,
+        address: { ...this.state.address, [stateKey]: name }
+      });
+    } else if (stateKey === "raste") {
+      this.setState({ [stateKey]: _id, err: newErr });
+    } else {
+      this.setState({ [stateKey]: _id, location, err: newErr, address: { ...this.state.address, [stateKey]: name } });
+    }
+  }
+
+  returnLabel({ name }) {
+    return name;
+  }
+
+  returnValue({ _id }) {
+    return _id;
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting, center } = this.props;
+    const {
+      handleSubmit,
+      submitting,
+      cities: { cities },
+      states: { states },
+      parishes: { parishes },
+      otaghBazarganis: { otaghBazarganis },
+      otaghAsnafs: { otaghAsnafs },
+      etehadiyes: { etehadiyes },
+      rastes: { rastes },
+      center
+    } = this.props;
 
     return (
       <div className="modal-darbar">
@@ -171,12 +250,25 @@ class EditCenterModal extends Component {
           ) : (
             <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
               <div className="form-item">
-                <Field name="_id" component={RenderField} label=" آی دی" disabled />
+                <Field name="_id" component={RenderField} label="آی دی" validate={required} disabled />
                 <Field name="name" component={RenderField} label="نام مرکز" validate={required} />
                 <Field name="enName" component={RenderField} label="نام انگلیسی" />
-                <Field name="address" component={RenderField} label="آدرس" validate={required} />
-                <Field name="startWork" component={RenderField} type="number" label="شروع کار" wrapper="quintuplet" />
-                <Field name="endWork" component={RenderField} type="number" label="پایان کار" wrapper="quintuplet" />
+                <Field
+                  name="startWork"
+                  component={RenderField}
+                  type="number"
+                  label="شروع کار"
+                  wrapper="quintuplet"
+                  validate={required}
+                />
+                <Field
+                  name="endWork"
+                  component={RenderField}
+                  type="number"
+                  label="پایان کار"
+                  wrapper="quintuplet"
+                  validate={required}
+                />
                 <Field name="discount" component={RenderField} type="number" label="درصد تخفیف" wrapper="quintuplet" />
 
                 <Field name="premium" component={RenderField} type="checkbox" label="ویژه" wrapper="quintuplet checkbox" />
@@ -188,99 +280,93 @@ class EditCenterModal extends Component {
                   wrapper="quintuplet checkbox"
                 />
 
-                <div className="form-tak taki">
+                <Field name="text" component={RenderField} label="آدرس " validate={required} />
+
+                <div className="form-tak">
                   <label>توضیحات</label>
-                  <Field name="desctiption" component="textarea" label="آدرس" />
+                  <Field name="description" component="textarea" placeholder="توضیحات" />
                 </div>
               </div>
               <br />
               <hr />
 
               <FieldArray name="phone" component={renderPhones} />
-              <hr />
-              <div className="selec-box-wrapper minimal-select">
-                <div className="lead-selec-box">
-                  <span>امکانات فروشگاه</span>
-                </div>
-                {this.props.options.options.map(option => (
-                  <div
-                    className={cx("select-box minimal", { "active-select-box": _.some(this.state.options, option) })}
-                    key={option._id}
-                    onClick={() => {
-                      let { options } = this.state;
-                      options = _.xorBy(options, [option], "_id");
-                      this.setState({ options });
-                    }}
-                  >
-                    {option.pic ? (
-                      <img src={`${RU}/pic/orginal/${option.pic}`} className="pinteb-icon-img" />
-                    ) : (
-                      <span className="pinteb-icon icon-atari" />
-                    )}
-                    <div>{option.name}</div>
-                  </div>
-                ))}
-              </div>
 
-              <hr />
-
-              <div className="selec-box-wrapper minimal-select">
-                <div className="lead-selec-box">
-                  <span>انواع محصول</span>
-                </div>
-                {this.props.wareTypes.wareTypes.map(wareType => (
-                  <div
-                    className={cx("select-box minimal", { "active-select-box": _.some(this.state.wareTypes, wareType) })}
-                    key={wareType._id}
-                    onClick={() => {
-                      let { wareTypes } = this.state;
-                      wareTypes = _.xorBy(wareTypes, [wareType], "_id");
-                      this.setState({ wareTypes });
-                    }}
-                  >
-                    {wareType.pic ? (
-                      <img src={`${RU}/pic/orginal/${wareType.pic}`} className="pinteb-icon-img" />
-                    ) : (
-                      <span className="pinteb-icon icon-atari" />
-                    )}
-                    <div>{wareType.name}</div>
-                  </div>
-                ))}
-              </div>
-
-              <hr />
-
-              <div className="selec-box-wrapper minimal-select">
-                <div className="lead-selec-box">
-                  <span>انواع فروشگاه</span>
-                </div>
-                {this.props.rastes.rastes.map(raste => (
-                  <div
-                    className={cx("select-box minimal", { "active-select-box": _.some(this.state.rastes, raste) })}
-                    key={raste._id}
-                    onClick={() => {
-                      let { rastes } = this.state;
-                      rastes = _.xorBy(rastes, [raste], "_id");
-                      this.setState({ rastes });
-                      console.log("rastes ", rastes);
-                    }}
-                  >
-                    {raste.pic ? (
-                      <img src={`${RU}/pic/orginal/${raste.pic}`} className="pinteb-icon-img" />
-                    ) : (
-                      <span className="pinteb-icon icon-atari" />
-                    )}
-                    <div>{raste.name}</div>
-                  </div>
-                ))}
-              </div>
-
-              <hr />
-
-              <div className="selec-box-wrapper minimal-select">
-                <div className="lead-selec-box">
-                  <span>علامت ها</span>
-                </div>
+              <div className="form-item">
+                <Field name="telegram" component={RenderField} label="تلگرام" wrapper="quadri" ltr />
+                <Field name="instagram" component={RenderField} label="اینستگرام" wrapper="quadri" ltr />
+                <Field name="email" component={RenderField} label="ایمیل" wrapper="quadri" ltr />
+                <Field name="website" component={RenderField} label="وب سایت" wrapper="quadri" ltr />
+                <SelectForm
+                  itrator={states}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.state}
+                  handeStateSelect={this.handeStateSelect}
+                  label="استان"
+                  stateKey="state"
+                  err={OstanSelectErr}
+                />
+                <SelectForm
+                  itrator={cities}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.city}
+                  handeStateSelect={this.handeStateSelect}
+                  label="شهر"
+                  stateKey="city"
+                  err={CitySelectErr}
+                />
+                <SelectForm
+                  itrator={parishes}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.parish}
+                  handeStateSelect={this.handeStateSelect}
+                  label="محله"
+                  stateKey="parish"
+                  err={ParishSelectErr}
+                />
+                <SelectForm
+                  itrator={otaghBazarganis}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.otaghBazargani}
+                  handeStateSelect={this.handeStateSelect}
+                  label="اتاق بازرگانی"
+                  stateKey="otaghBazargani"
+                  err={OtaghBazarganiSelectErr}
+                />
+                <SelectForm
+                  itrator={otaghAsnafs}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.otaghAsnaf}
+                  handeStateSelect={this.handeStateSelect}
+                  label="اتاق اصناف"
+                  stateKey="otaghAsnaf"
+                  err={OtaghAsnafSelectErr}
+                />
+                <SelectForm
+                  itrator={etehadiyes}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.etehadiye}
+                  handeStateSelect={this.handeStateSelect}
+                  label="اتحادیه"
+                  stateKey="etehadiye"
+                  err={EtehadiyeSelectErr}
+                />
+                <SelectForm
+                  itrator={rastes}
+                  returnLabel={this.returnLabel}
+                  returnValue={this.returnValue}
+                  state={this.state.raste}
+                  handeStateSelect={this.handeStateSelect}
+                  label="رسته"
+                  stateKey="raste"
+                  err={RasteSelectErr}
+                />
               </div>
 
               <hr />
@@ -301,32 +387,6 @@ class EditCenterModal extends Component {
                   validate={required}
                   wrapper="quadri"
                 />
-
-                <div className="form-tak">
-                  <label>شهر </label>
-                  <div className="form-field-div">
-                    <Field
-                      name="city"
-                      component="select"
-                      className="form-field-field"
-                      onChange={e => {
-                        const city = _.find(this.props.cities.cities, { _id: e.target.value });
-                        this.setState({
-                          center: { lat: city.location.coordinates[1], lng: city.location.coordinates[0] },
-                          zoom: 13,
-                          city
-                        });
-                      }}
-                    >
-                      <option />
-                      {this.props.cities.cities.map((city, i) => (
-                        <option key={i} value={city._id}>
-                          {city.name}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                </div>
               </div>
 
               {this.renderError()}
@@ -336,32 +396,14 @@ class EditCenterModal extends Component {
                 </button>
 
                 <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
-                  {" "}
-                  بازگشت{" "}
+                  بازگشت
                 </span>
               </div>
             </form>
           )}
           <br />
-          {/* <div className='naghshe'>
-              <MyMapComponent
-                googleMapURL={GoogleMapURL}
-                center={this.state.center}
-                location={this.state.location}
-                zoom={this.state.zoom}
-                dragMarker={this.dragMarker.bind(this)}
-                loadingElement={<DotLoader height={{ height: `100%`, borderRaduis: '0.7rem' }}/>}
-                containerElement={<div style={{ height: `100%`, borderRaduis: '0.7rem' }} />}
-                mapElement={<div style={{ height: `100%`, borderRaduis: '0.7rem' }} />}
-              />
-          </div> */}
 
-          <Map
-            center={this.props.center.editedCenter.location.coordinates}
-            zoom={[12]}
-            onDragEnd={this.onDragEnd.bind(this)}
-            GeocoderProp={true}
-          />
+          <Map onDragEnd={this.onDragEnd} mySearchBox={true} location={this.state.location} />
           <br />
         </div>
         <ScrollLock />
@@ -378,15 +420,47 @@ const validate = values => {
 
 EditCenterModal = reduxForm({ form: "EditCenterModal", validate })(EditCenterModal);
 
+const mps = ({
+  states,
+  cities,
+  parishes,
+  otaghBazarganis,
+  otaghAsnafs,
+  etehadiyes,
+  rastes,
+  options,
+  users,
+  centers,
+  center
+}) => ({
+  states,
+  cities,
+  parishes,
+  otaghBazarganis,
+  otaghAsnafs,
+  etehadiyes,
+  rastes,
+  options,
+  users,
+  centers,
+  center
+});
+
 EditCenterModal = connect(
-  ({ cities, wareTypes, rastes, center, options }) => ({
-    cities,
-    wareTypes,
-    rastes,
-    center,
-    options
-  }),
-  { updateCenter, getCities, getWareTypes, getRastes, getOptions, centerUploadPic, getEditedCenter }
+  mps,
+  {
+    updateCenter,
+    getStates,
+    getCities,
+    getParishes,
+    getOtaghBazarganis,
+    getOtaghAsnafs,
+    getEtehadiyes,
+    getRastes,
+    getOptions,
+    centerUploadPic,
+    getEditedCenter
+  }
 )(EditCenterModal);
 
 export default EditCenterModal;

@@ -10,6 +10,7 @@ import ScrollToTop from "./components/Utils/ScrollToTop";
 import "./css/Shabnam/font-face.css";
 import "./css/leaflet.draw.css";
 import "normalize.css";
+import "react-datepicker2/dist/react-datepicker2.min.css";
 import "./css/redux-toastr.css";
 import "./css/index.css";
 

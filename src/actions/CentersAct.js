@@ -22,7 +22,8 @@ import {
   GET_CENTERS_COUNT_LOAD,
   GET_CENTERS_COUNT,
   GET_CENTERS_COUNT_ERR,
-  RU
+  RU,
+  CENTER_LOAD
 } from "./types";
 
 export const getCenterWithQuery = query => {
@@ -113,6 +114,20 @@ export function updateCenter(center) {
       });
   };
 }
+
+export const addBusinessLicense = center => {
+  return dispatch => {
+    dispatch({ type: CENTER_LOAD });
+    return axios
+      .post(`${RU}/center/add/business/license`, center, {
+        headers: { sabti: localStorage.getItem("token") }
+      })
+      .then(resp => {
+        return dispatch({ type: CENTER_UPDATE, payload: resp.data.center });
+      })
+      .catch(error => dispatch({ type: ADD_CENTER_ERR }));
+  };
+};
 
 export function removeCenter(id) {
   return function(dispatch) {

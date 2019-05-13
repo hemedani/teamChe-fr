@@ -29,7 +29,8 @@ import {
   CitySelectErr,
   OtaghBazarganiSelectErr,
   OtaghAsnafSelectErr,
-  EtehadiyeSelectErr
+  EtehadiyeSelectErr,
+  RasteSelectErr
 } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 import DotLoader from "../Utils/DotLoader";
@@ -68,9 +69,9 @@ class addCenterModal extends Component {
       center: { lat: 32.159084, lng: 54.399883 },
       zoom: 5,
 
+      address: {},
+
       options: [],
-      wareTypes: [],
-      rastes: [],
 
       location: null,
       city: null,
@@ -79,6 +80,7 @@ class addCenterModal extends Component {
       otaghBazargani: null,
       otaghAsnaf: null,
       etehadiye: null,
+      raste: null,
 
       files: [],
 
@@ -123,7 +125,7 @@ class addCenterModal extends Component {
     //   }
     // });
 
-    let { parish, err, state, city, address, otaghBazargani, otaghAsnaf, etehadiye, etPic } = this.state;
+    let { parish, err, state, city, address, otaghBazargani, otaghAsnaf, etehadiye, raste, etPic } = this.state;
     if (!state) {
       return this.setState({ err: [...err, OstanSelectErr] });
     }
@@ -142,10 +144,13 @@ class addCenterModal extends Component {
     if (!etehadiye) {
       return this.setState({ err: [...err, EtehadiyeSelectErr] });
     }
+    if (!raste) {
+      return this.setState({ err: [...err, RasteSelectErr] });
+    }
     this.setState({ err: [] });
     const { picsUploaded } = this.props.centers;
     this.props
-      .addCenter({ ...v, state, city, parish, address, otaghBazargani, otaghAsnaf, etehadiye, picsUploaded, etPic })
+      .addCenter({ ...v, state, city, parish, address, otaghBazargani, otaghAsnaf, etehadiye, picsUploaded, raste, etPic })
       .then(resp => {
         if (resp.type === ADD_CENTER) {
           this.props.history.push("/manage/center");
@@ -193,6 +198,8 @@ class addCenterModal extends Component {
         err: newErr,
         address: { ...this.state.address, [stateKey]: name }
       });
+    } else if (stateKey === "raste") {
+      this.setState({ [stateKey]: _id, err: newErr });
     } else {
       this.setState({ [stateKey]: _id, location, err: newErr, address: { ...this.state.address, [stateKey]: name } });
     }
@@ -218,30 +225,14 @@ class addCenterModal extends Component {
       parishes: { parishes },
       otaghBazarganis: { otaghBazarganis },
       otaghAsnafs: { otaghAsnafs },
-      etehadiyes: { etehadiyes }
+      etehadiyes: { etehadiyes },
+      rastes: { rastes }
     } = this.props;
 
     return (
       <div className="modal-darbar">
         <div className="modal-back" onClick={this.props.history.goBack} />
         <div className="modal">
-          {/* <form onSubmit={this.handleSubmitPic}>
-            <input type="file" onChange={this.handleImageChange} />
-
-            <div className='chapchin width-same'>
-              {this.props.wareTypes.picLoading ? ( <div className='vorod-bargozari'> <Loader /> </div> ) :
-              ( <button type="submit" className='dogme i-round i-abi' disabled={this.state.err} onClick={this.handleSubmitPic}>بارگزاری عکس</button> )}
-            </div>
-
-            {this.state.peygham.map((pey, i) => (<div className='ekhtar' key={i}>{pey}</div>))}
-          </form>
-
-          <div className='ghab-aks-darbar'>
-            <div className='ghab-aks'>
-              {$imagePreview}
-            </div>
-          </div> */}
-
           <section>
             {!this.props.centers.picLoading && (
               <div className="dropzone">
@@ -315,7 +306,7 @@ class addCenterModal extends Component {
 
               <div className="form-tak">
                 <label>توضیحات</label>
-                <Field name="desctiption" component="textarea" placeholder="توضیحات" />
+                <Field name="description" component="textarea" placeholder="توضیحات" />
               </div>
             </div>
             <br />
@@ -390,58 +381,16 @@ class addCenterModal extends Component {
                 stateKey="etehadiye"
                 err={EtehadiyeSelectErr}
               />
-            </div>
-
-            <hr />
-
-            <div className="selec-box-wrapper minimal-select">
-              <div className="lead-selec-box">
-                <span>امکانات فروشگاه</span>
-              </div>
-              {this.props.options.options.map(option => (
-                <div
-                  className={cx("select-box minimal", { "active-select-box": _.some(this.state.options, option) })}
-                  key={option._id}
-                  onClick={() => {
-                    let { options } = this.state;
-                    options = _.xorBy(options, [option], "_id");
-                    this.setState({ options });
-                  }}
-                >
-                  {option.pic ? (
-                    <img src={`${RU}/pic/orginal/${option.pic}`} className="pinteb-icon-img" />
-                  ) : (
-                    <span className="pinteb-icon icon-atari" />
-                  )}
-                  <div>{option.name}</div>
-                </div>
-              ))}
-            </div>
-
-            <hr />
-
-            <div className="selec-box-wrapper minimal-select">
-              <div className="lead-selec-box">
-                <span>رسته صنف</span>
-              </div>
-              {this.props.rastes.rastes.map(raste => (
-                <div
-                  className={cx("select-box minimal", { "active-select-box": _.some(this.state.rastes, raste) })}
-                  key={raste._id}
-                  onClick={() => {
-                    let { rastes } = this.state;
-                    rastes = _.xorBy(rastes, [raste], "_id");
-                    this.setState({ rastes });
-                  }}
-                >
-                  {raste.pic ? (
-                    <img src={`${RU}/pic/orginal/${raste.pic}`} className="pinteb-icon-img" />
-                  ) : (
-                    <span className="pinteb-icon icon-atari" />
-                  )}
-                  <div>{raste.name}</div>
-                </div>
-              ))}
+              <SelectForm
+                itrator={rastes}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.raste}
+                handeStateSelect={this.handeStateSelect}
+                label="رسته"
+                stateKey="raste"
+                err={RasteSelectErr}
+              />
             </div>
 
             <hr />
@@ -485,32 +434,6 @@ class addCenterModal extends Component {
               )}
             </div>
           </form>
-          <br />
-          {/*<div className='naghshe'>
-              <MyMapComponent
-                googleMapURL={GoogleMapURL}
-                center={this.state.center}
-                zoom={this.state.zoom}
-
-                onMapMounted={this.onMapMounted}
-                onBoundsChanged={this.onBoundsChanged}
-
-                onSearchBoxMounted={this.onSearchBoxMounted}
-                bounds={this.bounds}
-                onPlacesChanged={this.onPlacesChanged}
-
-                dragMarker={this.dragMarker.bind(this)}
-                loadingElement={<div style={{ height: `100%`, borderRaduis: '0.7rem' }} />}
-                containerElement={<div style={{ height: `100%`, borderRaduis: '0.7rem' }} />}
-                mapElement={<div style={{ height: `100%`, borderRaduis: `0.7rem` }} />}
-              />
-                </div>*/}
-          {/* <div className='naghshe'>
-              <MapWithASearchBox
-                center={this.state.center}
-                dragMarker={this.dragMarker.bind(this)}
-              />
-            </div> */}
           <br />
           <Map onDragEnd={this.onDragEnd} mySearchBox={true} location={this.state.location} />
         </div>
