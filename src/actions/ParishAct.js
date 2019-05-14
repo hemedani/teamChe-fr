@@ -10,7 +10,8 @@ import {
   RU,
   PARISH_UPDATE_LOAD,
   UPDATE_PARISH,
-  UPDATE_PARISH_ERR
+  UPDATE_PARISH_ERR,
+  CLEAN_PARISH
 } from "./types";
 import { toastr } from "react-redux-toastr";
 
@@ -43,6 +44,7 @@ export const updateParish = parish => {
 };
 
 export const setParishCoords = coords => ({ type: SET_PARISH_COORDS, payload: coords });
+export const cleanParish = () => ({ type: CLEAN_PARISH });
 
 export const addParish = parish => {
   return dispatch => {

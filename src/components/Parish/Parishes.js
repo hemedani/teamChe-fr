@@ -2,15 +2,27 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, Route } from "react-router-dom";
 import DotLoader from "../Utils/DotLoader";
-import { getParishes } from "../../actions";
+import { getParishes, cleanParish } from "../../actions";
 
 import Parish from "./Parish";
 import AddParishModal from "./AddParishModal";
 import EditParishModal from "./EditParishModal";
 
 class Parishes extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.continueGetParish = this.continueGetParish.bind(this);
+  }
+  componentDidMount() {
+    this.props.cleanParish();
     this.props.getParishes();
+  }
+  continueGetParish() {
+    let query = {};
+    if (this.props.parishes.parishes.length > 0) {
+      query._id = this.props.parishes.parishes[this.props.parishes.parishes.length - 1]._id;
+    }
+    this.props.getParishes(query);
   }
   render() {
     let { parishes } = this.props;
@@ -24,13 +36,18 @@ class Parishes extends Component {
                 افزودن محله
               </Link>
             </div>
-            {parishes.parishLoading ? (
-              <DotLoader />
-            ) : (
-              <div className="grid-section">
-                {parishes.parishes.map((parish, i) => (
-                  <Parish key={i} {...parish} />
-                ))}
+            <div className="grid-section">
+              {parishes.parishes.map((parish, i) => (
+                <Parish key={i} {...parish} />
+              ))}
+            </div>
+
+            {parishes.parishLoading && <DotLoader />}
+            {!parishes.parishLoading && !parishes.richEnd && (
+              <div className="chapchin width-same-big">
+                <span className="dogme i-round i-abi" onClick={this.continueGetParish}>
+                  ادامه محله ها
+                </span>
               </div>
             )}
           </div>
@@ -46,5 +63,5 @@ const mps = ({ parishes }) => ({ parishes });
 
 export default connect(
   mps,
-  { getParishes }
+  { getParishes, cleanParish }
 )(Parishes);

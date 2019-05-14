@@ -10,6 +10,7 @@ import {
 
 let parishDef = {
   parishLoading: false,
+  richEnd: false,
   error: "",
   parishes: [],
   yourParish: { location: { coordinates: [54.399883, 32.159084] } },
@@ -21,7 +22,8 @@ export default (state = parishDef, action) => {
     case PARISH_LOAD:
       return { ...state, parishLoading: true };
     case GET_PARISHES:
-      return { ...state, parishLoading: false, parishes: action.payload };
+      const richEnd = action.payload.length < 15 ? true : false;
+      return { ...state, parishLoading: false, parishes: [...state.parishes, ...action.payload], richEnd };
     case CLEAN_PARISH:
       return { ...state, parishLoading: false, parishes: [] };
     case ADD_PARISH:

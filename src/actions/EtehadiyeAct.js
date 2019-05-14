@@ -65,8 +65,13 @@ export const addOfficerToEtehadiyeAct = query => {
     dispatch({ type: ETEHADIYE_LOAD });
     return axios
       .post(`${RU}/etehadiye/add/officer`, query, { headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.etehadiye }))
-      .catch(error => dispatch({ type: UPDATE_ETEHADIYE_ERR }));
+      .then(resp => {
+        if (resp.data.updatedEts && resp.data.updatedEts.length > 0) {
+          resp.data.updatedEts.map(upEt => dispatch({ type: UPDATE_ETEHADIYE, payload: upEt }));
+        }
+        return dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.etehadiye });
+      })
+      .catch(err => dispatch({ type: UPDATE_ETEHADIYE_ERR, payload: err }));
   };
 };
 
