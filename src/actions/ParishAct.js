@@ -18,6 +18,9 @@ import { toastr } from "react-redux-toastr";
 export const getParishes = params => {
   return dispatch => {
     dispatch({ type: PARISH_LOAD });
+    if (!params || !params._id) {
+      dispatch({ type: CLEAN_PARISH });
+    }
     return axios
       .get(`${RU}/parishes`, {
         params,

@@ -89,8 +89,9 @@ class EditCenterModal extends Component {
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.handeStateSelect = this.handeStateSelect.bind(this);
+    this.parishPromiseOptions = this.parishPromiseOptions.bind(this);
   }
-  async componentWillMount() {
+  async componentDidMount() {
     this.props.dispatch({ type: LOAD_EDITED_CENTER });
     await this.props.getStates();
     await this.props.getCities();
@@ -186,6 +187,10 @@ class EditCenterModal extends Component {
   onDragEnd(e) {
     this.props.dispatch(change("EditCenterModal", "lat", e.getLatLng().lat));
     this.props.dispatch(change("EditCenterModal", "lng", e.getLatLng().lng));
+  }
+  async parishPromiseOptions(inp) {
+    const getFilteredParish = await this.props.getParishes({ path: inp });
+    return getFilteredParish.payload;
   }
 
   handeStateSelect({ _id, location, name, ...rest }, stateKey, errStr) {
@@ -326,6 +331,8 @@ class EditCenterModal extends Component {
                   label="محله"
                   stateKey="parish"
                   err={ParishSelectErr}
+                  async
+                  promiseOptions={this.parishPromiseOptions}
                 />
                 <SelectForm
                   itrator={otaghBazarganis}

@@ -24,6 +24,9 @@ class Parishes extends Component {
     }
     this.props.getParishes(query);
   }
+  componentWillUnmount() {
+    this.props.cleanParish();
+  }
   render() {
     let { parishes } = this.props;
     return (

@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import AsyncSelect from "react-select/lib/Async";
 
 const customStyles = {
   clearIndicator: style => ({ ...style }),
@@ -14,23 +15,50 @@ const customStyles = {
   menu: style => ({ ...style, zIndex: 999999 })
 };
 
-export default ({ itrator, returnLabel, returnValue, state, handeStateSelect, label, stateKey, err }) => {
+export default ({
+  itrator,
+  returnLabel,
+  returnValue,
+  state,
+  handeStateSelect,
+  label,
+  stateKey,
+  err,
+  async,
+  promiseOptions
+}) => {
   const handleChange = e => handeStateSelect(e, stateKey, err);
   return (
     <div className="form-tak triad">
       <label>{label}</label>
-      <Select
-        styles={customStyles}
-        name="state"
-        rtl={true}
-        placeholder={`یک ${label} انتخاب کنید`}
-        onChange={handleChange}
-        options={itrator}
-        value={itrator.filter(({ _id }) => _id === state)}
-        getOptionLabel={returnLabel}
-        getOptionValue={returnValue}
-        // defaultMenuIsOpen={true}
-      />
+      {async ? (
+        <AsyncSelect
+          styles={customStyles}
+          name="state"
+          rtl={true}
+          placeholder={`یک ${label} انتخاب کنید`}
+          onChange={handleChange}
+          value={itrator.filter(({ _id }) => _id === state)}
+          getOptionLabel={returnLabel}
+          getOptionValue={returnValue}
+          cacheOptions
+          defaultOptions={itrator}
+          loadOptions={promiseOptions}
+        />
+      ) : (
+        <Select
+          styles={customStyles}
+          name="state"
+          rtl={true}
+          placeholder={`یک ${label} انتخاب کنید`}
+          onChange={handleChange}
+          options={itrator}
+          value={itrator.filter(({ _id }) => _id === state)}
+          getOptionLabel={returnLabel}
+          getOptionValue={returnValue}
+          // defaultMenuIsOpen={true}
+        />
+      )}
     </div>
   );
 };

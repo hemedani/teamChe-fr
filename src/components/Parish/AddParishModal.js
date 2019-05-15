@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm, change } from "redux-form";
+import _ from "lodash";
 import { addParish, getStates, getCities, ADD_PARISH } from "../../actions";
 import { RenderField, required } from "../Utils/FormField";
 import Map from "../Utils/MapBox";
@@ -37,7 +38,10 @@ class AddParishModal extends Component {
     }
 
     this.setState({ err: [] });
-    this.props.addParish({ ...v, polygon, state, city }).then(resp => {
+    const fullPath = `${_.find(this.props.states.states, { _id: state }).name} - ${
+      _.find(this.props.cities.cities, { _id: city }).name
+    } - ${v.name}`;
+    this.props.addParish({ ...v, polygon, state, city, fullPath }).then(resp => {
       if (resp.type === ADD_PARISH) {
         this.props.history.push("/manage/parish");
       }

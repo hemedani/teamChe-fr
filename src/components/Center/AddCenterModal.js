@@ -96,6 +96,7 @@ class addCenterModal extends Component {
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.handeStateSelect = this.handeStateSelect.bind(this);
+    this.parishPromiseOptions = this.parishPromiseOptions.bind(this);
   }
 
   componentDidMount() {
@@ -173,6 +174,10 @@ class addCenterModal extends Component {
     this.props.dispatch(change("addCenterModal", "lat", e.getLatLng().lat));
     this.props.dispatch(change("addCenterModal", "lng", e.getLatLng().lng));
   }
+  async parishPromiseOptions(inp) {
+    const getFilteredParish = await this.props.getParishes({ path: inp });
+    return getFilteredParish.payload;
+  }
 
   handeStateSelect({ _id, location, name, ...rest }, stateKey, errStr) {
     let { err } = this.state;
@@ -187,7 +192,7 @@ class addCenterModal extends Component {
       this.props.getOtaghBazarganis({ cityId: _id });
     }
     if (stateKey === "otaghBazargani") {
-      this.props.getOtaghAsnafs({ bargozariId: _id });
+      this.props.getOtaghAsnafs({ barzarganiId: _id });
     }
 
     if (stateKey === "etehadiye") {
@@ -350,6 +355,8 @@ class addCenterModal extends Component {
                 label="محله"
                 stateKey="parish"
                 err={ParishSelectErr}
+                async
+                promiseOptions={this.parishPromiseOptions}
               />
               <SelectForm
                 itrator={otaghBazarganis}

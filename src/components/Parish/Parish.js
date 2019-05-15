@@ -8,9 +8,10 @@ class Parish extends Component {
     this.state = {
       zoom: 12
     };
+    this.remove = this.remove.bind(this);
   }
-  remove(id) {
-    this.props.removeParish(id);
+  remove() {
+    this.props.removeParish(this.props._id);
   }
 
   render() {
@@ -25,7 +26,7 @@ class Parish extends Component {
             <Link className="dogme i-round i-sabz round-small" to={{ pathname: `/manage/parish/edit/${this.props._id}` }}>
               ویرایش
             </Link>
-            <span onClick={this.remove.bind(this, this.props._id)} className="dogme i-round i-ghermez round-small">
+            <span onClick={this.remove} className="dogme i-round i-ghermez round-small">
               حذف
             </span>
           </div>
