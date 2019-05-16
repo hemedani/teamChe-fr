@@ -1,5 +1,5 @@
 import React from "react";
-import { FeatureGroup, Polygon, GeoJSON } from "react-leaflet";
+import { FeatureGroup, Polygon } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 
 export default ({ setPolygon, polygon }) => {
@@ -12,9 +12,9 @@ export default ({ setPolygon, polygon }) => {
       polygon.coordinates[0].map(cor => position.push([cor[1], cor[0]]));
     }
 
-    console.log("==================");
-    console.log("polygonCoordinates position", polygon.coordinates, position);
-    console.log("==================");
+    // console.log("==================");
+    // console.log("polygonCoordinates position", polygon.coordinates, position);
+    // console.log("==================");
     return position;
   };
 

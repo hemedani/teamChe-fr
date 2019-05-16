@@ -90,6 +90,7 @@ class EditCenterModal extends Component {
     this.onDragEnd = this.onDragEnd.bind(this);
     this.handeStateSelect = this.handeStateSelect.bind(this);
     this.parishPromiseOptions = this.parishPromiseOptions.bind(this);
+    this.setPolygon = this.setPolygon.bind(this);
   }
   async componentDidMount() {
     this.props.dispatch({ type: LOAD_EDITED_CENTER });
@@ -231,7 +232,15 @@ class EditCenterModal extends Component {
   returnValue({ _id }) {
     return _id;
   }
-
+  setPolygon() {
+    if (this.state.parish) {
+      const findedParish = _.find(this.props.parishes.parishes, { _id: this.state.parish });
+      const polygon = findedParish ? findedParish.polygon : null;
+      return polygon;
+    } else {
+      return null;
+    }
+  }
   render() {
     const {
       handleSubmit,
@@ -410,7 +419,13 @@ class EditCenterModal extends Component {
           )}
           <br />
 
-          <Map onDragEnd={this.onDragEnd} mySearchBox={true} location={this.state.location} />
+          <Map
+            onDragEnd={this.onDragEnd}
+            mySearchBox={true}
+            drawTools
+            location={this.state.location}
+            polygon={this.setPolygon()}
+          />
           <br />
         </div>
         <ScrollLock />
