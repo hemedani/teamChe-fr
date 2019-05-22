@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { addEtehadiye, etehadiyeChangePic, UPDATE_CENTER_TYPE } from "../../actions";
+import { etehadiyeChangePic, UPDATE_ETEHADIYE } from "../../actions";
 import _ from "lodash";
-import Loader from "../Utils/Loader";
+import DotLoader from "../Utils/DotLoader";
 
 class ChangeEtehadiyePic extends Component {
   constructor(props) {
@@ -13,7 +12,7 @@ class ChangeEtehadiyePic extends Component {
       imagePreviewUrl: "",
       err: true,
       peygham: [],
-      id: ""
+      _id: ""
     };
     this.handleSubmitPic = this.handleSubmitPic.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -21,7 +20,7 @@ class ChangeEtehadiyePic extends Component {
 
   componentDidMount() {
     if (this.props.match.params.id) {
-      this.setState({ id: this.props.match.params.id });
+      this.setState({ _id: this.props.match.params.id });
     }
   }
 
@@ -30,9 +29,9 @@ class ChangeEtehadiyePic extends Component {
 
     console.log("handle uploading-", this.state.file);
     const file = this.state.file;
-    const id = this.props.match.params.id;
-    this.props.etehadiyeChangePic({ file, id }).then(resp => {
-      if (resp.type === UPDATE_CENTER_TYPE) this.props.history.goBack();
+    const _id = this.props.match.params.id;
+    this.props.etehadiyeChangePic({ file, _id }).then(resp => {
+      if (resp.type === UPDATE_ETEHADIYE) this.props.history.goBack();
     });
   }
 
@@ -104,8 +103,6 @@ class ChangeEtehadiyePic extends Component {
       $imagePreview = <img src={imagePreviewUrl} />;
     }
 
-    const { handleSubmit, pristine, reset, submitting } = this.props;
-
     return (
       <div className="modal-darbar">
         <div className="modal-back" onClick={this.props.history.goBack} />
@@ -114,11 +111,8 @@ class ChangeEtehadiyePic extends Component {
             <input type="file" onChange={this.handleImageChange} />
 
             <div className="chapchin width-same">
-              {this.props.wareTypes.picLoading ? (
-                <div className="vorod-bargozari">
-                  {" "}
-                  <Loader />{" "}
-                </div>
+              {this.props.etehadiyes.picLoading ? (
+                <DotLoader />
               ) : (
                 <button
                   type="submit"
@@ -145,7 +139,7 @@ class ChangeEtehadiyePic extends Component {
           <div className="form-item">
             <div className="form-tak taki">
               <label> ای دی </label>
-              <input value={this.state.id} disabled />
+              <input value={this.state._id} disabled />
             </div>
           </div>
         </div>
@@ -154,9 +148,9 @@ class ChangeEtehadiyePic extends Component {
   }
 }
 
-const mps = ({ wareTypes }) => ({ wareTypes });
+const mps = ({ etehadiyes }) => ({ etehadiyes });
 
 export default connect(
   mps,
-  { addEtehadiye, etehadiyeChangePic }
+  { etehadiyeChangePic }
 )(ChangeEtehadiyePic);

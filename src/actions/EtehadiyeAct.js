@@ -14,6 +14,7 @@ import {
   UPDATE_ETEHADIYE_ERR,
   RU
 } from "./types";
+import { toastr } from "react-redux-toastr";
 
 export const getEtehadiyes = () => {
   return dispatch => {
@@ -97,12 +98,12 @@ export const etehadiyeUploadPic = ({ file }) => {
   };
 };
 
-export const etehadiyeChangePic = ({ file, id }) => {
+export const etehadiyeChangePic = ({ file, _id }) => {
   return dispatch => {
     dispatch({ type: ETEHADIYE_PIC_LOAD });
     let data = new FormData();
     data.append("file", file);
-    data.append("id", id);
+    data.append("_id", _id);
     let config = {
       onUploadProgress: progressEvent => {
         let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -110,8 +111,11 @@ export const etehadiyeChangePic = ({ file, id }) => {
       headers: { sabti: localStorage.getItem("token") }
     };
     return axios
-      .put(`${RU}/change/etehadiye/pic`, data, config)
-      .then(resp => dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.Etehadiye }))
-      .catch(error => dispatch({ type: UPDATE_ETEHADIYE_ERR }));
+      .put(`${RU}/etehadiye/change/pic`, data, config)
+      .then(resp => {
+        toastr.success("با تشکر", `${resp.data.nCModified} صنف هم تصویر اتحادیه آن بروز شد`);
+        return dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.etehadiye });
+      })
+      .catch(err => dispatch({ type: UPDATE_ETEHADIYE_ERR, payload: err }));
   };
 };

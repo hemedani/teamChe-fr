@@ -43,7 +43,7 @@ export default (state = etehadiyeDef, action) => {
     case UPDATE_ETEHADIYE:
       let index = _.findIndex(state.etehadiyes, { _id: action.payload._id });
       const imutrastes = immutableSplice(state.etehadiyes, index, 1, action.payload);
-      return { ...state, etehadiyeLoading: false, etehadiyes: imutrastes };
+      return { ...state, etehadiyeLoading: false, picLoading: false, etehadiyes: imutrastes };
     default:
       return state;
   }
