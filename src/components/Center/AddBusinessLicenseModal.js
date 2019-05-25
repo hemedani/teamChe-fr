@@ -153,8 +153,8 @@ class AddBusinessLicenseModal extends Component {
               <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} />
               <Field name="personType" component={RenderField} label="نوع شخص" validate={required} />
               <Field name="activityType" component={RenderField} label="نوع فعالیت" validate={required} />
-              <Field name="isicCode" component={RenderField} type="number" label="کد آیسیک" validate={required} />
-              <Field name="postalCode" component={RenderField} type="number" label="کد پستی" validate={required} />
+              <Field name="isicCode" component={RenderField} label="کد آیسیک" validate={required} />
+              <Field name="postalCode" component={RenderField} label="کد پستی" validate={required} />
               <Field name="steward" component={RenderField} type="checkbox" label="مباشر" wrapper="quintuplet checkbox" />
               <div className="form-tak">
                 <label>تاریخ صدور</label>
