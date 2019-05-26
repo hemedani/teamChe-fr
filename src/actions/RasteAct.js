@@ -21,7 +21,7 @@ export const getRastes = () => {
     dispatch({ type: RASTE_LOAD });
     return axios
       .get(`${RU}/Rastes`, { headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => dispatch({ type: GET_RASTES, payload: resp.data.Rastes }))
+      .then(resp => dispatch({ type: GET_RASTES, payload: resp.data.rastes }))
       .catch(e => dispatch({ type: GET_RASTES_ERR }));
   };
 };
@@ -32,7 +32,7 @@ export const yourRaste = typeid => {
     return axios
       .get(`${RU}/yourRaste`, { params: { typeid }, headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
-        dispatch({ type: YOUR_RASTE, payload: resp.data.Raste });
+        dispatch({ type: YOUR_RASTE, payload: resp.data.raste });
         return resp.data.type;
       })
       .catch(e => {});
@@ -44,7 +44,7 @@ export const addRaste = Raste => {
     dispatch({ type: RASTE_LOAD });
     return axios
       .post(`${RU}/Raste/add`, Raste, { headers: { sabti: localStorage.getItem("token") } })
-      .then(resp => dispatch({ type: ADD_RASTE, payload: resp.data.Raste }))
+      .then(resp => dispatch({ type: ADD_RASTE, payload: resp.data.raste }))
       .catch(error => dispatch({ type: ADD_RASTE_ERR }));
   };
 };
@@ -55,7 +55,7 @@ export const updateRaste = Raste => {
     return axios
       .post(`${RU}/Raste/update`, Raste, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
-        return dispatch({ type: UPDATE_RASTE, payload: resp.data.Raste });
+        return dispatch({ type: UPDATE_RASTE, payload: resp.data.raste });
       })
       .catch(error => dispatch({ type: UPDATE_RASTE_ERR }));
   };
