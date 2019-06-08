@@ -8,7 +8,7 @@ import { RenderField, required } from "../Utils/FormField";
 import { Field, reduxForm, initialize } from "redux-form";
 import DatePicker from "react-datepicker2";
 import moment from "moment-jalaali";
-import { IssueDateErr, ExpirationDateErr } from "../../actions/Errors";
+import { IssueDateErr, ExpirationDateErr, MembershipFeeDateErr, OwnerBirthDateErr } from "../../actions/Errors";
 import ScrollLock from "react-scrolllock/dist/ScrollLock";
 
 class AddBusinessLicenseModal extends Component {
@@ -19,6 +19,8 @@ class AddBusinessLicenseModal extends Component {
       err: [],
       issueDate: null,
       expirationDate: null,
+      membershipFeeDate: null,
+      ownerBirthDate: null,
       imagePreviewUrl: null
     };
     this.onSubmitForm = this.onSubmitForm.bind(this);
@@ -30,11 +32,19 @@ class AddBusinessLicenseModal extends Component {
     this.props.getEditedCenter(this.props.match.params.id).then(resp => {
       if (resp.type === GET_EDITED_CENTER) {
         this.props.dispatch(initialize("AddBusinessLicenseModal", this.props.center.editedCenter));
-        const { issueDate = null, expirationDate = null, licensePic = null } = this.props.center.editedCenter;
+        const {
+          issueDate = null,
+          expirationDate = null,
+          licensePic = null,
+          membershipFeeDate = null,
+          ownerBirthDate = null
+        } = this.props.center.editedCenter;
 
         this.setState({
           issueDate: issueDate ? moment(issueDate) : null,
           expirationDate: expirationDate ? moment(expirationDate) : null,
+          membershipFeeDate: membershipFeeDate ? moment(membershipFeeDate) : null,
+          ownerBirthDate: ownerBirthDate ? moment(ownerBirthDate) : null,
           imagePreviewUrl: licensePic ? `${RU}/pic/500/${licensePic}` : null
         });
       }
@@ -78,16 +88,22 @@ class AddBusinessLicenseModal extends Component {
   }
 
   onSubmitForm(v) {
-    let { issueDate, expirationDate, err } = this.state;
+    let { issueDate, expirationDate, membershipFeeDate, ownerBirthDate, err } = this.state;
     if (!issueDate) {
       return this.setState({ err: [...err, IssueDateErr] });
     }
     if (!expirationDate) {
       return this.setState({ err: [...err, ExpirationDateErr] });
     }
+    // if (!membershipFeeDate) {
+    //   return this.setState({ err: [...err, MembershipFeeDateErr] });
+    // }
+    // if (!ownerBirthDate) {
+    //   return this.setState({ err: [...err, OwnerBirthDateErr] });
+    // }
 
     this.setState({ err: [] });
-    this.props.addBusinessLicense({ ...v, issueDate, expirationDate }).then(resp => {
+    this.props.addBusinessLicense({ ...v, issueDate, expirationDate, membershipFeeDate, ownerBirthDate }).then(resp => {
       if (resp.type === CENTER_UPDATE) {
         this.props.history.goBack();
       }
@@ -154,8 +170,28 @@ class AddBusinessLicenseModal extends Component {
               <Field name="personType" component={RenderField} label="نوع شخص" validate={required} />
               <Field name="activityType" component={RenderField} label="نوع فعالیت" validate={required} />
               <Field name="isicCode" component={RenderField} label="کد آیسیک" validate={required} />
+
+              <Field name="guildOwnerName" component={RenderField} label="نام صاحب پروانه" />
+              <Field name="guildOwnerFamily" component={RenderField} label="نام خانوادگی صاحب پروانه" />
+              <Field name="identificationCode" component={RenderField} label="شماره شناسنامه صاحب پروانه" type="number" />
+              <Field name="nationalCode" component={RenderField} label="کد ملی صاحب پروانه" type="number" />
+              <Field name="ownerFatherName" component={RenderField} label="نام پدر صاحب پروانه" />
+
               <Field name="postalCode" component={RenderField} label="کد پستی" validate={required} />
               <Field name="steward" component={RenderField} type="checkbox" label="مباشر" wrapper="quintuplet checkbox" />
+
+              <Field name="waterPlaque" component={RenderField} label="پلاک آبی" type="number" />
+              <Field name="registrationPlaque" component={RenderField} label="پلاک ثبتی" type="number" />
+
+              <div className="form-tak">
+                <label>تاریخ تولد صاحب پروانه</label>
+                <DatePicker
+                  isGregorian={false}
+                  onChange={ownerBirthDate => this.setState({ ownerBirthDate })}
+                  value={this.state.ownerBirthDate}
+                />
+              </div>
+
               <div className="form-tak">
                 <label>تاریخ صدور</label>
                 <DatePicker
@@ -170,6 +206,14 @@ class AddBusinessLicenseModal extends Component {
                   isGregorian={false}
                   onChange={expirationDate => this.setState({ expirationDate })}
                   value={this.state.expirationDate}
+                />
+              </div>
+              <div className="form-tak">
+                <label>تاریخ اتمام حق عضویت</label>
+                <DatePicker
+                  isGregorian={false}
+                  onChange={membershipFeeDate => this.setState({ membershipFeeDate })}
+                  value={this.state.membershipFeeDate}
                 />
               </div>
             </div>
