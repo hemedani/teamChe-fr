@@ -273,7 +273,6 @@ class EditCenterModal extends Component {
                   type="number"
                   label="شروع کار"
                   wrapper="quintuplet"
-                  validate={required}
                 />
                 <Field
                   name="endWork"
@@ -281,7 +280,6 @@ class EditCenterModal extends Component {
                   type="number"
                   label="پایان کار"
                   wrapper="quintuplet"
-                  validate={required}
                 />
                 <Field name="discount" component={RenderField} type="number" label="درصد تخفیف" wrapper="quintuplet" />
 
