@@ -13,7 +13,7 @@ const levels = [
   "expert",
   "owner",
   "editor",
-  "auther",
+  "author",
   "tarah",
   "admin",
   "storekeeper",
@@ -30,7 +30,9 @@ const levels = [
   "organic.inspector",
   "organic.commissionAffairs",
   "organic.secretariat",
-  "organic.accountant"
+  "organic.accountant",
+
+  "organic.operatorEt"
 ];
 
 class EditUserModal extends Component {

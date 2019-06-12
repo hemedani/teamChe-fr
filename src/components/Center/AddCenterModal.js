@@ -98,6 +98,7 @@ class addCenterModal extends Component {
     this.handeStateSelect = this.handeStateSelect.bind(this);
     this.parishPromiseOptions = this.parishPromiseOptions.bind(this);
     this.setPolygon = this.setPolygon.bind(this);
+    this.renderServerError = this.renderServerError.bind(this);
   }
 
   componentDidMount() {
@@ -168,6 +169,13 @@ class addCenterModal extends Component {
           {e}
         </div>
       ));
+    }
+  }
+
+  renderServerError() {
+    const { error } = this.props.centers;
+    if (error) {
+      return <div className="alert alert-danger">{error}</div>;
     }
   }
 
@@ -303,6 +311,7 @@ class addCenterModal extends Component {
 
           <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
             <div className="form-item">
+              <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} />
               <Field name="name" component={RenderField} label="نام مرکز" validate={required} />
               <Field name="enName" component={RenderField} label="نام انگلیسی" />
               <Field name="startWork" component={RenderField} type="number" label="شروع کار" wrapper="quintuplet" />
@@ -436,6 +445,7 @@ class addCenterModal extends Component {
             </div>
 
             {this.renderError()}
+            {this.renderServerError()}
             <div className="chapchin width-same">
               {this.props.centers.centerLoading ? (
                 <DotLoader height="3rem" width="8rem" />

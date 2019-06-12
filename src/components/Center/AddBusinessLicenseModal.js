@@ -26,6 +26,9 @@ class AddBusinessLicenseModal extends Component {
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmitPic = this.handleSubmitPic.bind(this);
+
+    this.renderServerError = this.renderServerError.bind(this);
+    this.renderServerError = this.renderServerError.bind(this);
   }
 
   componentDidMount() {
@@ -121,6 +124,13 @@ class AddBusinessLicenseModal extends Component {
     }
   }
 
+  renderServerError() {
+    const { error } = this.props.centers;
+    if (error) {
+      return <div className="alert alert-danger">{error}</div>;
+    }
+  }
+
   render() {
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -166,32 +176,24 @@ class AddBusinessLicenseModal extends Component {
               <Field name="_id" component={RenderField} label="آی دی" validate={required} disabled />
               <Field name="licensePic" component={RenderField} label="تصویر" disabled />
               <Field name="licensePicRef" component={RenderField} label="تصویر" disabled />
-              <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} />
+              <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} disabled />
               <Field name="personType" component={RenderField} label="نوع شخص" validate={required} />
               <Field name="activityType" component={RenderField} label="نوع فعالیت" validate={required} />
               <Field name="isicCode" component={RenderField} label="کد آیسیک" validate={required} />
+              <Field name="postalCode" component={RenderField} label="کد پستی" validate={required} />
 
               <Field name="guildOwnerName" component={RenderField} label="نام صاحب پروانه" />
               <Field name="guildOwnerFamily" component={RenderField} label="نام خانوادگی صاحب پروانه" />
-              <Field name="identificationCode" component={RenderField} label="شماره شناسنامه صاحب پروانه" type="number" />
               <Field name="nationalCode" component={RenderField} label="کد ملی صاحب پروانه" type="number" />
+              <Field name="identificationCode" component={RenderField} label="شماره شناسنامه صاحب پروانه" type="number" />
+              <Field name="guildOwnerPhoneNumber" component={RenderField} label="شماره موبایل صاحب پروانه" type="number" />
               <Field name="ownerFatherName" component={RenderField} label="نام پدر صاحب پروانه" />
-
-              <Field name="postalCode" component={RenderField} label="کد پستی" validate={required} />
+            </div>
+            <div className="form-item">
               <Field name="steward" component={RenderField} type="checkbox" label="مباشر" wrapper="quintuplet checkbox" />
+            </div>
 
-              <Field name="waterPlaque" component={RenderField} label="پلاک آبی" type="number" />
-              <Field name="registrationPlaque" component={RenderField} label="پلاک ثبتی" type="number" />
-
-              <div className="form-tak">
-                <label>تاریخ تولد صاحب پروانه</label>
-                <DatePicker
-                  isGregorian={false}
-                  onChange={ownerBirthDate => this.setState({ ownerBirthDate })}
-                  value={this.state.ownerBirthDate}
-                />
-              </div>
-
+            <div className="form-item">
               <div className="form-tak">
                 <label>تاریخ صدور</label>
                 <DatePicker
@@ -209,14 +211,32 @@ class AddBusinessLicenseModal extends Component {
                 />
               </div>
               <div className="form-tak">
-                <label>تاریخ اتمام حق عضویت</label>
+                <label>تاریخ پرداخت حق عضویت</label>
                 <DatePicker
                   isGregorian={false}
                   onChange={membershipFeeDate => this.setState({ membershipFeeDate })}
                   value={this.state.membershipFeeDate}
                 />
               </div>
+
+              <div className="form-tak">
+                <label>تاریخ تولد صاحب پروانه</label>
+                <DatePicker
+                  isGregorian={false}
+                  onChange={ownerBirthDate => this.setState({ ownerBirthDate })}
+                  value={this.state.ownerBirthDate}
+                />
+              </div>
             </div>
+
+            <div className="form-item">
+              <Field name="waterPlaque" component={RenderField} label="پلاک آبی" type="number" />
+              <Field name="registrationPlaque" component={RenderField} label="پلاک ثبتی" type="number" />
+            </div>
+
+            {this.renderError()}
+            {this.renderServerError()}
+
             {this.props.center.centerLoading ? (
               <DotLoader height="3rem" width="8rem" />
             ) : (
@@ -240,7 +260,7 @@ class AddBusinessLicenseModal extends Component {
 
 AddBusinessLicenseModal = reduxForm({ form: "AddBusinessLicenseModal" })(AddBusinessLicenseModal);
 
-const msp = ({ center }) => ({ center });
+const msp = ({ center, centers }) => ({ center, centers });
 export default connect(
   msp,
   { licensePicUpload, addBusinessLicense, getEditedCenter }

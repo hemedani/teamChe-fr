@@ -30,8 +30,7 @@ class EditOwnUser extends Component {
 
             {auth.loginLoading ? (
               <div className="chapchin width-same">
-                {" "}
-                <DotLoader height="3rem" width="8rem" />{" "}
+                <DotLoader height="3rem" width="8rem" />
               </div>
             ) : (
               <div className="chapchin width-same">
@@ -39,7 +38,6 @@ class EditOwnUser extends Component {
                   ثبت اطلاعات
                 </button>
                 <Link className="dogme i-round i-tosi" to="/">
-                  {" "}
                   رد کردن
                 </Link>
               </div>

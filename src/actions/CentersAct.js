@@ -94,7 +94,7 @@ export const addCenter = center => {
         console.log("err addCenter", JSON.stringify(error, null, 2));
         console.log("==================");
 
-        return dispatch({ type: ADD_CENTER_ERR });
+        return dispatch({ type: ADD_CENTER_ERR, error: error.response.data });
       });
   };
 };
@@ -110,7 +110,7 @@ export function updateCenter(center) {
         return dispatch({ type: CENTER_UPDATE, payload: resp.data.center });
       })
       .catch(error => {
-        return dispatch({ type: ADD_CENTER_ERR });
+        return dispatch({ type: ADD_CENTER_ERR, error: error.response.data });
       });
   };
 }
@@ -125,7 +125,7 @@ export const addBusinessLicense = center => {
       .then(resp => {
         return dispatch({ type: CENTER_UPDATE, payload: resp.data.center });
       })
-      .catch(error => dispatch({ type: ADD_CENTER_ERR }));
+      .catch(error => dispatch({ type: ADD_CENTER_ERR, error: error.response.data }));
   };
 };
 

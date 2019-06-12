@@ -1819,6 +1819,16 @@ form .progress {
   color: #fff;
   margin-bottom: 15px;
 }
+.alert {
+  padding: 15px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+.alert-danger {
+  background-color: #ff1515;
+  border: 1px solid #d90000;
+  border-radius: 5px;
+}
 .ghab-aks-darbar {
   margin: 0.5rem 0;
   display: flex;

@@ -1,6 +1,7 @@
 import {
   GET_CENTERS,
   ADD_CENTER,
+  ADD_CENTER_ERR,
   REMOVE_CENTER,
   CENTERS_LOAD,
   YOUR_CENTER,
@@ -40,7 +41,7 @@ let centerDef = {
 export default function(state = centerDef, action) {
   switch (action.type) {
     case CENTERS_LOAD:
-      return { ...state, centerLoading: true };
+      return { ...state, centerLoading: true, error: "" };
 
     case GET_CENTERS_COUNT_LOAD:
       return { ...state, countLoading: true };
@@ -73,6 +74,8 @@ export default function(state = centerDef, action) {
       return { ...state, centerLoading: false, centers: [] };
     case ADD_CENTER:
       return { ...state, centerLoading: false, centers: [action.payload, ...state.centers] };
+    case ADD_CENTER_ERR:
+      return { ...state, centerLoading: false, error: JSON.stringify(action.payload, null, 2) };
     case REMOVE_CENTER:
       let centers = state.centers.filter(center => center._id !== action.payload);
       return { ...state, centerLoading: false, centers: centers };
