@@ -179,8 +179,8 @@ class AddBusinessLicenseModal extends Component {
               <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} disabled />
               <Field name="personType" component={RenderField} label="نوع شخص" validate={required} />
               <Field name="activityType" component={RenderField} label="نوع فعالیت" validate={required} />
-              <Field name="isicCode" component={RenderField} label="کد آیسیک" validate={required} />
-              <Field name="postalCode" component={RenderField} label="کد پستی" validate={required} />
+              <Field name="isicCode" component={RenderField} label="کد آیسیک" type="number" validate={required} />
+              <Field name="postalCode" component={RenderField} label="کد پستی" type="number" validate={required} />
 
               <Field name="guildOwnerName" component={RenderField} label="نام صاحب پروانه" />
               <Field name="guildOwnerFamily" component={RenderField} label="نام خانوادگی صاحب پروانه" />
