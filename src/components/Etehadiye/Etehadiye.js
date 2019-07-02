@@ -25,6 +25,10 @@ class Etehadiye extends Component {
             <div className="grid-m-t-n">{this.props.name}</div>
             <div className="grid-m-t-a">{this.props.enName}</div>
           </div>
+          <div className="grid-manage-text">
+            <div className="grid-m-t-n">اعتبار : </div>
+            <div className="grid-m-t-a">{this.props.credit} تومان </div>
+          </div>
           <div className="grid-manage-btn">
             <Link className="dogme i-round i-sabz round-small" to={{ pathname: `/manage/etehadiye/edit/${this.props._id}` }}>
               ویرایش

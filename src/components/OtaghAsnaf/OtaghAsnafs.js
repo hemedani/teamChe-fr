@@ -9,6 +9,7 @@ import ChangeOtaghAsnafPic from "./ChangeOtaghAsnafPicModal";
 import EditOtaghAsnafModal from "./EditOtaghAsnafModal";
 
 import OtaghAsnaf from "./OtaghAsnaf";
+import AddOperatorToOtaghAnsaf from "./AddOperatorToOtaghAnsaf";
 
 class OtaghAsnafs extends Component {
   componentDidMount() {
@@ -16,7 +17,6 @@ class OtaghAsnafs extends Component {
   }
   render() {
     let { otaghAsnafs } = this.props;
-    console.log("otaghAsnafs az render otaghAsnafs Component", otaghAsnafs);
     return (
       <div className="fasbaghal">
         <div className="grid">
@@ -42,6 +42,7 @@ class OtaghAsnafs extends Component {
         <Route exact path="/manage/otaghAsnaf/add" component={AddOtaghAsnafModal} />
         <Route exact path="/manage/otaghAsnaf/changepic/:id" component={ChangeOtaghAsnafPic} />
         <Route exact path="/manage/otaghAsnaf/edit/:id" component={EditOtaghAsnafModal} />
+        <Route exact path="/manage/otaghAsnaf/add/operator/:id" component={AddOperatorToOtaghAnsaf} />
       </div>
     );
   }

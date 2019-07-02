@@ -25,7 +25,8 @@ export default ({
   stateKey,
   err,
   async,
-  promiseOptions
+  promiseOptions,
+  isDisabled
 }) => {
   const handleChange = e => handeStateSelect(e, stateKey, err);
   return (
@@ -57,6 +58,7 @@ export default ({
           getOptionLabel={returnLabel}
           getOptionValue={returnValue}
           // defaultMenuIsOpen={true}
+          isDisabled={isDisabled}
         />
       )}
     </div>

@@ -26,16 +26,20 @@ class OtaghAsnaf extends Component {
             <div className="grid-m-t-a">{this.props.enName}</div>
           </div>
           <div className="grid-manage-btn">
-            <Link className="dogme i-round i-sabz round-small" to={{ pathname: `/manage/otaghAsnaf/edit/${this.props._id}` }}>
-              {" "}
-              ویرایش{" "}
+            <Link
+              className="dogme i-round i-sabz round-small"
+              to={{ pathname: `/manage/otaghAsnaf/edit/${this.props._id}` }}
+            >
+              ویرایش
             </Link>
             <Link className="dogme i-round i-abi round-small" to={`/manage/otaghAsnaf/changepic/${this.props._id}`}>
-              {" "}
-              تعویض تصویر{" "}
+              تعویض تصویر
+            </Link>
+            <Link className="dogme i-round i-abi round-small" to={`/manage/otaghAsnaf/add/operator/${this.props._id}`}>
+              افزودن اپراتور اتاق اصناف
             </Link>
             <span onClick={this.remove.bind(this, this.props._id)} className="dogme i-round i-ghermez round-small">
-              حذف{" "}
+              حذف
             </span>
           </div>
         </div>

@@ -4,9 +4,13 @@ import _ from "lodash";
 import { Link } from "react-router-dom";
 
 const ManageBtn = props => {
-  if (_.includes(props.auth.user.level, "tarah") || _.includes(props.auth.user.level, "admin")) {
+  if (
+    _.includes(props.auth.user.level, "tarah") ||
+    _.includes(props.auth.user.level, "admin") ||
+    _.includes(props.auth.user.level, "organic.operatorAs")
+  ) {
     return (
-      <Link to="/manage/city" className="dogm-modir dogme i-round i-sabz">
+      <Link to="/manage" className="dogm-modir dogme i-round i-sabz">
         مدیریت
       </Link>
     );

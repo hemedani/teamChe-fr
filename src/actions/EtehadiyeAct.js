@@ -47,7 +47,7 @@ export const updateEtehadiye = Etehadiye => {
     return axios
       .post(`${RU}/etehadiye/update`, Etehadiye, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => dispatch({ type: UPDATE_ETEHADIYE, payload: resp.data.etehadiye }))
-      .catch(error => dispatch({ type: UPDATE_ETEHADIYE_ERR }));
+      .catch(error => dispatch({ type: UPDATE_ETEHADIYE_ERR, error }));
   };
 };
 

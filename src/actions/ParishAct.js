@@ -19,10 +19,6 @@ export const getParishes = params => {
   return dispatch => {
     dispatch({ type: PARISH_LOAD });
     if (!params || !params._id) {
-      console.log("==================");
-      console.log("params", params);
-      console.log("==================");
-
       dispatch({ type: CLEAN_PARISH });
     }
     return axios

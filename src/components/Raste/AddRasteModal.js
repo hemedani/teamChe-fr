@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
-import { addRaste, getEtehadiyes, ADD_RASTE } from "../../actions";
+import { addRaste, getEtehadiyes, getOtaghAsnafs, ADD_RASTE } from "../../actions";
 import _ from "lodash";
 import { RenderField, required } from "../Utils/FormField";
-import { EtehadiyeSelectErr } from "../../actions/Errors";
+import { EtehadiyeSelectErr, OtaghAsnafSelectErr } from "../../actions/Errors";
 import { immutableSplice } from "../Utils/Imutable";
 import SelectForm from "../Utils/SelectForm";
 import DotLoader from "../Utils/DotLoader";
@@ -17,6 +17,7 @@ class AddRasteModal extends Component {
       peygham: [],
       err: [],
       etehadiye: null,
+      otaghAsnaf: null,
       picErr: true
     };
     this.onSubmitForm = this.onSubmitForm.bind(this);
@@ -24,6 +25,10 @@ class AddRasteModal extends Component {
   }
   componentDidMount() {
     this.props.getEtehadiyes();
+    this.props.getOtaghAsnafs();
+    if (this.props.auth.user.asOrganization) {
+      this.setState({ otaghAsnaf: this.props.auth.user.asOrganization });
+    }
   }
 
   onSubmitForm(v) {
@@ -69,7 +74,8 @@ class AddRasteModal extends Component {
       rastes,
       submitting,
       history,
-      etehadiyes: { etehadiyes }
+      etehadiyes: { etehadiyes },
+      otaghAsnafs: { otaghAsnafs }
     } = this.props;
 
     return (
@@ -91,6 +97,18 @@ class AddRasteModal extends Component {
                 label="اتحادیه"
                 stateKey="etehadiye"
                 err={EtehadiyeSelectErr}
+              />
+
+              <SelectForm
+                itrator={otaghAsnafs}
+                returnLabel={this.returnLabel}
+                returnValue={this.returnValue}
+                state={this.state.otaghAsnaf}
+                handeStateSelect={this.handeStateSelect}
+                label="اتاق اصناف"
+                stateKey="otaghAsnaf"
+                err={OtaghAsnafSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
             </div>
 
@@ -122,9 +140,9 @@ const validate = values => {
 
 AddRasteModal = reduxForm({ form: "AddRasteModal", validate })(AddRasteModal);
 
-const mps = ({ rastes, etehadiyes }) => ({ rastes, etehadiyes });
+const mps = ({ rastes, etehadiyes, otaghAsnafs, auth }) => ({ rastes, etehadiyes, otaghAsnafs, auth });
 
 export default connect(
   mps,
-  { addRaste, getEtehadiyes }
+  { addRaste, getEtehadiyes, getOtaghAsnafs }
 )(AddRasteModal);

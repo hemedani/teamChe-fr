@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import cx from "classnames";
 import qs from "query-string";
 
-import { setBackHeader, unsetBackHeader, cleanCenters, toggleMobNav, toggleSearchNav } from "../../actions";
+import { setBackHeader, unsetBackHeader, cleanCenters, toggleMobNav, toggleSearchNav, getOwn } from "../../actions";
 import ManageBtn from "./ManageBtn";
 import LoginBtn from "./LoginBtn";
 import logo from "../../img/arm-asnaf.png";
@@ -23,6 +23,7 @@ class MyNav extends Component {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleOnScroll);
+    this.props.getOwn();
   }
 
   handleOnScroll() {
@@ -207,6 +208,6 @@ const msp = ({ pinteb }) => ({ pinteb });
 export default withRouter(
   connect(
     msp,
-    { setBackHeader, unsetBackHeader, cleanCenters, toggleMobNav, toggleSearchNav }
+    { setBackHeader, unsetBackHeader, cleanCenters, toggleMobNav, toggleSearchNav, getOwn }
   )(MyNav)
 );

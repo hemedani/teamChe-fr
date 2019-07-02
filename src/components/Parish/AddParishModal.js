@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm, change } from "redux-form";
 import _ from "lodash";
-import { addParish, getStates, getCities, ADD_PARISH } from "../../actions";
+import { addParish, getStates, getCities, getOtaghAsnaf, ADD_PARISH, GET_SELECTED_OTAGH_ASNAF } from "../../actions";
 import { RenderField, required } from "../Utils/FormField";
 import Map from "../Utils/MapBox";
 import { PolygonSelectErr, OstanSelectErr, CitySelectErr } from "../../actions/Errors";
@@ -20,9 +20,23 @@ class AddParishModal extends Component {
     this.handeStateSelect = this.handeStateSelect.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getStates();
-    this.props.getCities();
+  async componentDidMount() {
+    await this.props.getStates();
+    await this.props.getCities();
+
+    if (this.props.auth.user.asOrganization) {
+      const otaghAsnaf = await this.props.getOtaghAsnaf(this.props.auth.user.asOrganization);
+      if (otaghAsnaf.type === GET_SELECTED_OTAGH_ASNAF) {
+        const { state, city } = otaghAsnaf.payload;
+        const foundedState = _.find(this.props.states.states, { _id: state });
+        const foundedCity = _.find(this.props.cities.cities, { _id: city });
+        this.setState({
+          state: foundedState._id,
+          city: foundedCity._id,
+          location: foundedCity.location
+        });
+      }
+    }
   }
 
   onSubmitForm(v) {
@@ -141,6 +155,7 @@ class AddParishModal extends Component {
                 label="استان"
                 stateKey="state"
                 err={OstanSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
 
               <SelectForm
@@ -152,6 +167,7 @@ class AddParishModal extends Component {
                 label="شهر"
                 stateKey="city"
                 err={CitySelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
             </div>
             {this.renderError()}
@@ -195,9 +211,9 @@ AddParishModal = reduxForm({
   validate
 })(AddParishModal);
 
-const msp = ({ states, cities, parishes }) => ({ states, cities, parishes });
+const msp = ({ states, cities, parishes, auth }) => ({ states, cities, parishes, auth });
 
 export default connect(
   msp,
-  { addParish, getStates, getCities }
+  { addParish, getStates, getCities, getOtaghAsnaf }
 )(AddParishModal);

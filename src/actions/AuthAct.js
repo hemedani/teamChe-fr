@@ -93,6 +93,28 @@ export const sendCode = usr => {
   };
 };
 
+export const getOwn = () => {
+  return dispatch => {
+    dispatch({ type: USER_SIGNIN_LOAD });
+    return axios
+      .get(`${RU}/user/getown`, { headers: { sabti: localStorage.getItem("token") } })
+      .then(resp => {
+        if (resp.data.user) {
+          return dispatch({ type: AUTH_USER, payload: resp.data });
+        } else {
+          return dispatch(authError("neshod biai to etelaat ghalatand"));
+        }
+      })
+      .catch(e => {
+        console.log("==================");
+        console.log("e", JSON.stringify(e, null, 2));
+        console.log("==================");
+
+        return dispatch(authError("neshod biai to etelaat ghalatand"));
+      });
+  };
+};
+
 export const editOwn = usr => {
   return dispatch => {
     dispatch({ type: USER_SIGNIN_LOAD });

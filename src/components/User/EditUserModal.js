@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { Field, reduxForm, change } from "redux-form";
 import { updateUser, UPDATE_USER } from "../../actions";
 import cx from "classnames";
@@ -18,7 +17,7 @@ const levels = [
   "admin",
   "storekeeper",
   "delivery",
-  "organic.boss",
+  "organic.bossEt",
   "organic.veep",
   "organic.officer",
   "organic.administrationManager",
@@ -32,7 +31,8 @@ const levels = [
   "organic.secretariat",
   "organic.accountant",
 
-  "organic.operatorEt"
+  "organic.operatorEt",
+  "organic.operatorAs"
 ];
 
 class EditUserModal extends Component {
@@ -91,9 +91,6 @@ class EditUserModal extends Component {
                     onClick={() => {
                       let { levels } = this.state;
                       levels = _.xor(levels, [level]);
-                      console.log("==================");
-                      console.log("levels and level", levels, level);
-                      console.log("==================");
 
                       this.setState({ levels });
                     }}

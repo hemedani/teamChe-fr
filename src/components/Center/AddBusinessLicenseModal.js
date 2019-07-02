@@ -182,6 +182,8 @@ class AddBusinessLicenseModal extends Component {
               <Field name="isicCode" component={RenderField} label="کد آیسیک" type="number" validate={required} />
               <Field name="postalCode" component={RenderField} label="کد پستی" type="number" validate={required} />
 
+              <Field name="guildDegree" component={RenderField} label="درجه صنف" />
+
               <Field name="guildOwnerName" component={RenderField} label="نام صاحب پروانه" />
               <Field name="guildOwnerFamily" component={RenderField} label="نام خانوادگی صاحب پروانه" />
               <Field name="nationalCode" component={RenderField} label="کد ملی صاحب پروانه" type="number" />

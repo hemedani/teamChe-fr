@@ -6,10 +6,11 @@ import { Field, reduxForm, change } from "redux-form";
 import { updateEtehadiye, UPDATE_ETEHADIYE } from "../../actions";
 import cx from "classnames";
 import DotLoader from "../Utils/DotLoader";
+import { RenderField, required } from "../Utils/FormField";
 
 class EditEtehadiyeModal extends Component {
-  onSubmitForm({ _id, name, enName }) {
-    this.props.updateEtehadiye({ _id, name, enName }).then(resp => {
+  onSubmitForm(etehadiye) {
+    this.props.updateEtehadiye(etehadiye).then(resp => {
       if (resp.type === UPDATE_ETEHADIYE) this.props.history.goBack();
     });
   }
@@ -34,18 +35,10 @@ class EditEtehadiyeModal extends Component {
         <div className="modal">
           <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
             <div className="form-item">
-              <div className="form-tak">
-                <label> آی دی </label>
-                <Field name="_id" component="input" label=" آی دی " disabled />
-              </div>
-              <div className="form-tak">
-                <label> نام </label>
-                <Field name="name" component="input" label=" نام" />
-              </div>
-              <div className="form-tak">
-                <label> نام انگلیسی </label>
-                <Field name="enName" component="input" label=" نام انگلیسی " />
-              </div>
+              <Field name="_id" component={RenderField} label=" آی دی " validate={required} />
+              <Field name="name" component={RenderField} label="نام مرکز" validate={required} />
+              <Field name="enName" component={RenderField} label="نام انگلیسی" validate={required} />
+              <Field name="credit" component={RenderField} label="اعتبار" type="number" />
             </div>
 
             {this.renderError()}
@@ -55,8 +48,7 @@ class EditEtehadiyeModal extends Component {
               </button>
 
               <span onClick={this.props.history.goBack} className="dogme i-round i-tosi">
-                {" "}
-                بازگشت{" "}
+                بازگشت
               </span>
             </div>
           </form>

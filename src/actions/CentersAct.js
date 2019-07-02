@@ -47,7 +47,7 @@ export const getCenters = query => {
   return dispatch => {
     dispatch({ type: CENTERS_LOAD });
     return axios
-      .get(`${RU}/centers`, { params: query })
+      .get(`${RU}/protected/centers`, { params: query, headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
         dispatch({ type: YOUR_CITY, payload: resp.data.city });
         return dispatch({ type: GET_CENTERS, payload: resp.data.centers });

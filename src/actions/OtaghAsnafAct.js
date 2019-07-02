@@ -13,7 +13,10 @@ import {
   UPDATE_OTAGH_ASNAF,
   OTAGH_ASNAF_UPDATE_LOAD,
   UPDATE_OTAGH_ASNAF_ERR,
-  RU
+  RU,
+  GET_SELECTED_OTAGH_ASNAF_LOAD,
+  GET_SELECTED_OTAGH_ASNAF,
+  GET_SELECTED_OTAGH_ASNAF_ERR
 } from "./types";
 
 export const getOtaghAsnafs = () => {
@@ -30,12 +33,22 @@ export const yourOtaghAsnaf = typeid => {
   return dispatch => {
     dispatch({ type: OTAGH_ASNAF_LOAD });
     return axios
-      .get(`${RU}/yourOtaghAsnaf`, { params: { typeid }, headers: { sabti: localStorage.getItem("token") } })
+      .get(`${RU}/get/otagh/asnaf`, { params: { typeid }, headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
         dispatch({ type: YOUR_OTAGH_ASNAF, payload: resp.data.OtaghAsnaf });
         return resp.data.type;
       })
       .catch(e => {});
+  };
+};
+
+export const getOtaghAsnaf = _id => {
+  return dispatch => {
+    dispatch({ type: GET_SELECTED_OTAGH_ASNAF_LOAD });
+    return axios
+      .get(`${RU}/get/otagh/asnaf`, { params: { _id } })
+      .then(resp => dispatch({ type: GET_SELECTED_OTAGH_ASNAF, payload: resp.data.otaghAsnaf }))
+      .catch(err => dispatch({ type: GET_SELECTED_OTAGH_ASNAF_ERR, payload: err }));
   };
 };
 
@@ -58,6 +71,21 @@ export const updateOtaghAsnaf = OtaghAsnaf => {
         return dispatch({ type: UPDATE_OTAGH_ASNAF, payload: resp.data.OtaghAsnaf });
       })
       .catch(error => dispatch({ type: UPDATE_OTAGH_ASNAF_ERR }));
+  };
+};
+
+export const AddOperatorToOtaghAnsafAct = query => {
+  return dispatch => {
+    dispatch({ type: OTAGH_ASNAF_LOAD });
+    return axios
+      .post(`${RU}/otaghAsnaf/add/operator`, query, { headers: { sabti: localStorage.getItem("token") } })
+      .then(resp => {
+        if (resp.data.updatedAses && resp.data.updatedAses.length > 0) {
+          resp.data.updatedAses.map(upAses => dispatch({ type: UPDATE_OTAGH_ASNAF, payload: upAses }));
+        }
+        return dispatch({ type: UPDATE_OTAGH_ASNAF, payload: resp.data.otaghAsnaf });
+      })
+      .catch(err => dispatch({ type: UPDATE_OTAGH_ASNAF_ERR, payload: err }));
   };
 };
 

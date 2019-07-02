@@ -14,13 +14,15 @@ import {
   getParishes,
   getOtaghBazarganis,
   getOtaghAsnafs,
+  getOtaghAsnaf,
   getEtehadiyes,
   getRastes,
   getOptions,
   centerUploadPic,
   cleanPicUpPercent,
   ADD_CENTER,
-  RU
+  RU,
+  GET_SELECTED_OTAGH_ASNAF
 } from "../../actions";
 
 import {
@@ -101,16 +103,32 @@ class addCenterModal extends Component {
     this.renderServerError = this.renderServerError.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getStates();
-    this.props.getCities();
-    this.props.getParishes();
-    this.props.getOtaghBazarganis();
+  async componentDidMount() {
+    await this.props.getStates();
+    await this.props.getCities();
+    await this.props.getParishes();
+    await this.props.getOtaghBazarganis();
     this.props.getOtaghAsnafs();
     this.props.getEtehadiyes();
     this.props.getRastes();
     this.props.getOptions();
     this.props.cleanPicUpPercent();
+    if (this.props.auth.user.asOrganization) {
+      const otaghAsnaf = await this.props.getOtaghAsnaf(this.props.auth.user.asOrganization);
+
+      if (otaghAsnaf.type === GET_SELECTED_OTAGH_ASNAF) {
+        const { state, city, otaghBazargani, _id } = otaghAsnaf.payload;
+        const foundedState = _.find(this.props.states.states, { _id: state });
+        const foundedCity = _.find(this.props.cities.cities, { _id: city });
+        const foundedOtaghBazargani = _.find(this.props.otaghBazarganis.otaghBazarganis, { _id: otaghBazargani });
+        this.setState({
+          otaghAsnaf: _id,
+          state: foundedState._id,
+          city: foundedCity._id,
+          otaghBazargani: foundedOtaghBazargani._id
+        });
+      }
+    }
   }
 
   onDrop(files) {
@@ -311,7 +329,7 @@ class addCenterModal extends Component {
 
           <form onSubmit={handleSubmit(this.onSubmitForm.bind(this))}>
             <div className="form-item">
-              <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} />
+              <Field name="guildId" component={RenderField} label="شناسه صنفی" validate={required} type="number" />
               <Field name="name" component={RenderField} label="نام مرکز" validate={required} />
               <Field name="enName" component={RenderField} label="نام انگلیسی" />
               <Field name="startWork" component={RenderField} type="number" label="شروع کار" wrapper="quintuplet" />
@@ -355,6 +373,7 @@ class addCenterModal extends Component {
                 label="استان"
                 stateKey="state"
                 err={OstanSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={cities}
@@ -365,6 +384,7 @@ class addCenterModal extends Component {
                 label="شهر"
                 stateKey="city"
                 err={CitySelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={parishes}
@@ -387,6 +407,7 @@ class addCenterModal extends Component {
                 label="اتاق بازرگانی"
                 stateKey="otaghBazargani"
                 err={OtaghBazarganiSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={otaghAsnafs}
@@ -397,6 +418,7 @@ class addCenterModal extends Component {
                 label="اتاق اصناف"
                 stateKey="otaghAsnaf"
                 err={OtaghAsnafSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={etehadiyes}
@@ -480,7 +502,7 @@ class addCenterModal extends Component {
 
 addCenterModal = reduxForm({ form: "addCenterModal" })(addCenterModal);
 
-const mps = ({ states, cities, parishes, otaghBazarganis, otaghAsnafs, etehadiyes, rastes, options, users, centers }) => ({
+const mps = ({
   states,
   cities,
   parishes,
@@ -490,7 +512,20 @@ const mps = ({ states, cities, parishes, otaghBazarganis, otaghAsnafs, etehadiye
   rastes,
   options,
   users,
-  centers
+  centers,
+  auth
+}) => ({
+  states,
+  cities,
+  parishes,
+  otaghBazarganis,
+  otaghAsnafs,
+  etehadiyes,
+  rastes,
+  options,
+  users,
+  centers,
+  auth
 });
 
 export default connect(
@@ -502,6 +537,7 @@ export default connect(
     getParishes,
     getOtaghBazarganis,
     getOtaghAsnafs,
+    getOtaghAsnaf,
     getEtehadiyes,
     getRastes,
     getOptions,

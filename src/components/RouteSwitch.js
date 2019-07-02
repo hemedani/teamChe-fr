@@ -27,7 +27,7 @@ class RouteSwitch extends Component {
             component={EditOwnUser}
           />
           <Route exact path="/register" component={Register} />
-          <ManageRoute levels={["tarah", "admin", "owner"]} path="/manage" component={Manage} />
+          <ManageRoute levels={["tarah", "admin", "owner", "organic.operatorAs"]} path="/manage" component={Manage} />
           <Route component={NotFind} />
         </Switch>
       </div>

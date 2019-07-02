@@ -1,5 +1,8 @@
 import {
   GET_OTAGH_ASNAFS,
+  GET_SELECTED_OTAGH_ASNAF,
+  GET_SELECTED_OTAGH_ASNAF_LOAD,
+  GET_SELECTED_OTAGH_ASNAF_ERR,
   ADD_OTAGH_ASNAF,
   REMOVE_OTAGH_ASNAF,
   OTAGH_ASNAF_LOAD,
@@ -17,6 +20,8 @@ let otaghAsnafDef = {
   picLoading: false,
   error: "",
   otaghAsnafs: [],
+  selectedOtaghAsnafLoad: false,
+  selectedOtaghAsnaf: {},
   yourType: {},
   formPic: { _id: null, name: null }
 };
@@ -29,6 +34,18 @@ export default (state = otaghAsnafDef, action) => {
       return { ...state, picLoading: true, formPic: { _id: null, name: null } };
     case OTAGH_ASNAF_ADD_PIC:
       return { ...state, picLoading: false, formPic: action.payload };
+
+    case GET_SELECTED_OTAGH_ASNAF:
+      return {
+        ...state,
+        selectedOtaghAsnafLoad: false,
+        selectedOtaghAsnafLoad: { ...state.selectedOtaghAsnaf, ...action.payload }
+      };
+    case GET_SELECTED_OTAGH_ASNAF_LOAD:
+      return { ...state, selectedOtaghAsnafLoad: true };
+    case GET_SELECTED_OTAGH_ASNAF_ERR:
+      return { ...state, selectedOtaghAsnafLoad: false };
+
     case GET_OTAGH_ASNAFS:
       return { ...state, otaghAsnafLoading: false, otaghAsnafs: action.payload };
     case CLEAN_OTAGH_ASNAF:
