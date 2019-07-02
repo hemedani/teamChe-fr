@@ -6,10 +6,12 @@ import {
   getStates,
   getParishes,
   getOtaghAsnafs,
+  getOtaghAsnaf,
   getOtaghBazarganis,
   addEtehadiye,
   etehadiyeUploadPic,
-  ADD_ETEHADIYE
+  ADD_ETEHADIYE,
+  GET_SELECTED_OTAGH_ASNAF
 } from "../../actions";
 import _ from "lodash";
 import Loader from "../Utils/Loader";
@@ -50,12 +52,28 @@ class AddEtehadiyeModal extends Component {
     this.handleImageChange = this.handleImageChange.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getStates();
-    this.props.getCities();
-    this.props.getParishes();
-    this.props.getOtaghBazarganis();
-    this.props.getOtaghAsnafs();
+  async componentDidMount() {
+    await this.props.getStates();
+    await this.props.getCities();
+    await this.props.getParishes();
+    await this.props.getOtaghBazarganis();
+    await this.props.getOtaghAsnafs();
+    if (this.props.auth.user.asOrganization) {
+      const otaghAsnaf = await this.props.getOtaghAsnaf(this.props.auth.user.asOrganization);
+
+      if (otaghAsnaf.type === GET_SELECTED_OTAGH_ASNAF) {
+        const { state, city, otaghBazargani, _id } = otaghAsnaf.payload;
+        const foundedState = _.find(this.props.states.states, { _id: state });
+        const foundedCity = _.find(this.props.cities.cities, { _id: city });
+        const foundedOtaghBazargani = _.find(this.props.otaghBazarganis.otaghBazarganis, { _id: otaghBazargani });
+        this.setState({
+          otaghAsnaf: _id,
+          state: foundedState._id,
+          city: foundedCity._id,
+          otaghBazargani: foundedOtaghBazargani._id
+        });
+      }
+    }
   }
 
   onSubmitForm(v) {
@@ -248,6 +266,7 @@ class AddEtehadiyeModal extends Component {
                 label="استان"
                 stateKey="state"
                 err={OstanSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={cities}
@@ -258,6 +277,7 @@ class AddEtehadiyeModal extends Component {
                 label="شهر"
                 stateKey="city"
                 err={CitySelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={parishes}
@@ -278,6 +298,7 @@ class AddEtehadiyeModal extends Component {
                 label="اتاق بازرگانی"
                 stateKey="otaghBazargani"
                 err={OtaghBazarganiSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
               <SelectForm
                 itrator={otaghAsnafs}
@@ -288,6 +309,7 @@ class AddEtehadiyeModal extends Component {
                 label="اتاق اصناف"
                 stateKey="otaghAsnaf"
                 err={OtaghAsnafSelectErr}
+                isDisabled={this.props.auth.user.asOrganization ? true : false}
               />
             </div>
 
@@ -323,16 +345,17 @@ const validate = values => {
 
 AddEtehadiyeModal = reduxForm({ form: "AddEtehadiyeModal", validate })(AddEtehadiyeModal);
 
-const mps = ({ etehadiyes, cities, states, parishes, otaghBazarganis, otaghAsnafs }) => ({
+const mps = ({ etehadiyes, cities, states, parishes, otaghBazarganis, otaghAsnafs, auth }) => ({
   etehadiyes,
   cities,
   states,
   parishes,
   otaghBazarganis,
-  otaghAsnafs
+  otaghAsnafs,
+  auth
 });
 
 export default connect(
   mps,
-  { addEtehadiye, etehadiyeUploadPic, getCities, getStates, getParishes, getOtaghBazarganis, getOtaghAsnafs }
+  { addEtehadiye, etehadiyeUploadPic, getCities, getStates, getParishes, getOtaghBazarganis, getOtaghAsnafs, getOtaghAsnaf }
 )(AddEtehadiyeModal);

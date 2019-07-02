@@ -12,9 +12,8 @@ class OtaghAsnaf extends Component {
       return <img src={`../img/back/01.jpg`} alt={this.props.name} />;
     }
   }
-  remove(id) {
-    console.log("id az removee shahr", id);
-    this.props.removeOtaghAsnaf(id);
+  remove(_id) {
+    this.props.removeOtaghAsnaf(_id);
   }
   render() {
     return (

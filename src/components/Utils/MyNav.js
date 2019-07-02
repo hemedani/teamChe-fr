@@ -23,7 +23,8 @@ class MyNav extends Component {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleOnScroll);
-    this.props.getOwn();
+    const token = localStorage.getItem("token");
+    if (token) this.props.getOwn();
   }
 
   handleOnScroll() {

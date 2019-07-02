@@ -68,7 +68,7 @@ export const updateOtaghAsnaf = OtaghAsnaf => {
     return axios
       .post(`${RU}/OtaghAsnaf/update`, OtaghAsnaf, { headers: { sabti: localStorage.getItem("token") } })
       .then(resp => {
-        return dispatch({ type: UPDATE_OTAGH_ASNAF, payload: resp.data.OtaghAsnaf });
+        return dispatch({ type: UPDATE_OTAGH_ASNAF, payload: resp.data.otaghAsnaf });
       })
       .catch(error => dispatch({ type: UPDATE_OTAGH_ASNAF_ERR }));
   };

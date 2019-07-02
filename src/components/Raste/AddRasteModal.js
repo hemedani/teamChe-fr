@@ -32,11 +32,14 @@ class AddRasteModal extends Component {
   }
 
   onSubmitForm(v) {
-    const { err, etehadiye } = this.state;
+    const { err, etehadiye, otaghAsnaf } = this.state;
     if (!etehadiye) {
       return this.setState({ err: [...err, EtehadiyeSelectErr] });
     }
-    this.props.addRaste({ ...v, etehadiye }).then(resp => {
+    if (!otaghAsnaf) {
+      return this.setState({ err: [...err, OtaghAsnafSelectErr] });
+    }
+    this.props.addRaste({ ...v, etehadiye, otaghAsnaf }).then(resp => {
       if (resp.type === ADD_RASTE) {
         this.props.history.push("/manage/raste");
       }
