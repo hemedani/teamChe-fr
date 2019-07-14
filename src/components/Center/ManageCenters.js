@@ -24,7 +24,7 @@ class ManageCenters extends Component {
       wareType: [],
       raste: [],
       rastes: [],
-      query: {}
+      query: {page: 0}
     };
   }
   componentWillMount() {
@@ -36,10 +36,12 @@ class ManageCenters extends Component {
   }
   cantinueGetCenters() {
     let query = this.state.query;
-    if (this.props.centers.centers.length > 0) {
-      query.id = this.props.centers.centers[this.props.centers.centers.length - 1]._id;
-    }
+    // if (this.props.centers.centers.length > 0) {
+    //   query.id = this.props.centers.centers[this.props.centers.centers.length - 1]._id;
+    // }
+    query.page++
     this.props.getCenters(query);
+    this.setState({query: {...this.state.query, page: this.state.query.page++}})
   }
   onSubmitForm({ name, address }) {
     let query = this.state.query;

@@ -16,7 +16,7 @@ class AddOfficerToEtehadiye extends Component {
     this.onSubmitForm = this.onSubmitForm.bind(this);
   }
   async componentDidMount() {
-    const officers = await this.props.getUsers({ level: ["organic.officer"] });
+    const officers = await this.props.getUsers({ level: ["organic.officerEt"] });
     if (this.props.initialValues.officers) {
       const users = _.filter(officers.payload, v => _.includes(this.props.initialValues.officers, v._id));
       this.setState({ users });

@@ -17,9 +17,7 @@ const levels = [
   "admin",
   "storekeeper",
   "delivery",
-  "organic.bossEt",
   "organic.veep",
-  "organic.officer",
   "organic.administrationManager",
   "organic.publicRelations",
   "organic.support",
@@ -32,7 +30,12 @@ const levels = [
   "organic.accountant",
 
   "organic.operatorEt",
-  "organic.operatorAs"
+  "organic.bossEt",
+  "organic.officerEt",
+
+  "organic.operatorAs",
+  "organic.bossAs",
+  "organic.officerAs"
 ];
 
 class EditUserModal extends Component {
