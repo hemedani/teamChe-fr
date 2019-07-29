@@ -478,8 +478,6 @@ form {
   white-space: nowrap;
   position: relative;
   display: inline-block;
-  min-height: 1.8rem;
-  min-width: 3rem;
   outline: none;
   color: #fff;
   line-height: 2.2;
@@ -664,6 +662,11 @@ form {
 .i-gerd:hover::after {
   transform: scale(1, 1);
   transition: all 0.3s ease-out;
+}
+.i-gerd-small {
+  width: 1.3rem;
+  height: 1.3rem;
+  line-height: 1.3rem;
 }
 .i-round {
   border-radius: 6px;
@@ -1917,12 +1920,18 @@ form .progress {
   width: 100%;
   text-align: right;
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+.selec-box-wrapper .lead-selec-box >* {
+  margin: 0;
 }
 .selec-box-wrapper .lead-selec-box span {
   background-color: #4a32e0;
-  padding: 0.2rem 0.6rem;
+  padding: 0.4rem 0.6rem;
   font-size: 0.8rem;
   margin-right: 1rem;
+  margin-left: 0.5rem;
   border-radius: 0.5rem;
 }
 .selec-box-wrapper .select-box {

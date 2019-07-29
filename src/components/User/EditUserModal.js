@@ -6,10 +6,10 @@ import { updateUser, UPDATE_USER } from "../../actions";
 import cx from "classnames";
 import DotLoader from "../Utils/DotLoader";
 import { RenderField, required, email, number } from "../Utils/FormField";
+import { userLevelEnToFa } from "../Utils/Filters";
 
 const levels = [
   "normal",
-  "expert",
   "owner",
   "editor",
   "author",
@@ -17,17 +17,6 @@ const levels = [
   "admin",
   "storekeeper",
   "delivery",
-  "organic.veep",
-  "organic.administrationManager",
-  "organic.publicRelations",
-  "organic.support",
-  "organic.directorAdministration",
-  "organic.unitManagerPlumbing",
-  "organic.unionAffairs",
-  "organic.inspector",
-  "organic.commissionAffairs",
-  "organic.secretariat",
-  "organic.accountant",
 
   "organic.operatorEt",
   "organic.bossEt",
@@ -86,6 +75,12 @@ class EditUserModal extends Component {
               <div className="selec-box-wrapper minimal-select">
                 <div className="lead-selec-box">
                   <span>سطح دسترسی</span>
+                  <u
+                    className="dogme i-ghermez i-alt i-gerd i-gerd-small"
+                    onClick={() => this.setState({ levels: [] })}
+                  >
+                    x
+                  </u>
                 </div>
                 {levels.map((level, i) => (
                   <div
@@ -98,7 +93,7 @@ class EditUserModal extends Component {
                       this.setState({ levels });
                     }}
                   >
-                    <div>{level}</div>
+                    <div>{userLevelEnToFa(level)}</div>
                   </div>
                 ))}
               </div>
